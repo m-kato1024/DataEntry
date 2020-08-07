@@ -4,6 +4,11 @@
 #include <time.h>
 #include <stdlib.h>
 #include <stdio.h>
+struct data {
+	int number;
+	char name[40];
+	char yomi[40];
+};
 int DMInitialization(char* path);
 void DMAddNew(int input_number, char* input_name, char* input_yomi);
 void DMDelete(int input_number);

@@ -4,11 +4,7 @@
 
 #include "DataManager.h"
 
-struct data {
-	int number;
-	char name[40];
-	char yomi[40];
-}list1[10];
+struct data list1[10];
 
 int gUserCount;
 
