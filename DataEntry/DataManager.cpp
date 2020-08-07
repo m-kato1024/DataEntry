@@ -1,11 +1,7 @@
 ﻿// DataManager.cpp : このファイルには 'main' 関数が含まれています。プログラム実行の開始と終了がそこで行われます。
 //
 
-#define _CRT_SECURE_NO_WARNINGS
-#include <string.h>
-#include <time.h>
-#include <stdlib.h>
-#include <stdio.h>
+
 #include "DataManager.h"
 
 struct data {
