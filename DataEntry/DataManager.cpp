@@ -67,7 +67,7 @@ void DMListFetch(char display_Num[], char* display_Name[]) {
 	}
 }
 
-void DMSearch(char* input_yomi, char search_result) {
+void DMSearch(char* input_yomi, char search_result[]) {
 
 	char tem[40];
 
