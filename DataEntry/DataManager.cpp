@@ -78,7 +78,7 @@ void DMSearch(char* input_yomi, char search_result[]) {
 }
 
 
-int DMEnd(char* path) {
+int DMTerminate(char* path) {
 	FILE *fp;
 	fp = fopen(path, "w");
 	if (fp == NULL) {
