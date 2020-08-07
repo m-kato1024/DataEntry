@@ -73,7 +73,7 @@ void DMSearch(char* input_yomi, char search_result[]) {
 
 	for (int i = 0; i < 10; i++) {
 		strcpy(tem, strstr(list1[i].yomi, input_yomi));
-
+		search_result = tem;
 	}
 }
 
