@@ -58,12 +58,12 @@ void DMDelete(int input_number) {
 	}
 }
 
-void DMListFetch(char display_Num, char* display_Name) {
+void DMListFetch(char display_Num[], char* display_Name[]) {
 
 
 	for (int i = 0; i < 10; i++) {
-		display_Num = list1[i].number;
-		display_Name = list1[i].name;
+		display_Num[i] = list1[i].number;
+		display_Name[i] = list1[i].name;
 	}
 }
 
