@@ -47,9 +47,9 @@ void DMAddNew(int input_number, char* input_name, char* input_yomi) {
 void DMDelete(int input_number) {
 	for (int i = 0; i < 10; i++) {
 		if (input_number == list1[i].number) {
-			list1[i - 1].number = { 0 };
-			strcpy(list1[i - 1].name, '\0');
-			strcpy(list1[i - 1].yomi, '\0');
+			list1[i].number = { 0 };
+			strcpy(list1[i].name, '\0');
+			strcpy(list1[i].yomi, '\0');
 
 			gUserCount--;
 
