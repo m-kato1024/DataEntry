@@ -6,7 +6,7 @@
 
 struct data list1[10];
 
-int gUserCount;
+int gUserCount = 0;
 
 /*********************************
 関数名：DMInitialization
@@ -25,7 +25,9 @@ int DMInitialization(char* path) {
 		fscanf(fp, "%d", &list1->number);
 		fscanf(fp, "%s", list1->name);
 		fscanf(fp, "%s", list1->yomi);
-
+		if (list1->number != 0) {
+			gUserCount++;
+		}
 		if (feof(fp)) {
 			break;
 		}
