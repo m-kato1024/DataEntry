@@ -29,6 +29,7 @@ int DMInitialization(char* path) {
 
 	}
 	return 0;
+	fclose(fp);
 }
 
 void DMAddNew(int input_number, char* input_name, char* input_yomi) {
