@@ -8,7 +8,10 @@ struct data list1[10];
 
 int gUserCount;
 
-
+/*********************************
+関数名：DMInitialization
+機能：初期化
+**********************************/
 int DMInitialization(char* path) {
 
 	memset(list1, 0, sizeof(list1));
@@ -31,7 +34,10 @@ int DMInitialization(char* path) {
 	return 0;
 	fclose(fp);
 }
-
+/*********************************
+関数名：DMAddNew
+機能：新規登録
+**********************************/
 void DMAddNew(int input_number, char* input_name, char* input_yomi) {
 
 	list1[input_number - 1].number = input_number;
@@ -43,7 +49,10 @@ void DMAddNew(int input_number, char* input_name, char* input_yomi) {
 	gUserCount++;
 
 }
-
+/*********************************
+関数名：DMDelete
+機能：削除
+**********************************/
 void DMDelete(int input_number) {
 	for (int i = 0; i < 10; i++) {
 		if (input_number == list1[i].number) {
@@ -57,7 +66,10 @@ void DMDelete(int input_number) {
 
 	}
 }
-
+/*********************************
+関数名：DMListFetch
+機能：一覧取得
+**********************************/
 void DMListFetch(char display_Num[], char* display_Name[]) {
 
 
@@ -66,7 +78,10 @@ void DMListFetch(char display_Num[], char* display_Name[]) {
 		display_Name[i] = list1[i].name;
 	}
 }
-
+/*********************************
+関数名：DMSearch
+機能：検索
+**********************************/
 void DMSearch(char* input_yomi, char search_result[]) {
 
 	char tem[40];
@@ -77,7 +92,10 @@ void DMSearch(char* input_yomi, char search_result[]) {
 	}
 }
 
-
+/*********************************
+関数名：DMTerminate
+機能：終了
+**********************************/
 int DMTerminate(char* path) {
 	FILE *fp;
 	fp = fopen(path, "w");
