@@ -81,6 +81,9 @@ void DMSearch(char* input_yomi, char search_result) {
 int DMEnd(char* path) {
 	FILE *fp;
 	fp = fopen(path, "w");
+	if (fp == NULL) {
+		return 1;
+	}
 
 	for (int i = 0; i < 10; i++) {
 		fprintf(fp, "%d\t%s\t%s\n", list1[i].number, list1[i].name, list1[i].yomi);
