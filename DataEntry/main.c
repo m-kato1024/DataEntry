@@ -25,6 +25,7 @@ int main()
 			UIAddnew();
 			break;
 		case 2:
+			UIDispCat();
 			break;
 		case 3:
 			break;

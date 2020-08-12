@@ -5,4 +5,11 @@
 #define MSG_MAIN_MENU_LIST		"一覧表示"
 #define MSG_MAIN_MENU_SEARCH	"読み仮名検索"
 #define MSG_MAIN_MENU_END		"終了"
-
+#define ARROW_TEXT				"→"
+#define MSG_ADDNEW_OVER			"これ以上登録できません"
+#define MSG_ADDNEW_RESISTER_NUMBER     "登録番号を入力してください"
+#define MSG_ADDNEW_RESISTER_NAME1	   "名前(漢字)を入力してください"
+#define MSG_ADDNEW_RESISTER_NAME2	   "名前(ひらがな)を入力してください"
+#define MSG_ADDNEW_WORNIG		"「1～10の数字を入力してください」"
+#define MSG_ADDNEW_CONFIRMATION1	"登録者:"
+#define MSG_ADDNEW_CONFIRMATION2	"登録しますか?(Y/N)"
