@@ -52,11 +52,15 @@ bool DMAddNew(int input_number, char* input_name, char* input_yomi) {
 	if (input_number < 0 || input_number > DATA_MAX_COUNT) {
 		return false;
 	}
+	if (input_name == NULL || input_yomi == NULL) {
+		return false;
+	}
+	
+	memset(&_entryList[input_number - 1], 0, sizeof(struct data));
+
 	_entryList[input_number - 1].number = input_number;
-
-	strcpy(_entryList[input_number - 1].name, input_name);
-
-	strcpy(_entryList[input_number - 1].yomi, input_yomi);
+	strncpy(_entryList[input_number - 1].name, input_name, DATA_MAX_LENGTH - 1);
+	strncpy(_entryList[input_number - 1].yomi, input_yomi, DATA_MAX_LENGTH - 1);
 
 	_userCount++;
 
