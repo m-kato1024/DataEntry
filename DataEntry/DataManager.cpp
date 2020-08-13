@@ -4,7 +4,7 @@
 
 #include "DataManager.h"
 
-static struct data list1[DATA_MAX_COUNT];
+static struct data _entryList[DATA_MAX_COUNT];
 
 int gUserCount = 0;
 
@@ -14,7 +14,7 @@ int gUserCount = 0;
 **********************************/
 int DMInitialization(char* path) {
 
-	memset(list1, 0, sizeof(list1));
+	memset(_entryList, 0, sizeof(_entryList));
 
 	FILE *fp;
 	fp = fopen(path, "r");
@@ -22,10 +22,10 @@ int DMInitialization(char* path) {
 		return 1;
 	}
 	while (1) {
-		fscanf(fp, "%d", &list1->number);
-		fscanf(fp, "%s", list1->name);
-		fscanf(fp, "%s", list1->yomi);
-		if (list1->number != 0) {
+		fscanf(fp, "%d", &_entryList->number);
+		fscanf(fp, "%s", _entryList->name);
+		fscanf(fp, "%s", _entryList->yomi);
+		if (_entryList->number != 0) {
 			gUserCount++;
 		}
 		if (feof(fp)) {
@@ -42,11 +42,11 @@ int DMInitialization(char* path) {
 **********************************/
 void DMAddNew(int input_number, char* input_name, char* input_yomi) {
 
-	list1[input_number - 1].number = input_number;
+	_entryList[input_number - 1].number = input_number;
 
-	strcpy(list1[input_number - 1].name, input_name);
+	strcpy(_entryList[input_number - 1].name, input_name);
 
-	strcpy(list1[input_number - 1].yomi, input_yomi);
+	strcpy(_entryList[input_number - 1].yomi, input_yomi);
 
 	gUserCount++;
 
@@ -57,10 +57,10 @@ void DMAddNew(int input_number, char* input_name, char* input_yomi) {
 **********************************/
 void DMDelete(int input_number) {
 	for (int i = 0; i < DATA_MAX_COUNT; i++) {
-		if (input_number == list1[i].number) {
-			list1[i].number = { 0 };
-			strcpy(list1[i].name, '\0');
-			strcpy(list1[i].yomi, '\0');
+		if (input_number == _entryList[i].number) {
+			_entryList[i].number = { 0 };
+			strcpy(_entryList[i].name, '\0');
+			strcpy(_entryList[i].yomi, '\0');
 
 			gUserCount--;
 
@@ -76,8 +76,8 @@ int DMListFetch(struct data result[]) {
 	int count = 0;
 
 	for (int i = 0; i < DATA_MAX_COUNT; i++) {
-		if (list1[i].number != 0) {
-			result[count] = list1[i];
+		if (_entryList[i].number != 0) {
+			result[count] = _entryList[i];
 			count++;
 		}
 	}
@@ -92,9 +92,9 @@ int DMSearch(char* input_yomi, struct data search_result[]) {
 	char tem[40];
 
 	for (int i = 0; i < DATA_MAX_COUNT; i++) {
-		if (strstr(list1[i].yomi, input_yomi) != NULL) {
+		if (strstr(_entryList[i].yomi, input_yomi) != NULL) {
 			
-			search_result[searchCount] = list1[i];
+			search_result[searchCount] = _entryList[i];
 			searchCount++;
 		}
 			
@@ -114,7 +114,7 @@ int DMTerminate(char* path) {
 	}
 
 	for (int i = 0; i < DATA_MAX_COUNT; i++) {
-		fprintf(fp, "%d\t%s\t%s\n", list1[i].number, list1[i].name, list1[i].yomi);
+		fprintf(fp, "%d\t%s\t%s\n", _entryList[i].number, _entryList[i].name, _entryList[i].yomi);
 	}
 
 	fclose(fp);
