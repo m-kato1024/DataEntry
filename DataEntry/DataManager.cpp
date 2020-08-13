@@ -95,7 +95,6 @@ int DMListFetch(struct data result[]) {
 **********************************/
 int DMSearch(char* input_yomi, struct data search_result[]) {
 	int searchCount = 0;
-	char tem[40];
 
 	for (int i = 0; i < DATA_MAX_COUNT; i++) {
 		if (strstr(_entryList[i].yomi, input_yomi) != NULL) {
