@@ -4,6 +4,7 @@
 #include <time.h>
 #include <stdlib.h>
 #include <stdio.h>
+#define DATA_MAX_COUNT (10)
 struct data {
 	int number;
 	char name[40];

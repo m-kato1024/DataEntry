@@ -4,7 +4,7 @@
 
 #include "DataManager.h"
 
-struct data list1[10];
+struct data list1[DATA_MAX_COUNT];
 
 int gUserCount = 0;
 
@@ -56,7 +56,7 @@ void DMAddNew(int input_number, char* input_name, char* input_yomi) {
 機能：削除
 **********************************/
 void DMDelete(int input_number) {
-	for (int i = 0; i < 10; i++) {
+	for (int i = 0; i < DATA_MAX_COUNT; i++) {
 		if (input_number == list1[i].number) {
 			list1[i].number = { 0 };
 			strcpy(list1[i].name, '\0');
@@ -75,7 +75,7 @@ void DMDelete(int input_number) {
 int DMListFetch(struct data result[]) {
 	int count = 0;
 
-	for (int i = 0; i < 10; i++) {
+	for (int i = 0; i < DATA_MAX_COUNT; i++) {
 		if (list1[i].number != 0) {
 			result[count] = list1[i];
 			count++;
@@ -91,7 +91,7 @@ int DMSearch(char* input_yomi, struct data search_result[]) {
 	int searchCount = 0;
 	char tem[40];
 
-	for (int i = 0; i < 10; i++) {
+	for (int i = 0; i < DATA_MAX_COUNT; i++) {
 		if (strstr(list1[i].yomi, input_yomi) != NULL) {
 			
 			search_result[searchCount] = list1[i];
@@ -113,7 +113,7 @@ int DMTerminate(char* path) {
 		return 1;
 	}
 
-	for (int i = 0; i < 10; i++) {
+	for (int i = 0; i < DATA_MAX_COUNT; i++) {
 		fprintf(fp, "%d\t%s\t%s\n", list1[i].number, list1[i].name, list1[i].yomi);
 	}
 
