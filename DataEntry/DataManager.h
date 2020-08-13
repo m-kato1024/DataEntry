@@ -2,6 +2,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 #define DATA_MAX_COUNT (10)
 #define DATA_MAX_LENGTH (40)
+#include <stdbool.h>
 struct data {
 	int number;
 	char name[DATA_MAX_LENGTH];
