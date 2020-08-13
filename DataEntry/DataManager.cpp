@@ -33,8 +33,9 @@ int DMInitialization(char* path) {
 		}
 
 	}
-	return 0;
 	fclose(fp);
+	return 0;
+	
 }
 /*********************************
 関数名：DMAddNew
