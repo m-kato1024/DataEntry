@@ -11,10 +11,13 @@ static struct data _entryList[DATA_MAX_COUNT];
 
 static int _userCount = 0;
 
-/*********************************
-関数名：DMInitialization
-機能：初期化
-**********************************/
+/**
+ * @brief 初期化
+ * @param path ファイル名
+ * @retval 1 失敗
+ * @retval 0 成功
+ * @note DataManagerを利用する場合は必ず初めにこの処理を実行すること
+*/
 bool DMInitialization(char* path) {
 	int count = 0;
 	
@@ -78,7 +81,7 @@ bool DMAddNew(int input_number, char* input_name, char* input_yomi) {
 void DMDelete(int input_number) {
 	for (int i = 0; i < DATA_MAX_COUNT; i++) {
 		if (input_number == _entryList[i].number) {
-			_entryList[i].number = { 0 };
+			_entryList[i].number = 0;
 			_entryList[i].name[0] =  '\0';
 			_entryList[i].yomi[0] =  '\0';
 
