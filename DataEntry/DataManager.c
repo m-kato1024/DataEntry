@@ -1,10 +1,10 @@
-﻿
+﻿#define _CRT_SECURE_NO_WARNINGS
 
-
-#include "DataManager.h"
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+
+#include "DataManager.h"
 
 
 static struct data _entryList[DATA_MAX_COUNT];

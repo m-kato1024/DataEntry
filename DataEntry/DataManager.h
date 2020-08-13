@@ -1,5 +1,4 @@
 #pragma once
-#define _CRT_SECURE_NO_WARNINGS
 //データ登録の最大件数
 #define DATA_MAX_COUNT (10)
 //名前の最大バイト数
