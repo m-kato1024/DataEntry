@@ -6,10 +6,11 @@
 #include <stdio.h>
 #include <stdbool.h>
 #define DATA_MAX_COUNT (10)
+#define DATA_MAX_LENGTH (40)
 struct data {
 	int number;
-	char name[40];
-	char yomi[40];
+	char name[DATA_MAX_LENGTH];
+	char yomi[DATA_MAX_LENGTH];
 };
 int DMInitialization(char* path);
 bool DMAddNew(int input_number, char* input_name, char* input_yomi);
