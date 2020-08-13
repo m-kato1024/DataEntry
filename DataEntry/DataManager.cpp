@@ -6,7 +6,7 @@
 
 static struct data _entryList[DATA_MAX_COUNT];
 
-static int gUserCount = 0;
+static int _userCount = 0;
 
 /*********************************
 関数名：DMInitialization
@@ -27,7 +27,7 @@ int DMInitialization(char* path) {
 		fscanf(fp, "%s", _entryList[count].yomi);
 		count++;
 		if (_entryList->number != 0) {
-			gUserCount++;
+			_userCount++;
 		}
 		if (feof(fp)) {
 			break;
@@ -53,7 +53,7 @@ bool DMAddNew(int input_number, char* input_name, char* input_yomi) {
 
 	strcpy(_entryList[input_number - 1].yomi, input_yomi);
 
-	gUserCount++;
+	_userCount++;
 
 	return true;
 
@@ -69,7 +69,7 @@ void DMDelete(int input_number) {
 			_entryList[i].name[0] =  '\0';
 			_entryList[i].yomi[0] =  '\0';
 
-			gUserCount--;
+			_userCount--;
 
 		}
 
@@ -132,7 +132,7 @@ int DMTerminate(char* path) {
 機能：登録人数を返す
 **********************************/
 int DMGetUserCount(){
-	return gUserCount;
+	return _userCount;
 }
 
 

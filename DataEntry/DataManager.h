@@ -12,8 +12,9 @@ struct data {
 	char yomi[40];
 };
 int DMInitialization(char* path);
-void DMAddNew(int input_number, char* input_name, char* input_yomi);
+bool DMAddNew(int input_number, char* input_name, char* input_yomi);
 void DMDelete(int input_number);
 int DMListFetch(struct data result[]);
 int DMSearch(char* input_yomi, struct data search_result[]);
 int DMTerminate(char* path);
+int DMGetUserCount();
