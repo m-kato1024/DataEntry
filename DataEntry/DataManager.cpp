@@ -2,6 +2,10 @@
 
 
 #include "DataManager.h"
+#include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <stdbool.h>
 
 static struct data _entryList[DATA_MAX_COUNT];
 

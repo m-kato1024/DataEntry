@@ -1,10 +1,5 @@
 #pragma once
 #define _CRT_SECURE_NO_WARNINGS
-#include <string.h>
-#include <time.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <stdbool.h>
 #define DATA_MAX_COUNT (10)
 #define DATA_MAX_LENGTH (40)
 struct data {
