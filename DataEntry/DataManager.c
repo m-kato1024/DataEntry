@@ -14,8 +14,8 @@ static int _userCount = 0;
 /**
  * @brief 初期化
  * @param path ファイル名
- * @retval 1 失敗
- * @retval 0 成功
+ * @retval false 失敗
+ * @retval true  成功
  * @note DataManagerを利用する場合は必ず初めにこの処理を実行すること
 */
 bool DMInitialization(char* path) {
@@ -50,10 +50,16 @@ bool DMInitialization(char* path) {
 	return true;
 	
 }
-/*********************************
-関数名：DMAddNew
-機能：新規登録
-**********************************/
+/**
+ * @brief 新規登録
+ * @param input_number 入力ナンバー
+　　　　　input_name   入力された名前
+          input_yomi   入力された読み仮名
+ * @retval false 失敗
+ * @retval true  成功
+ * @note input_numberが範囲外の時はエラー
+*/
+
 bool DMAddNew(int input_number, char* input_name, char* input_yomi) {
 
 	if (input_number < 0 || input_number > DATA_MAX_COUNT) {
@@ -74,10 +80,10 @@ bool DMAddNew(int input_number, char* input_name, char* input_yomi) {
 	return true;
 
 }
-/*********************************
-関数名：DMDelete
-機能：削除
-**********************************/
+/**
+ * @brief 削除
+ * @param input_number 入力ナンバー
+*/
 void DMDelete(int input_number) {
 	for (int i = 0; i < DATA_MAX_COUNT; i++) {
 		if (input_number == _entryList[i].number) {
@@ -91,10 +97,11 @@ void DMDelete(int input_number) {
 
 	}
 }
-/*********************************
-関数名：DMListFetch
-機能：一覧取得
-**********************************/
+/**
+ * @brief 一覧取得
+ * @param  result[] 出力結果
+ * @retval 0以上 件数
+*/
 int DMListFetch(struct data result[]) {
 	int count = 0;
 
@@ -106,10 +113,12 @@ int DMListFetch(struct data result[]) {
 	}
 	return count;
 }
-/*********************************
-関数名：DMSearch
-機能：検索
-**********************************/
+/**
+ * @brief 検索
+ * @param input_yomi 入力された読み仮名
+          search_result[] 検索結果
+ * @retval 0以上 件数
+*/
 int DMSearch(char* input_yomi, struct data search_result[]) {
 	int searchCount = 0;
 
@@ -124,10 +133,13 @@ int DMSearch(char* input_yomi, struct data search_result[]) {
 	return searchCount;
 }
 
-/*********************************
-関数名：DMTerminate
-機能：終了
-**********************************/
+/**
+ * @brief 終了
+ * @param path ファイル名
+ * @retval false 失敗
+ * @retval true  成功
+ * @note 呼び出さないとセーブされない
+*/
 bool DMTerminate(char* path) {
 	FILE *fp;
 	fp = fopen(path, "w");
@@ -143,10 +155,10 @@ bool DMTerminate(char* path) {
 	return true;
 }
 
-/*********************************
-関数名：DMGetUserCount
-機能：登録人数を返す
-**********************************/
+/**
+ * @brief 件数を返す
+ * @retval 0以上 登録件数
+*/
 int DMGetUserCount(){
 	return _userCount;
 }
