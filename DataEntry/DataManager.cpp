@@ -4,7 +4,7 @@
 
 #include "DataManager.h"
 
-struct data list1[DATA_MAX_COUNT];
+static struct data list1[DATA_MAX_COUNT];
 
 int gUserCount = 0;
 
