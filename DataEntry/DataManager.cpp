@@ -11,16 +11,18 @@ static int _userCount = 0;
 関数名：DMInitialization
 機能：初期化
 **********************************/
-int DMInitialization(char* path) {
+bool DMInitialization(char* path) {
 	int count = 0;
+	
+	FILE *fp;
+	if (path == NULL) {
+		return false;
+	}
+	fp = fopen(path, "r");
+	
 	memset(_entryList, 0, sizeof(_entryList));
 
-	FILE *fp;
-	fp = fopen(path, "r");
-	if (fp == NULL) {
-		return 1;
-	}
-	while (1) {
+	while (fp != NULL) {
 		fscanf(fp, "%d", _entryList[count].number);
 		fscanf(fp, "%s", _entryList[count].name);
 		fscanf(fp, "%s", _entryList[count].yomi);
@@ -34,8 +36,11 @@ int DMInitialization(char* path) {
 		}
 
 	}
-	fclose(fp);
-	return 0;
+	if(fp != NULL){
+		fclose(fp);
+	}
+	
+	return true;
 	
 }
 /*********************************
@@ -112,11 +117,11 @@ int DMSearch(char* input_yomi, struct data search_result[]) {
 関数名：DMTerminate
 機能：終了
 **********************************/
-int DMTerminate(char* path) {
+bool DMTerminate(char* path) {
 	FILE *fp;
 	fp = fopen(path, "w");
 	if (fp == NULL) {
-		return 1;
+		return false;
 	}
 
 	for (int i = 0; i < DATA_MAX_COUNT; i++) {
@@ -124,7 +129,7 @@ int DMTerminate(char* path) {
 	}
 
 	fclose(fp);
-	return 0;
+	return true;
 }
 
 /*********************************
