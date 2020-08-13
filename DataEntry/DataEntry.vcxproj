@@ -153,11 +153,14 @@
   <ItemGroup>
     <ClCompile Include="DataEntry.c" />
     <ClCompile Include="DataManager.cpp" />
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="main.c" />
+    <ClCompile Include="UserInterface.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataEntry.h" />
     <ClInclude Include="DataManager.h" />
+    <ClInclude Include="Message.h" />
+    <ClInclude Include="UserInterface.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
