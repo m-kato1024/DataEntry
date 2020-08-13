@@ -41,8 +41,11 @@ int DMInitialization(char* path) {
 関数名：DMAddNew
 機能：新規登録
 **********************************/
-void DMAddNew(int input_number, char* input_name, char* input_yomi) {
+bool DMAddNew(int input_number, char* input_name, char* input_yomi) {
 
+	if (input_number < 0 || input_number > DATA_MAX_COUNT) {
+		return false;
+	}
 	_entryList[input_number - 1].number = input_number;
 
 	strcpy(_entryList[input_number - 1].name, input_name);
@@ -50,6 +53,8 @@ void DMAddNew(int input_number, char* input_name, char* input_yomi) {
 	strcpy(_entryList[input_number - 1].yomi, input_yomi);
 
 	gUserCount++;
+
+	return true;
 
 }
 /*********************************
