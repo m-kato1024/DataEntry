@@ -6,7 +6,7 @@
 
 static struct data _entryList[DATA_MAX_COUNT];
 
-int gUserCount = 0;
+static int gUserCount = 0;
 
 /*********************************
 関数名：DMInitialization
