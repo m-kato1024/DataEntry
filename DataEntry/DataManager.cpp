@@ -72,26 +72,34 @@ void DMDelete(int input_number) {
 関数名：DMListFetch
 機能：一覧取得
 **********************************/
-void DMListFetch(char display_Num[], char* display_Name[]) {
-
+int DMListFetch(struct data result[]) {
+	int count = 0;
 
 	for (int i = 0; i < 10; i++) {
-		display_Num[i] = list1[i].number;
-		display_Name[i] = list1[i].name;
+		if (list1[i].number != 0) {
+			result[count] = list1[i];
+			count++;
+		}
 	}
+	return count;
 }
 /*********************************
 関数名：DMSearch
 機能：検索
 **********************************/
-void DMSearch(char* input_yomi, char search_result[]) {
-
+int DMSearch(char* input_yomi, struct data search_result[]) {
+	int searchCount = 0;
 	char tem[40];
 
 	for (int i = 0; i < 10; i++) {
-		strcpy(tem, strstr(list1[i].yomi, input_yomi));
-		search_result = tem;
+		if (strstr(list1[i].yomi, input_yomi) != NULL) {
+			
+			search_result[searchCount] = list1[i];
+			searchCount++;
+		}
+			
 	}
+	return searchCount;
 }
 
 /*********************************
