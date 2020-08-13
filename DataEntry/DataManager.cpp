@@ -25,10 +25,11 @@ int DMInitialization(char* path) {
 		fscanf(fp, "%d", _entryList[count].number);
 		fscanf(fp, "%s", _entryList[count].name);
 		fscanf(fp, "%s", _entryList[count].yomi);
-		count++;
-		if (_entryList->number != 0) {
+		
+		if (_entryList[count].number != 0) {
 			_userCount++;
 		}
+		count++;
 		if (feof(fp)) {
 			break;
 		}
