@@ -13,7 +13,7 @@ static int gUserCount = 0;
 機能：初期化
 **********************************/
 int DMInitialization(char* path) {
-
+	int count = 0;
 	memset(_entryList, 0, sizeof(_entryList));
 
 	FILE *fp;
@@ -22,9 +22,9 @@ int DMInitialization(char* path) {
 		return 1;
 	}
 	while (1) {
-		fscanf(fp, "%d", &_entryList->number);
-		fscanf(fp, "%s", _entryList->name);
-		fscanf(fp, "%s", _entryList->yomi);
+		fscanf(fp, "%d", _entryList[count].number);
+		fscanf(fp, "%s", _entryList[count].name);
+		fscanf(fp, "%s", _entryList[count].yomi);
 		if (_entryList->number != 0) {
 			gUserCount++;
 		}
