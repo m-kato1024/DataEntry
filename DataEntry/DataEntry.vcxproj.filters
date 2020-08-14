@@ -21,10 +21,10 @@
     <ClCompile Include="DataEntry.c">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-     <ClCompile Include="UserInterface.c">
+    <ClCompile Include="UserInterface.c">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="DataManager.cpp">
+    <ClCompile Include="DataManager.c">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -35,7 +35,7 @@
     <ClInclude Include="DataManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-     <ClInclude Include="Message.h">
+    <ClInclude Include="Message.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="UserInterface.h">

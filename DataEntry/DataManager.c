@@ -52,12 +52,13 @@ bool DMInitialization(char* path) {
 }
 /**
  * @brief 新規登録
- * @param input_number 入力ナンバー
-　　　　　input_name   入力された名前
-          input_yomi   入力された読み仮名
+ * @param input_number 入力された登録番号
+　　　　　input_name   入力された登録名前
+          input_yomi   入力された登録読み仮名
  * @retval false 失敗
  * @retval true  成功
  * @note input_numberが範囲外の時はエラー
+ 　　　　input_name,input_yomiがNULLの場合エラー
 */
 
 bool DMAddNew(int input_number, char* input_name, char* input_yomi) {
@@ -82,7 +83,7 @@ bool DMAddNew(int input_number, char* input_name, char* input_yomi) {
 }
 /**
  * @brief 削除
- * @param input_number 入力ナンバー
+ * @param input_number 入力された登録番号
 */
 void DMDelete(int input_number) {
 	for (int i = 0; i < DATA_MAX_COUNT; i++) {
@@ -115,7 +116,7 @@ int DMListFetch(struct data result[]) {
 }
 /**
  * @brief 検索
- * @param input_yomi 入力された読み仮名
+ * @param input_yomi      入力された読み仮名
           search_result[] 検索結果
  * @retval 0以上 件数
 */

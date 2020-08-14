@@ -152,7 +152,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="DataEntry.c" />
-    <ClCompile Include="DataManager.cpp" />
+    <ClCompile Include="DataManager.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="UserInterface.c" />
   </ItemGroup>
