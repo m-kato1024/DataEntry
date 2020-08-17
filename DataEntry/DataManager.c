@@ -63,7 +63,7 @@ bool DMInitialization(char* path) {
 
 bool DMAddNew(int input_number, char* input_name, char* input_yomi) {
 
-	if (input_number < 0 || input_number > DATA_MAX_COUNT) {
+	if (input_number < 1 || input_number > DATA_MAX_COUNT) {
 		return false;
 	}
 	if (input_name == NULL || input_yomi == NULL) {
