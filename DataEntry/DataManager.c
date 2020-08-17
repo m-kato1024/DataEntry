@@ -63,7 +63,7 @@ bool DMInitialization(char* path) {
 
 bool DMAddNew(int input_number, char* input_name, char* input_yomi) {
 
-	if (input_number < 0 || input_number > DATA_MAX_COUNT) {
+	if (input_number < 1 || input_number > DATA_MAX_COUNT) {
 		return false;
 	}
 	if (input_name == NULL || input_yomi == NULL) {
@@ -117,7 +117,7 @@ int DMListFetch(struct data result[]) {
 /**
  * @brief 検索
  * @param input_yomi      入力された読み仮名
-          search_result[] 検索結果
+ * @param search_result[] 検索結果
  * @retval 0以上 件数
 */
 int DMSearch(char* input_yomi, struct data search_result[]) {
