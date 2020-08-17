@@ -3,12 +3,17 @@
 #include <stdio.h>
 #include "Message.h"
 #include "UserInterface.h"
+#include "DataManager.h"
 
 int main()
 {
 	int selectNumber;
 
-
+	if (!DMInitialization("savedata.txt")) {
+		//Debug
+		printf("DMInitialization Error\n");
+		return -1;
+	}
 
 	do {
 		printf("%s\n", MSG_MAIN_MENU_TITLE);
@@ -37,8 +42,12 @@ int main()
 		}
 	} while (selectNumber != 4);
 
+	if (!DMTerminate("savedata.txt")) {
+		//Debug
+		printf("DMTerminate Error\n");
+		return -1;
+	}
 
-
-	return 1;
+	return 0;
 }
 
