@@ -28,7 +28,7 @@ int main()
 			UIDispCat();
 			break;
 		case 3:
-			UISerch();
+			UISearch();
 			break;
 		case 4:
 			break;

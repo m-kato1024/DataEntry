@@ -2,20 +2,23 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include "Message.h"
+#include "DataManager.h" 
 
-void commonProg1(int *a);
+void commonProg1(int *resiCount);
 char commonProg2(void);
+void UIDispCat();
+void UISearch();
 
 void UIAddnew() {
 	//新規登録処理
-	int resi = 10;
+	int resistrationsCount = DMGetUserCount;
 
 	int num = 0;
-	char kanji[20];
-	char kana[20];
+	char kanji[DATA_MAX_LENGTH];
+	char kana[DATA_MAX_LENGTH];
 	char yn;
 	
-	if (resi <= 10) {
+	if (resistrationsCount <= 10) {
 		do {
 			printf("%s\n%s", MSG_ADDNEW_RESISTER_NUMBER, ARROW_TEXT);
 			fflush(stdin);
@@ -48,32 +51,32 @@ void UIAddnew() {
 
 void UIDispCat() {
 	//一覧表示機能
-	int resi = 0;
-	char z = 'a';
+	int resistrationsCount = DMGetUserCount;
+	char inputKey = 'a';
 
-	while(z != 'm' && z != 'M'){
-		if (resi > 0) {
+	while(inputKey != 'm' && inputKey != 'M'){
+		if (resistrationsCount > 0) {
 			printf("一覧取得処理を呼び出す\n\n");
 			printf("%s\n%s", MSG_DISPCAT_EXPL, ARROW_TEXT);
 
-			z = commonProg2();
+			inputKey = commonProg2();
 		}
 		else {
-			commonProg1(resi);
+			commonProg1(resistrationsCount);
 			break;
 		}
-		commonProg1(&z);
+		commonProg1(&inputKey);
 	}
 }
 
-void UISerch() {
+void UISearch() {
 	//読み仮名検索機能
-	int resi = 0;
+	int resistrationsCount = DMGetUserCount;
 	char kana[20];
-	char z = 'a';
+	char inputKey = 'a';
 
-	while (z != 'm' && z != 'M') {
-		if (resi > 0) {
+	while (inputKey != 'm' && inputKey != 'M') {
+		if (resistrationsCount > 0) {
 			printf("検索する読み仮名を入力してください。\n");
 			scanf("%s", &kana);
 
@@ -81,19 +84,19 @@ void UISerch() {
 			printf("検索処理を呼び出す\n");
 			printf("%s\n%s", MSG_DISPCAT_EXPL, ARROW_TEXT);
 
-			z = commonProg2();
+			inputKey = commonProg2();
 		}
 		else {
-			commonProg1(resi);
+			commonProg1(resistrationsCount);
 			break;
 		}
 	}
 }
 
-void commonProg1(int *a)
+void commonProg1(int *resiCount)
 {
 	char x;
-	if (a <= 0) {
+	if (resiCount <= 0) {
 		printf("%s\n\n", MSG_DISPCAT_WORNIG);
 		x = 'm';
 		return x;
@@ -102,19 +105,19 @@ void commonProg1(int *a)
 
 char commonProg2(void)
 {
-	char x = '1';
-	char a = 'w';
+	char resistrationsNum = '1';
+	char inputNum = 'w';
 
-	while (a != x) {
-		scanf("%*c%c", &a);
-		if (a == 'm' || a == 'M') {
+	while (inputNum != resistrationsNum) {
+		scanf("%*c%c", &inputNum);
+		if (inputNum == 'm' || inputNum == 'M') {
 			printf("\n");
-			return a;
+			return inputNum;
 		}
-		else if (a != x) {
+		else if (inputNum != resistrationsNum) {
 			printf("%s\n%s", MSG_DISPCAT_WORNIG2, ARROW_TEXT);
 		}
-		else if (a == x) {
+		else if (inputNum == resistrationsNum) {
 			printf("削除処理を呼び出す\n\n");
 		}
 	}
