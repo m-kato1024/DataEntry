@@ -117,7 +117,7 @@ int DMListFetch(struct data result[]) {
 /**
  * @brief 検索
  * @param input_yomi      入力された読み仮名
-          search_result[] 検索結果
+ * @param search_result[] 検索結果
  * @retval 0以上 件数
 */
 int DMSearch(char* input_yomi, struct data search_result[]) {
