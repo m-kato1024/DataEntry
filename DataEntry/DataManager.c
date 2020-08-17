@@ -53,8 +53,8 @@ bool DMInitialization(char* path) {
 /**
  * @brief 新規登録
  * @param input_number 入力された登録番号
-　　　　　input_name   入力された登録名前
-          input_yomi   入力された登録読み仮名
+ * @param input_name   入力された登録名前
+ * @param input_yomi   入力された登録読み仮名
  * @retval false 失敗
  * @retval true  成功
  * @note input_numberが範囲外の時はエラー
