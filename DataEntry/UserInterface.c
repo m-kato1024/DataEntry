@@ -4,8 +4,9 @@
 #include "Message.h"
 #include "DataManager.h" 
 
-void commonProg1(int *resistrationsCount);
-char commonProg2(void);
+static void commonProg1(int *resistrationsCount);
+static char commonProg2(void);
+
 
 void UIAddnew() {
 	//V‹K“o˜^ˆ—
@@ -91,7 +92,7 @@ void UISearch() {
 	}
 }
 
-void commonProg1(int *resistrationsCount)
+static void commonProg1(int *resistrationsCount)
 {
 	char x;
 	if (resistrationsCount <= 0) {
@@ -101,7 +102,7 @@ void commonProg1(int *resistrationsCount)
 	}
 }
 
-char commonProg2(void)
+static char commonProg2(void)
 {
 	char resistrationsNum = '1';
 	char inputNum = 'w';
