@@ -4,10 +4,8 @@
 #include "Message.h"
 #include "DataManager.h" 
 
-void commonProg1(int *resiCount);
+void commonProg1(int *resistrationsCount);
 char commonProg2(void);
-void UIDispCat();
-void UISearch();
 
 void UIAddnew() {
 	//V‹K“o˜^ˆ—
@@ -16,7 +14,7 @@ void UIAddnew() {
 	int num = 0;
 	char kanji[DATA_MAX_LENGTH];
 	char kana[DATA_MAX_LENGTH];
-	char yn;
+	char answer;
 	
 	if (resistrationsCount <= 10) {
 		do {
@@ -39,8 +37,8 @@ void UIAddnew() {
 		printf("%s%d %s(%s)\n%s\n%s", MSG_ADDNEW_CONFIRMATION1, num, kanji, kana, MSG_ADDNEW_CONFIRMATION2, ARROW_TEXT);
 
 		fflush(stdin);
-		scanf("%*c%c", &yn);
-		if (yn == 'Y' || yn == 'y') {
+		scanf("%*c%c", &answer);
+		if (answer == 'Y' || answer == 'y') {
 			printf("“o˜^ˆ—‚ğŒÄ‚Ño‚·B\n\n");
 		}
 	}
@@ -77,7 +75,7 @@ void UISearch() {
 
 	while (inputKey != 'm' && inputKey != 'M') {
 		if (resistrationsCount > 0) {
-			printf("ŒŸõ‚·‚é“Ç‚İ‰¼–¼‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B\n");
+			printf("%s\n", MSG_UISEARCH_WORNIG);
 			scanf("%s", &kana);
 
 
@@ -93,10 +91,10 @@ void UISearch() {
 	}
 }
 
-void commonProg1(int *resiCount)
+void commonProg1(int *resistrationsCount)
 {
 	char x;
-	if (resiCount <= 0) {
+	if (resistrationsCount <= 0) {
 		printf("%s\n\n", MSG_DISPCAT_WORNIG);
 		x = 'm';
 		return x;
