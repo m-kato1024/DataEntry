@@ -47,42 +47,53 @@ void UIAddnew() {
 }
 
 void UIDispCat() {
+	//一覧表示機能
 	int resi = 0;
 	char z = 'a';
 
 	while(z != 'm' && z != 'M'){
-		commonProg1(resi);
 		if (resi > 0) {
 			printf("一覧取得処理を呼び出す\n\n");
 			printf("%s\n%s", MSG_DISPCAT_EXPL, ARROW_TEXT);
 
 			z = commonProg2();
 		}
+		else {
+			commonProg1(resi);
+			break;
+		}
 		commonProg1(&z);
 	}
 }
 
 void UISerch() {
+	//読み仮名検索機能
 	int resi = 0;
-	char kana;
+	char kana[20];
 	char z = 'a';
 
 	while (z != 'm' && z != 'M') {
-		commonProg1(resi);
-		scanf("%s", &kana);
+		if (resi > 0) {
+			printf("検索する読み仮名を入力してください。\n");
+			scanf("%s", &kana);
 
-		
-		printf("検索処理を呼び出す\n");
-		printf("%s\n%s", MSG_DISPCAT_EXPL, ARROW_TEXT);
 
-		z = commonProg2();
+			printf("検索処理を呼び出す\n");
+			printf("%s\n%s", MSG_DISPCAT_EXPL, ARROW_TEXT);
+
+			z = commonProg2();
+		}
+		else {
+			commonProg1(resi);
+			break;
+		}
 	}
 }
 
 void commonProg1(int *a)
 {
 	char x;
-	if (&a <= 0) {
+	if (a <= 0) {
 		printf("%s\n\n", MSG_DISPCAT_WORNIG);
 		x = 'm';
 		return x;
