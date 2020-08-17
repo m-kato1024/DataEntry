@@ -152,11 +152,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="DataEntry.c" />
+    <ClCompile Include="DataManager.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="UserInterface.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataEntry.h" />
+    <ClInclude Include="DataManager.h" />
     <ClInclude Include="Message.h" />
     <ClInclude Include="UserInterface.h" />
   </ItemGroup>
