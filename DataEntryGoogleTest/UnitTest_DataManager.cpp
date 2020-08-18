@@ -46,7 +46,6 @@ TEST(UnitTestDM, Test001) {
 	<case>
 		1)
 		データファイルが存在しない状態で実行する。
-		
 	</case>
 	<check>
 		1)
@@ -143,7 +142,23 @@ TEST(UnitTestDM, Test005)
 	EXPECT_EQ(false, ret);
 }
 
+class UnitTestDM006 : public ::testing::Test
+{
+public:
+	void SetUp()
+	{
+		remove("data.txt");//ファイル消す
+		DMInitialization("data.txt");
 
+	}
+
+	void TearDown()
+	{
+		// 後処理
+		DMTerminate("data.txt");
+		remove("data.txt");//ファイル消す
+	}
+};
 /*
 --------------------------------------------------------------------------------
 <testitem>
@@ -162,7 +177,7 @@ TEST(UnitTestDM, Test005)
 		・登録件数が1件であること
 	</check>
 </testitem>*/
-TEST(UnitTestDM, Test006)
+TEST_F(UnitTestDM006, Test006)
 {
 	bool ret = DMAddNew(1, "木下拓真", "きのしたたくま");
 	EXPECT_EQ(true, ret);
@@ -213,11 +228,11 @@ TEST(UnitTestDM, Test007)
 		・登録件数が1件であること
 	</check>
 </testitem>*/
-TEST(UnitTestDM, Test008)
+TEST_F(UnitTestDM006, Test008)
 {
-	bool ret = DMAddNew(2, "木下拓真", "きのしたたくま");
+	bool ret = DMAddNew(1, "木下拓真", "きのしたたくま");
 	EXPECT_EQ(true, ret);
-	EXPECT_EQ(2, DMGetUserCount());
+	EXPECT_EQ(1, DMGetUserCount());
 }
 
 
@@ -264,11 +279,11 @@ TEST(UnitTestDM, Test009)
 		・登録件数が1件であること。
 	</check>
 </testitem>*/
-TEST(UnitTestDM, Test010)
+TEST_F(UnitTestDM006, Test010)
 {
-	bool ret = DMAddNew(3, "木下拓真", "きのしたたくま");
+	bool ret = DMAddNew(1, "木下拓真", "きのしたたくま");
 	EXPECT_EQ(true, ret);
-	EXPECT_EQ(3, DMGetUserCount());
+	EXPECT_EQ(1, DMGetUserCount());
 }
 
 
@@ -292,12 +307,30 @@ TEST(UnitTestDM, Test010)
 		・件数の変化がないこと。
 	</check>
 </testitem>*/
-TEST(UnitTestDM, Test011)
+TEST_F(UnitTestDM006, Test011)
 {
-	
+	DMDelete(1);
+	EXPECT_EQ(0, DMGetUserCount());
 }
 
+class UnitTestDM012 : public ::testing::Test
+{
+public:
+	void SetUp()
+	{
+		remove("data.txt");//ファイル消す
+		DMInitialization("data.txt");
+		DMAddNew(1, "木下拓真", "きのしたたくま");
 
+	}
+
+	void TearDown()
+	{
+		// 後処理
+		DMTerminate("data.txt");
+		remove("data.txt");//ファイル消す
+	}
+};
 /*
 --------------------------------------------------------------------------------
 <testitem>
@@ -321,7 +354,7 @@ TEST(UnitTestDM, Test011)
 TEST(UnitTestDM, Test012)
 {
 	DMDelete(1);
-	EXPECT_EQ(2, DMGetUserCount());
+	EXPECT_EQ(0, DMGetUserCount());
 }
 
 
@@ -344,11 +377,10 @@ TEST(UnitTestDM, Test012)
 </testitem>*/
 TEST(UnitTestDM, Test013)
 {
-	////データファイルを消しておく
-	//remove("data.txt");
-	//struct data result[DATA_MAX_COUNT];
-	//int ret = DMListFetch(result);
-	//EXPECT_EQ(0, ret);
+	
+	struct data result[DATA_MAX_COUNT];
+	int ret = DMListFetch(result);
+	EXPECT_EQ(0, ret);
 
 }
 
@@ -370,11 +402,12 @@ TEST(UnitTestDM, Test013)
 		・戻り値の件数が登録されている数と一致すること。
 	</check>
 </testitem>*/
-TEST(UnitTestDM, Test014)
+TEST_F(UnitTestDM012, Test014)
 {
+	
 	struct data result[DATA_MAX_COUNT];
 	int ret = DMListFetch(result);
-	EXPECT_EQ(2, ret);
+	EXPECT_EQ(1, ret);
 	
 }
 
@@ -398,7 +431,9 @@ TEST(UnitTestDM, Test014)
 </testitem>*/
 TEST(UnitTestDM, Test015)
 {
-
+	struct data search_result[DATA_MAX_COUNT];
+	int ret = DMSearch("きのしたたくま", search_result);
+	EXPECT_EQ(0, ret);
 }
 
 
@@ -419,11 +454,11 @@ TEST(UnitTestDM, Test015)
 		・戻り値の件数が一致した数であること。
 	</check>
 </testitem>*/
-TEST(UnitTestDM, Test016)
+TEST_F(UnitTestDM012, Test016)
 {
 	struct data search_result[DATA_MAX_COUNT];
 	int ret = DMSearch("きのしたたくま",search_result);
-	EXPECT_EQ(2, ret);
+	EXPECT_EQ(1, ret);
 }
 
 
@@ -433,7 +468,7 @@ TEST(UnitTestDM, Test016)
 	<testclass>UnitTestDM</testclass>
 	<testname>Test017</testname>
 	<category1>DMTerminate</category1>
-	<category2>異常系</category2>
+	<category2>正常系</category2>
 	<category3>データファイルなし</category3>
 	<case>
 		1）
@@ -441,15 +476,15 @@ TEST(UnitTestDM, Test016)
 	</case>
 	<check>
 		1）
-		・戻り値がfalseであること。
-		・強制終了しないこと。
+		・戻り値がtrueであること。
+		・ファイルがつくられること。
 	</check>
 </testitem>*/
 TEST(UnitTestDM, Test017)
 {
 	remove("data.txt");
 	bool ret = DMTerminate("data.txt");
-	EXPECT_EQ(false, ret);
+	EXPECT_EQ(true, ret);
 }
 
 
@@ -472,9 +507,10 @@ TEST(UnitTestDM, Test017)
 		・ファイルにデータが書き込まれること。
 	</check>
 </testitem>*/
-TEST(UnitTestDM, Test018)
+TEST_F(UnitTestDM012, Test018)
 {
-
+	bool ret = DMTerminate("data.txt");
+	EXPECT_EQ(true, ret);
 }
 
 
@@ -495,11 +531,11 @@ TEST(UnitTestDM, Test018)
 		・戻り値の登録件数が0件であること。
 	</check>
 </testitem>*/
-TEST(UnitTestDM, Test019)
+TEST_F(UnitTestDM006, Test019)
 {
-	/*remove("data.txt");
+	
 	int ret = DMGetUserCount();
-	EXPECT_EQ(2, ret);*/
+	EXPECT_EQ(0, ret);
 }
 
 
@@ -546,7 +582,27 @@ TEST_F(UnitTestDM020, Test020)
 	EXPECT_EQ(3, ret);
 }
 
+class UnitTestDM021 : public ::testing::Test
+{
+public:
+	void SetUp()
+	{
+		remove("data.txt");//ファイル消す
+		DMInitialization("data.txt");
+		DMAddNew(1, "TEST01", "test01");
+		DMAddNew(2, "TEST02", "test02");
+		DMAddNew(3, "TEST03", "test03");
+		DMTerminate("data.txt");
 
+	}
+
+	void TearDown()
+	{
+		// 後処理
+		
+		remove("data.txt");//ファイル消す
+	}
+};
 /*
 --------------------------------------------------------------------------------
 <testitem>
@@ -565,8 +621,12 @@ TEST_F(UnitTestDM020, Test020)
 		・外部ファイルに保存されているデータと、起動時に内部データとして読みだされたデータが同じであること
 	</check>
 </testitem>*/
-TEST(UnitTestDM, Test021)
+TEST_F(UnitTestDM021, Test021)
 {
+	DMInitialization("data.txt");
+	struct data result[DATA_MAX_COUNT];
+	int ret = DMListFetch(result);
+	EXPECT_EQ(3, ret);
 
 }
 
@@ -590,7 +650,18 @@ TEST(UnitTestDM, Test021)
 </testitem>*/
 TEST(UnitTestDM, Test022)
 {
-
+	DMInitialization("data.txt");
+	DMAddNew(1, "TEST01", "test01");
+	DMAddNew(2, "TEST02", "test02");
+	DMAddNew(3, "TEST03", "test03");
+	DMAddNew(4, "TEST04", "test04");
+	DMAddNew(5, "TEST05", "test05");
+	DMAddNew(6, "TEST06", "test06");
+	DMAddNew(7, "TEST07", "test07");
+	DMAddNew(8, "TEST08", "test08");
+	DMAddNew(9, "TEST09", "test09");
+	DMAddNew(10, "TEST10", "test10");
+	EXPECT_EQ(10, DMGetUserCount());
 }
 
 
@@ -613,7 +684,16 @@ TEST(UnitTestDM, Test022)
 </testitem>*/
 TEST(UnitTestDM, Test023)
 {
-
+	int length;
+	DMAddNew(1, "あああああああああああああああああああ","きのしたたくま");
+	struct data result[DATA_MAX_COUNT] = { 0 };
+	DMListFetch(result);
+	
+		
+		length = strlen(result[1].name);
+		
+	
+	EXPECT_EQ(6, length);
 }
 
 
@@ -732,4 +812,27 @@ TEST(UnitTestDM, Test028)
 
 }
 
-
+/*
+--------------------------------------------------------------------------------
+<testitem>
+	<testclass>UnitTestDM</testclass>
+	<testname>Test029</testname>
+	<category1>DMTerminate</category1>
+	<category2>異常系</category2>
+	<category3>データファイルなし</category3>
+	<case>
+		1）
+		存在しないファイルパスを指定して実行する。
+	</case>
+	<check>
+		1)
+		・戻り値がfalseであること。
+		・強制終了しないこと。
+	</check>
+</testitem>*/
+TEST(UnitTestDM, Test029)
+{
+	remove("data.txt");
+	bool ret = DMTerminate("K:\\data.txt");
+	EXPECT_EQ(false, ret);
+}

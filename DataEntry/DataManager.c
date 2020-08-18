@@ -85,8 +85,10 @@ bool DMAddNew(int input_number, char* input_name, char* input_yomi) {
 /**
  * @brief 削除
  * @param input_number 入力された登録番号
+ * @retval false 失敗
+ * @retval true  成功
 */
-void DMDelete(int input_number) {
+bool DMDelete(int input_number) {
 	for (int i = 0; i < DATA_MAX_COUNT; i++) {
 		if (input_number == _entryList[i].number) {
 			_entryList[i].number = 0;
@@ -94,10 +96,12 @@ void DMDelete(int input_number) {
 			_entryList[i].yomi[0] =  '\0';
 
 			_userCount--;
-
+			return true;
 		}
+		
 
 	}
+	return false;
 }
 /**
  * @brief 一覧取得
