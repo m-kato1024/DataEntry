@@ -40,7 +40,12 @@ void UIAddnew() {
 		fflush(stdin);
 		scanf("%*c%c", &answer);
 		if (answer == 'Y' || answer == 'y') {
-			DMAddnew();
+
+			bool n;
+			n = DMAddNew(num, kanji, kana);
+			if (n == false) {
+				printf("%s\n\n", MSG_ADDNEW_ERROR);
+			}
 		}
 	}
 	else {
