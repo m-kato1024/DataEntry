@@ -4,13 +4,21 @@
 #include "Message.h"
 #include "DataManager.h" 
 
-static void commonProg1(int *resistrationsCount);
+static char commonProg1(void);
 static char commonProg2(void);
 
-
+/**
+*@brief V‹K“o˜^ˆ—
+*@param resisrationsCount “o˜^‚³‚ê‚Ä‚¢‚éƒf[ƒ^‚Ì”
+*@param num   “ü—Í‚³‚ê‚½“o˜^”Ô†
+*@param kanji “ü—Í‚³‚ê‚½–¼‘O(Š¿Žš)
+*@param kana  “ü—Í‚³‚ê‚½–¼‘O(“Ç‚Ý‰¼–¼)
+*@retval false Ž¸”s
+*@note resistrationsCount‚ª”ÍˆÍŠO‚ÌŽž‚ÍƒGƒ‰[A
+*answer‚ª"Y"‚Ü‚½‚Í"y"‚ÌŽžA“o˜^ˆ—‚ðŒÄ‚ÔB
+*/
 void UIAddnew() {
-	//V‹K“o˜^ˆ—
-	int resistrationsCount = DMGetUserCount;
+	int resistrationsCount = DMGetUserCount();
 
 	int num = 0;
 	char kanji[DATA_MAX_LENGTH];
@@ -53,29 +61,38 @@ void UIAddnew() {
 	}
 }
 
+/**
+*@brief ˆê——•\Ž¦‹@”\
+*@param resistrationsCount “o˜^‚³‚ê‚Ä‚¢‚éƒf[ƒ^‚Ì”
+*@param inputKey “ü—Í•¶Žš(”Žš)
+*@note “o˜^‚³‚ê‚Ä‚éƒf[ƒ^‚Ìˆê——‚ð•\Ž¦‚·‚éB
+*	   “o˜^‚³‚ê‚Ä‚¢‚È‚©‚Á‚½‚èAíœ‚ÌÛ‚É–³ŠÖŒW‚Ì
+*	   ”Ô†‚ð“ü—Í‚·‚é‚ÆƒGƒ‰[ƒƒbƒZ[ƒW‚ª•\Ž¦‚³‚ê‚éB
+*/
 void UIDispCat() {
-	//ˆê——•\Ž¦‹@”\
-	int resistrationsCount = DMGetUserCount;
+	int resistrationsCount = DMGetUserCount();
 	char inputKey = 'a';
+	struct data result[DATA_MAX_COUNT] = { 0 };
 
 	while(inputKey != 'm' && inputKey != 'M'){
+		resistrationsCount = DMListFetch(result);
 		if (resistrationsCount > 0) {
-			DMListFetch(resistrationsCount);
+			for (int i = 0; i < resistrationsCount; i++) {
+				printf("%d %s %s\n", result[i].number, result[i].name, result[i].yomi);
+			}
 			printf("%s\n%s", MSG_DISPCAT_EXPL, ARROW_TEXT);
-
 			inputKey = commonProg2();
 		}
 		else {
 			commonProg1(resistrationsCount);
 			break;
 		}
-		commonProg1(&inputKey);
 	}
 }
 
 void UISearch() {
 	//“Ç‚Ý‰¼–¼ŒŸõ‹@”\
-	int resistrationsCount = DMGetUserCount;
+	int resistrationsCount = DMGetUserCount();
 	char kana[DATA_MAX_LENGTH];
 	char inputKey = 'a';
 
@@ -84,8 +101,7 @@ void UISearch() {
 			printf("%s\n", MSG_UISEARCH_WORNIG);
 			scanf("%s", &kana);
 
-
-			printf("ŒŸõˆ—‚ðŒÄ‚Ño‚·\n");
+			//DMSearch(kana, );
 			printf("%s\n%s", MSG_DISPCAT_EXPL, ARROW_TEXT);
 
 			inputKey = commonProg2();
@@ -97,13 +113,10 @@ void UISearch() {
 	}
 }
 
-static void commonProg1(int *resistrationsCount)
+static char commonProg1(void)
 {
-	char m;
-	if (resistrationsCount <= 0) {
-		printf("%s\n\n", MSG_DISPCAT_WORNIG);
-		return m;
-	}
+	printf("%s\n\n", MSG_DISPCAT_WORNIG);
+	return 'm';
 }
 
 static char commonProg2(void)
