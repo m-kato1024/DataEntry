@@ -48,7 +48,6 @@ void UIAddnew() {
 		fflush(stdin);
 		scanf("%*c%c", &answer);
 		if (answer == 'Y' || answer == 'y') {
-
 			bool n;
 			n = DMAddNew(num, kanji, kana);
 			if (n == false) {
@@ -95,15 +94,19 @@ void UISearch() {
 	int resistrationsCount = DMGetUserCount();
 	char kana[DATA_MAX_LENGTH];
 	char inputKey = 'a';
+	struct data search_result[DATA_MAX_COUNT] = { 0 };
 
 	while (inputKey != 'm' && inputKey != 'M') {
 		if (resistrationsCount > 0) {
 			printf("%s\n", MSG_UISEARCH_WORNIG);
 			scanf("%s", &kana);
+			DMSearch(kana, search_result);
 
-			//DMSearch(kana, );
+			resistrationsCount = DMSearch(kana, search_result);
+			for (int i = 0; i < resistrationsCount; i++) {
+				printf("%d %s %s", search_result[i].number, search_result[i].name, search_result[i].yomi);
+			}
 			printf("%s\n%s", MSG_DISPCAT_EXPL, ARROW_TEXT);
-
 			inputKey = commonProg2();
 		}
 		else {
@@ -125,7 +128,7 @@ static char commonProg2(void)
 	char inputNum = 'w';
 
 	while (inputNum != resistrationsNum) {
-		scanf("%*c%c", &inputNum);
+		scanf("%*c%c\n", &inputNum);
 		if (inputNum == 'm' || inputNum == 'M') {
 			printf("\n");
 			return inputNum;
