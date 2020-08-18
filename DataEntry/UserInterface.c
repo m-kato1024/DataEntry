@@ -71,7 +71,7 @@ void UIDispCat() {
 void UISearch() {
 	//ì«Ç›âºñºåüçıã@î\
 	int resistrationsCount = DMGetUserCount;
-	char kana[20];
+	char kana[DATA_MAX_LENGTH];
 	char inputKey = 'a';
 
 	while (inputKey != 'm' && inputKey != 'M') {
@@ -94,11 +94,10 @@ void UISearch() {
 
 static void commonProg1(int *resistrationsCount)
 {
-	char x;
+	char m;
 	if (resistrationsCount <= 0) {
 		printf("%s\n\n", MSG_DISPCAT_WORNIG);
-		x = 'm';
-		return x;
+		return m;
 	}
 }
 
