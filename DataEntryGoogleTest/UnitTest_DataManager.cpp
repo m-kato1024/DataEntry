@@ -215,9 +215,9 @@ TEST(UnitTestDM, Test007)
 </testitem>*/
 TEST(UnitTestDM, Test008)
 {
-	bool ret = DMAddNew(1, "木下拓真", "きのしたたくま");
+	bool ret = DMAddNew(2, "木下拓真", "きのしたたくま");
 	EXPECT_EQ(true, ret);
-	EXPECT_EQ(1, DMGetUserCount());
+	EXPECT_EQ(2, DMGetUserCount());
 }
 
 
@@ -241,7 +241,8 @@ TEST(UnitTestDM, Test008)
 </testitem>*/
 TEST(UnitTestDM, Test009)
 {
-
+	bool ret = DMAddNew(1, "木下拓真", NULL);
+	EXPECT_EQ(false, ret);
 }
 
 
@@ -265,7 +266,9 @@ TEST(UnitTestDM, Test009)
 </testitem>*/
 TEST(UnitTestDM, Test010)
 {
-
+	bool ret = DMAddNew(3, "木下拓真", "きのしたたくま");
+	EXPECT_EQ(true, ret);
+	EXPECT_EQ(3, DMGetUserCount());
 }
 
 
@@ -291,7 +294,7 @@ TEST(UnitTestDM, Test010)
 </testitem>*/
 TEST(UnitTestDM, Test011)
 {
-
+	
 }
 
 
@@ -317,7 +320,8 @@ TEST(UnitTestDM, Test011)
 </testitem>*/
 TEST(UnitTestDM, Test012)
 {
-
+	DMDelete(1);
+	EXPECT_EQ(2, DMGetUserCount());
 }
 
 
@@ -340,6 +344,11 @@ TEST(UnitTestDM, Test012)
 </testitem>*/
 TEST(UnitTestDM, Test013)
 {
+	////データファイルを消しておく
+	//remove("data.txt");
+	//struct data result[DATA_MAX_COUNT];
+	//int ret = DMListFetch(result);
+	//EXPECT_EQ(0, ret);
 
 }
 
@@ -363,7 +372,10 @@ TEST(UnitTestDM, Test013)
 </testitem>*/
 TEST(UnitTestDM, Test014)
 {
-
+	struct data result[DATA_MAX_COUNT];
+	int ret = DMListFetch(result);
+	EXPECT_EQ(2, ret);
+	
 }
 
 
@@ -409,7 +421,9 @@ TEST(UnitTestDM, Test015)
 </testitem>*/
 TEST(UnitTestDM, Test016)
 {
-
+	struct data search_result[DATA_MAX_COUNT];
+	int ret = DMSearch("きのしたたくま",search_result);
+	EXPECT_EQ(2, ret);
 }
 
 
@@ -433,8 +447,11 @@ TEST(UnitTestDM, Test016)
 </testitem>*/
 TEST(UnitTestDM, Test017)
 {
-
+	remove("data.txt");
+	bool ret = DMTerminate("data.txt");
+	EXPECT_EQ(false, ret);
 }
+
 
 
 /*
@@ -480,7 +497,9 @@ TEST(UnitTestDM, Test018)
 </testitem>*/
 TEST(UnitTestDM, Test019)
 {
-
+	/*remove("data.txt");
+	int ret = DMGetUserCount();
+	EXPECT_EQ(2, ret);*/
 }
 
 
@@ -501,9 +520,30 @@ TEST(UnitTestDM, Test019)
 		・戻り値の件数が登録されている数と一致すること。
 	</check>
 </testitem>*/
-TEST(UnitTestDM, Test020)
+class UnitTestDM020 : public ::testing::Test
 {
+public:
+	void SetUp()
+	{
+		remove("data.txt");//ファイル消す
+		DMInitialization("data.txt");
+		DMAddNew(1, "TEST01", "test01");
+		DMAddNew(2, "TEST02", "test02");
+		DMAddNew(3, "TEST03", "test03");
+	}
 
+	void TearDown()
+	{
+		// 後処理
+		DMTerminate("data.txt");
+		remove("data.txt");//ファイル消す
+	}
+};
+
+TEST_F(UnitTestDM020, Test020)
+{
+	int ret = DMGetUserCount();
+	EXPECT_EQ(3, ret);
 }
 
 
