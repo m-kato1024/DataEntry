@@ -48,9 +48,9 @@ void UIAddnew() {
 		fflush(stdin);
 		scanf("%*c%c", &answer);
 		if (answer == 'Y' || answer == 'y') {
-			bool n;
-			n = DMAddNew(num, kanji, kana);
-			if (n == false) {
+			bool ret;
+			ret = DMAddNew(num, kanji, kana);
+			if (ret == false) {
 				printf("%s\n\n", MSG_ADDNEW_ERROR);
 			}
 		}
