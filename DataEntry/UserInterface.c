@@ -116,7 +116,7 @@ void UISearch() {
 
 static char commonProg2(void)
 {
-	char resistrationsNum = ;
+	char resistrationsNum = '1';
 	char inputNum = 'w';
 
 	while (inputNum != resistrationsNum) {
@@ -125,10 +125,10 @@ static char commonProg2(void)
 			printf("\n");
 			return inputNum;
 		}
-		else if (inputNum != ) {
+		else if (inputNum != resistrationsNum) {
 			printf("%s\n%s", MSG_DISPCAT_WORNIG2, ARROW_TEXT);
 		}
-		else if (inputNum == ) {
+		else if (inputNum == resistrationsNum) {
 			DMDelete(inputNum);
 		}
 	}
