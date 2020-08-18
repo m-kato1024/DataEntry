@@ -520,10 +520,30 @@ TEST(UnitTestDM, Test019)
 		・戻り値の件数が登録されている数と一致すること。
 	</check>
 </testitem>*/
-TEST(UnitTestDM, Test020)
+class UnitTestDM020 : public ::testing::Test
+{
+public:
+	void SetUp()
+	{
+		remove("data.txt");//ファイル消す
+		DMInitialization("data.txt");
+		DMAddNew(1, "TEST01", "test01");
+		DMAddNew(2, "TEST02", "test02");
+		DMAddNew(3, "TEST03", "test03");
+	}
+
+	void TearDown()
+	{
+		// 後処理
+		DMTerminate("data.txt");
+		remove("data.txt");//ファイル消す
+	}
+};
+
+TEST_F(UnitTestDM020, Test020)
 {
 	int ret = DMGetUserCount();
-	EXPECT_EQ(2, ret);
+	EXPECT_EQ(3, ret);
 }
 
 

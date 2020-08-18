@@ -17,15 +17,15 @@ void UIAddnew() {
 	char kana[DATA_MAX_LENGTH];
 	char answer;
 	
-	if (resistrationsCount <= 10) {
+	if (resistrationsCount <= DATA_MAX_COUNT) {
 		do {
 			printf("%s\n%s", MSG_ADDNEW_RESISTER_NUMBER, ARROW_TEXT);
 			fflush(stdin);
 			scanf("%d", &num);
-			if (num < 1 || num > 10) {
+			if (num < 1 || num > DATA_MAX_COUNT) {
 				printf("%s\n", MSG_ADDNEW_WORNIG);
 			}
-		} while (num < 1 || num > 10);
+		} while (num < 1 || num > DATA_MAX_COUNT);
 
 		printf("%s\n%s", MSG_ADDNEW_RESISTER_NAME1, ARROW_TEXT);
 		fflush(stdin);
@@ -55,7 +55,7 @@ void UIDispCat() {
 
 	while(inputKey != 'm' && inputKey != 'M'){
 		if (resistrationsCount > 0) {
-			printf("ˆê——æ“¾ˆ—‚ğŒÄ‚Ño‚·\n\n");
+			DMListFetch(resistrationsCount);
 			printf("%s\n%s", MSG_DISPCAT_EXPL, ARROW_TEXT);
 
 			inputKey = commonProg2();
