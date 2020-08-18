@@ -40,7 +40,7 @@ void UIAddnew() {
 		fflush(stdin);
 		scanf("%*c%c", &answer);
 		if (answer == 'Y' || answer == 'y') {
-			printf("“o˜^ˆ—‚ğŒÄ‚Ño‚·B\n\n");
+			DMAddnew();
 		}
 	}
 	else {
