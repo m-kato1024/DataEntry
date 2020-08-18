@@ -20,7 +20,8 @@ static int _userCount = 0;
 */
 bool DMInitialization(char* path) {
 	int count = 0;
-	
+	_userCount = 0;
+
 	FILE *fp;
 	if (path == NULL) {
 		return false;
