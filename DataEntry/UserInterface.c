@@ -4,7 +4,6 @@
 #include "Message.h"
 #include "DataManager.h" 
 
-static char commonProg1(void);
 static char commonProg2(void);
 
 /**
@@ -83,7 +82,7 @@ void UIDispCat() {
 			inputKey = commonProg2();
 		}
 		else {
-			commonProg1(resistrationsCount);
+			printf("%s\n\n", MSG_DISPCAT_WORNIG);
 			break;
 		}
 	}
@@ -100,31 +99,24 @@ void UISearch() {
 		if (resistrationsCount > 0) {
 			printf("%s\n", MSG_UISEARCH_WORNIG);
 			scanf("%s", &kana);
-			DMSearch(kana, search_result);
 
 			resistrationsCount = DMSearch(kana, search_result);
 			for (int i = 0; i < resistrationsCount; i++) {
-				printf("%d %s %s", search_result[i].number, search_result[i].name, search_result[i].yomi);
+				printf("%d %s %s\n", search_result[i].number, search_result[i].name, search_result[i].yomi);
 			}
 			printf("%s\n%s", MSG_DISPCAT_EXPL, ARROW_TEXT);
 			inputKey = commonProg2();
 		}
 		else {
-			commonProg1(resistrationsCount);
+			printf("%s\n\n", MSG_DISPCAT_WORNIG);
 			break;
 		}
 	}
 }
 
-static char commonProg1(void)
-{
-	printf("%s\n\n", MSG_DISPCAT_WORNIG);
-	return 'm';
-}
-
 static char commonProg2(void)
 {
-	char resistrationsNum = '1';
+	char resistrationsNum = ;
 	char inputNum = 'w';
 
 	while (inputNum != resistrationsNum) {
@@ -133,11 +125,11 @@ static char commonProg2(void)
 			printf("\n");
 			return inputNum;
 		}
-		else if (inputNum != resistrationsNum) {
+		else if (inputNum != ) {
 			printf("%s\n%s", MSG_DISPCAT_WORNIG2, ARROW_TEXT);
 		}
-		else if (inputNum == resistrationsNum) {
-			printf("íœˆ—‚ðŒÄ‚Ño‚·\n\n");
+		else if (inputNum == ) {
+			DMDelete(inputNum);
 		}
 	}
 }
