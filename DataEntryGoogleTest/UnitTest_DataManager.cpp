@@ -1,4 +1,5 @@
 ﻿#include "gtest/gtest.h"
+#include <sys/stat.h>
 
 
 extern "C"
@@ -301,9 +302,6 @@ TEST_F(UnitTestDM006, Test010)
 	</case>
 	<check>
 		1）
-		・NOが初期化されていないこと。
-		・名前が初期化されていないこと。
-		・読み仮名が初期化されていないこと。
 		・件数の変化がないこと。
 	</check>
 </testitem>*/
@@ -410,6 +408,9 @@ TEST_F(UnitTestDM012, Test014)
 	struct data result[DATA_MAX_COUNT];
 	int ret = DMListFetch(result);
 	EXPECT_EQ(1, ret);
+	EXPECT_EQ(1, result[0].number);
+	EXPECT_STREQ("木下拓真", result[0].name);
+	EXPECT_STREQ("きのしたたくま", result[0].yomi);
 	
 }
 
@@ -461,6 +462,9 @@ TEST_F(UnitTestDM012, Test016)
 	struct data search_result[DATA_MAX_COUNT];
 	int ret = DMSearch("きのしたたくま",search_result);
 	EXPECT_EQ(1, ret);
+	EXPECT_EQ(1, search_result[0].number);
+	EXPECT_STREQ("木下拓真", search_result[0].name);
+	EXPECT_STREQ("きのしたたくま", search_result[0].yomi);
 }
 
 
@@ -487,6 +491,8 @@ TEST(UnitTestDM, Test017)
 	remove("data.txt");
 	bool ret = DMTerminate("data.txt");
 	EXPECT_EQ(true, ret);
+	struct stat st;
+	EXPECT_EQ(0, stat("data.txt", &st));
 }
 
 
@@ -515,6 +521,9 @@ TEST_F(UnitTestDM012, Test018)
 	DMInitialization("data.txt");
 	struct data result[DATA_MAX_COUNT];
 	int ret2 = DMListFetch(result);
+	EXPECT_EQ(1, result[0].number);
+	EXPECT_STREQ("木下拓真", result[0].name);
+	EXPECT_STREQ("きのしたたくま", result[0].yomi);
 	EXPECT_EQ(true, ret);
 	EXPECT_EQ(1, ret2);
 }
@@ -656,7 +665,33 @@ TEST_F(UnitTestDM021, Test021)
 </testitem>*/
 TEST(UnitTestDM, Test022)
 {
+	int count = 0;
 	DMInitialization("data\\test022.txt");
+	struct data _test[DATA_MAX_COUNT] = { 0 };
+	FILE *fp;
+	fp = fopen("data\\test022.txt", "r");
+	while (fp != NULL) {
+		fscanf(fp, "%d", &_test[count].number);
+		fscanf(fp, "%s", _test[count].name);
+		fscanf(fp, "%s", _test[count].yomi);
+
+		
+		count++;
+		if (feof(fp)) {
+			break;
+		}
+
+	}
+	struct data result[DATA_MAX_COUNT] = { 0 };
+	DMListFetch(result);
+	
+	for (int i = 0; i < DATA_MAX_COUNT; i++) {
+		EXPECT_EQ(_test[i].number, result[i].number);
+		ASSERT_STREQ(_test[i].name, result[i].name);
+		ASSERT_STREQ(_test[i].yomi, result[i].yomi);
+		
+	}
+
 	EXPECT_EQ(10, DMGetUserCount());
 }
 
