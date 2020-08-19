@@ -136,7 +136,7 @@ static char commonProg2(void)
 		else if (inputAll == resistrationsNum) {
 			DMDelete(inputAll);
 		}*/
-		bool result;
-		DMDelete(inputAll);
+		bool result = false;
+		result = DMDelete(inputAll);
 	}
 }
