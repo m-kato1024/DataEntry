@@ -1,6 +1,8 @@
 
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 #include "Message.h"
 #include "DataManager.h" 
 
@@ -122,27 +124,20 @@ void UISearch() {
 static char UIDelete(void)
 {
 	char resistrationsNum = DMGetUserCount();
-	char inputAll = "";
-
-
-	while (inputAll != 'm' || inputAll != 'M') {
-		scanf("%c", &inputAll);
-		if (inputAll == 'm' || inputAll == 'M') {
-			printf("\n");
-			return inputAll;
-		}
-		/*else if (inputAll != resistrationsNum) {
-			printf("%s\n%s", MSG_DISPCAT_WORNIG2, ARROW_TEXT);
-		}
-		else if (inputAll == resistrationsNum) {
-			DMDelete(inputAll);
-		}*/
-		bool result = false;
-		int input = (int)inputAll;
-		result = DMDelete(input);
-		if (result == false) {
-			printf("%s\n%s", MSG_DISPCAT_WORNIG2, ARROW_TEXT);
-		}
-		return inputAll;
+	char inputAll[3] = "";
+	int c;
+	
+	while ((c = getc(stdin)) != EOF && c != '\n');
+	scanf("%2s", inputAll);
+	if (strcmp(inputAll, "m") == 0 || strcmp(inputAll, "M") == 0) {
+		printf("\n");
+		return inputAll[0];
 	}
+	bool result = false;
+	int input = atoi(inputAll);
+	result = DMDelete(input);
+	if (result == false) {
+		printf("%s\n%s", MSG_DISPCAT_WORNIG2, ARROW_TEXT);
+	}
+	return inputAll[0];
 }
