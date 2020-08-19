@@ -309,6 +309,7 @@ TEST_F(UnitTestDM006, Test010)
 </testitem>*/
 TEST_F(UnitTestDM006, Test011)
 {
+	EXPECT_EQ(0, DMGetUserCount());
 	DMDelete(1);
 	EXPECT_EQ(0, DMGetUserCount());
 }
@@ -353,6 +354,7 @@ public:
 </testitem>*/
 TEST_F(UnitTestDM012, Test012)
 {
+	EXPECT_EQ(1, DMGetUserCount());
 	DMDelete(1);
 	EXPECT_EQ(0, DMGetUserCount());
 }
