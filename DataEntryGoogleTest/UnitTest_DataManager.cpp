@@ -1,12 +1,12 @@
 ﻿#define _CRT_SECURE_NO_WARNINGS
 
 #include "gtest/gtest.h"
-#include <sys/stat.h>
+
 
 
 extern "C"
 {
-
+#include <sys/stat.h>
 #include <stdio.h>
 #include "./../DataEntry/DataManager.h"
 
