@@ -4,7 +4,6 @@
 #include "Message.h"
 #include "DataManager.h" 
 
-static char commonProg1(void);
 static char commonProg2(void);
 
 /**
@@ -83,14 +82,22 @@ void UIDispCat() {
 			inputKey = commonProg2();
 		}
 		else {
-			commonProg1(resistrationsCount);
+			printf("%s\n\n", MSG_DISPCAT_WORNIG);
 			break;
 		}
 	}
 }
 
+/**
+*@brief 読み仮名検索機能
+*@param resistrationsCount 登録されているデータの数
+*@param kana 検索する読み仮名
+*@param inputKey commonProg2から呼び出した内容
+*@param search_result 検索結果
+*@note 検索した場合読み仮名の一部でも入力すると
+*@	   それに該当する文字が表示される。
+*/
 void UISearch() {
-	//読み仮名検索機能
 	int resistrationsCount = DMGetUserCount();
 	char kana[DATA_MAX_LENGTH];
 	char inputKey = 'a';
@@ -100,28 +107,31 @@ void UISearch() {
 		if (resistrationsCount > 0) {
 			printf("%s\n", MSG_UISEARCH_WORNIG);
 			scanf("%s", &kana);
-			DMSearch(kana, search_result);
 
 			resistrationsCount = DMSearch(kana, search_result);
 			for (int i = 0; i < resistrationsCount; i++) {
-				printf("%d %s %s", search_result[i].number, search_result[i].name, search_result[i].yomi);
+				printf("%d %s %s\n", search_result[i].number, search_result[i].name, search_result[i].yomi);
 			}
 			printf("%s\n%s", MSG_DISPCAT_EXPL, ARROW_TEXT);
 			inputKey = commonProg2();
 		}
 		else {
-			commonProg1(resistrationsCount);
+			printf("%s\n\n", MSG_DISPCAT_WORNIG);
 			break;
 		}
 	}
 }
 
-static char commonProg1(void)
-{
-	printf("%s\n\n", MSG_DISPCAT_WORNIG);
-	return 'm';
-}
 
+
+/**
+*@brief 削除機能及びメインメニュー遷移
+*@param resistrationsNum	登録されたデータの番号
+*@param inputNum			入力された文字または数字を保持する
+*@retval inputNum			'm'を返す
+*@note						一覧表示または検索機能を使用時に登録データ
+*							表示後の入力された内容毎の処理
+*/
 static char commonProg2(void)
 {
 	char resistrationsNum = '1';
@@ -137,7 +147,7 @@ static char commonProg2(void)
 			printf("%s\n%s", MSG_DISPCAT_WORNIG2, ARROW_TEXT);
 		}
 		else if (inputNum == resistrationsNum) {
-			printf("削除処理を呼び出す\n\n");
+			DMDelete(inputNum);
 		}
 	}
 }
