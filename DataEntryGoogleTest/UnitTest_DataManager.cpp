@@ -87,12 +87,28 @@ TEST(UnitTestDM, Test002) {
 </testitem>*/
 TEST(UnitTestDM, Test003)
 {
-	bool ret = DMInitialization("data.txt");
+	bool ret = DMInitialization("data\\test003.txt");
 	EXPECT_EQ(true, ret);
-	EXPECT_EQ(0, DMGetUserCount());
+	EXPECT_EQ(5, DMGetUserCount());
 }
 
+class UnitTestDM006 : public ::testing::Test
+{
+public:
+	void SetUp()
+	{
+		remove("data.txt");//ファイル消す
+		DMInitialization("data.txt");
 
+	}
+
+	void TearDown()
+	{
+		// 後処理
+		DMTerminate("data.txt");
+		remove("data.txt");//ファイル消す
+	}
+};
 /*
 --------------------------------------------------------------------------------
 <testitem>
@@ -111,7 +127,7 @@ TEST(UnitTestDM, Test003)
 		・強制終了しない。
 	</check>
 </testitem>*/
-TEST(UnitTestDM, Test004)
+TEST_F(UnitTestDM006, Test004)
 {
 	bool ret = DMAddNew(0, "木下拓真", "きのしたたくま");
 	EXPECT_EQ(false, ret);
@@ -136,29 +152,13 @@ TEST(UnitTestDM, Test004)
 		・強制終了しない。
 	</check>
 </testitem>*/
-TEST(UnitTestDM, Test005)
+TEST_F(UnitTestDM006, Test005)
 {
 	bool ret = DMAddNew(11, "木下拓真", "きのしたたくま");
 	EXPECT_EQ(false, ret);
 }
 
-class UnitTestDM006 : public ::testing::Test
-{
-public:
-	void SetUp()
-	{
-		remove("data.txt");//ファイル消す
-		DMInitialization("data.txt");
 
-	}
-
-	void TearDown()
-	{
-		// 後処理
-		DMTerminate("data.txt");
-		remove("data.txt");//ファイル消す
-	}
-};
 /*
 --------------------------------------------------------------------------------
 <testitem>
@@ -203,7 +203,7 @@ TEST_F(UnitTestDM006, Test006)
 		・強制終了しないこと。
 	</check>
 </testitem>*/
-TEST(UnitTestDM, Test007)
+TEST_F(UnitTestDM006, Test007)
 {
 	bool ret = DMAddNew(1, NULL, "きのしたたくま");
 	EXPECT_EQ(false, ret);
@@ -254,7 +254,7 @@ TEST_F(UnitTestDM006, Test008)
 		・強制終了しないこと。
 	</check>
 </testitem>*/
-TEST(UnitTestDM, Test009)
+TEST_F(UnitTestDM006, Test009)
 {
 	bool ret = DMAddNew(1, "木下拓真", NULL);
 	EXPECT_EQ(false, ret);
@@ -351,7 +351,7 @@ public:
 		・件数が減っていること。
 	</check>
 </testitem>*/
-TEST(UnitTestDM, Test012)
+TEST_F(UnitTestDM012, Test012)
 {
 	DMDelete(1);
 	EXPECT_EQ(0, DMGetUserCount());
@@ -375,7 +375,7 @@ TEST(UnitTestDM, Test012)
 		・戻り値の件数が0件であること。
 	</check>
 </testitem>*/
-TEST(UnitTestDM, Test013)
+TEST_F(UnitTestDM006, Test013)
 {
 	
 	struct data result[DATA_MAX_COUNT];
@@ -654,17 +654,7 @@ TEST_F(UnitTestDM021, Test021)
 </testitem>*/
 TEST(UnitTestDM, Test022)
 {
-	DMInitialization("data.txt");
-	DMAddNew(1, "TEST01", "test01");
-	DMAddNew(2, "TEST02", "test02");
-	DMAddNew(3, "TEST03", "test03");
-	DMAddNew(4, "TEST04", "test04");
-	DMAddNew(5, "TEST05", "test05");
-	DMAddNew(6, "TEST06", "test06");
-	DMAddNew(7, "TEST07", "test07");
-	DMAddNew(8, "TEST08", "test08");
-	DMAddNew(9, "TEST09", "test09");
-	DMAddNew(10, "TEST10", "test10");
+	DMInitialization("data\\test022.txt");
 	EXPECT_EQ(10, DMGetUserCount());
 }
 
