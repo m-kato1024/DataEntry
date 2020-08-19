@@ -122,9 +122,10 @@ void UISearch() {
 static char UIDelete(void)
 {
 	char resistrationsNum = DMGetUserCount();
-	char inputAll = 'w';
+	char inputAll = "";
 
-	while (inputAll != resistrationsNum) {
+
+	while (inputAll != 'm' || inputAll != 'M') {
 		scanf("%c", &inputAll);
 		if (inputAll == 'm' || inputAll == 'M') {
 			printf("\n");
@@ -136,9 +137,9 @@ static char UIDelete(void)
 		else if (inputAll == resistrationsNum) {
 			DMDelete(inputAll);
 		}*/
-
 		bool result = false;
-		result = DMDelete(inputAll);
+		int input = (int)inputAll;
+		result = DMDelete(input);
 		if (result == false) {
 			printf("%s\n%s", MSG_DISPCAT_WORNIG2, ARROW_TEXT);
 		}
