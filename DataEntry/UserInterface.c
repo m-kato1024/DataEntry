@@ -8,11 +8,6 @@ static char commonProg2(void);
 
 /**
 *@brief 新規登録処理
-*@param resisrationsCount 登録されているデータの数
-*@param num   入力された登録番号
-*@param kanji 入力された名前(漢字)
-*@param kana  入力された名前(読み仮名)
-*@retval false 失敗
 *@note resistrationsCountが範囲外の時はエラー、
 *answerが"Y"または"y"の時、登録処理を呼ぶ。
 */
@@ -61,8 +56,6 @@ void UIAddnew() {
 
 /**
 *@brief 一覧表示機能
-*@param resistrationsCount 登録されているデータの数
-*@param inputKey 入力文字(数字)
 *@note 登録されてるデータの一覧を表示する。
 *	   登録されていなかったり、削除の際に無関係の
 *	   番号を入力するとエラーメッセージが表示される。
@@ -90,12 +83,8 @@ void UIDispCat() {
 
 /**
 *@brief 読み仮名検索機能
-*@param resistrationsCount 登録されているデータの数
-*@param kana 検索する読み仮名
-*@param inputKey commonProg2から呼び出した内容
-*@param search_result 検索結果
 *@note 検索した場合読み仮名の一部でも入力すると
-*@	   それに該当する文字が表示される。
+*	   それに該当する文字が表示される。
 */
 void UISearch() {
 	int resistrationsCount = DMGetUserCount();
@@ -126,28 +115,25 @@ void UISearch() {
 
 /**
 *@brief 削除機能及びメインメニュー遷移
-*@param resistrationsNum	登録されたデータの番号
-*@param inputNum			入力された文字または数字を保持する
-*@retval inputNum			'm'を返す
 *@note						一覧表示または検索機能を使用時に登録データ
 *							表示後の入力された内容毎の処理
 */
 static char commonProg2(void)
 {
-	char resistrationsNum = '1';
-	char inputNum = 'w';
+	char resistrationsNum = DMGetUserCount();
+	char inputAll = 'w';
 
-	while (inputNum != resistrationsNum) {
-		scanf("%*c%c\n", &inputNum);
-		if (inputNum == 'm' || inputNum == 'M') {
+	while (inputAll != resistrationsNum) {
+		scanf("%*c%c", &inputAll);
+		if (inputAll == 'm' || inputAll == 'M') {
 			printf("\n");
-			return inputNum;
+			return inputAll;
 		}
-		else if (inputNum != resistrationsNum) {
+		else if (inputAll != resistrationsNum) {
 			printf("%s\n%s", MSG_DISPCAT_WORNIG2, ARROW_TEXT);
 		}
-		else if (inputNum == resistrationsNum) {
-			DMDelete(inputNum);
+		else if (inputAll == resistrationsNum) {
+			DMDelete(inputAll);
 		}
 	}
 }
