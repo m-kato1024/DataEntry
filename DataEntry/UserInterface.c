@@ -115,8 +115,9 @@ void UISearch() {
 
 /**
 *@brief 削除機能及びメインメニュー遷移
-*@note						一覧表示または検索機能を使用時に登録データ
-*							表示後の入力された内容毎の処理
+*@retval inputAll	resistrationsNumと一致しないとき 入力内容を返す
+*@note				一覧表示または検索機能を使用時に登録データ
+*					表示後の入力された内容毎の処理
 */
 static char commonProg2(void)
 {
