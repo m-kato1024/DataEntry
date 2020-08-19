@@ -138,5 +138,8 @@ static char commonProg2(void)
 		}*/
 		bool result = false;
 		result = DMDelete(inputAll);
+		if (result == false) {
+			printf("%s\n%s", MSG_DISPCAT_WORNIG2, ARROW_TEXT);
+		}
 	}
 }
