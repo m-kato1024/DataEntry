@@ -642,6 +642,18 @@ TEST_F(UnitTestDM021, Test021)
 	struct data result[DATA_MAX_COUNT];
 	int ret = DMListFetch(result);
 	EXPECT_EQ(3, ret);
+	for (int i = 0; i < ret; i++) {
+	
+		    char name[100];
+			char yomi[100];
+
+			sprintf(name, "TEST%02d", i + 1);
+			sprintf(yomi, "test%02d", i + 1);
+
+			EXPECT_EQ(i + 1, result[i].number);
+			EXPECT_STREQ(name, result[i].name);
+			EXPECT_STREQ(yomi, result[i].yomi);
+	}
 
 }
 
