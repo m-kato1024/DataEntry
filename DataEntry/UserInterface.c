@@ -128,6 +128,7 @@ void UISearch() {
 *@brief 削除機能及びメインメニュー遷移
 *@param resistrationsNum	登録されたデータの番号
 *@param inputNum			入力された文字または数字を保持する
+*@retval inputNum			'm'を返す
 *@note						一覧表示または検索機能を使用時に登録データ
 *							表示後の入力された内容毎の処理
 */
