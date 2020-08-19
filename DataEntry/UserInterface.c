@@ -125,16 +125,18 @@ static char commonProg2(void)
 	char inputAll = 'w';
 
 	while (inputAll != resistrationsNum) {
-		scanf("%*c%c", &inputAll);
+		scanf("%c", &inputAll);
 		if (inputAll == 'm' || inputAll == 'M') {
 			printf("\n");
 			return inputAll;
 		}
-		else if (inputAll != resistrationsNum) {
+		/*else if (inputAll != resistrationsNum) {
 			printf("%s\n%s", MSG_DISPCAT_WORNIG2, ARROW_TEXT);
 		}
 		else if (inputAll == resistrationsNum) {
 			DMDelete(inputAll);
-		}
+		}*/
+		bool result;
+		DMDelete(inputAll);
 	}
 }
