@@ -510,7 +510,11 @@ TEST(UnitTestDM, Test017)
 TEST_F(UnitTestDM012, Test018)
 {
 	bool ret = DMTerminate("data.txt");
+	DMInitialization("data.txt");
+	struct data result[DATA_MAX_COUNT];
+	int ret2 = DMListFetch(result);
 	EXPECT_EQ(true, ret);
+	EXPECT_EQ(1, ret2);
 }
 
 
@@ -682,18 +686,18 @@ TEST(UnitTestDM, Test022)
 		・一覧表示したときに39文字表示されていること。
 	</check>
 </testitem>*/
-TEST(UnitTestDM, Test023)
+TEST_F(UnitTestDM006, Test023)
 {
 	int length;
-	DMAddNew(1, "あああああああああああああああああああ","きのしたたくま");
+	DMAddNew(1, "あああああああああああああああああああああああああ","きのしたたくま");
 	struct data result[DATA_MAX_COUNT] = { 0 };
 	DMListFetch(result);
 	
 		
-		length = strlen(result[1].name);
+	length = strlen(result[0].name);
 		
 	
-	EXPECT_EQ(6, length);
+	EXPECT_EQ(39, length);
 }
 
 
@@ -714,9 +718,18 @@ TEST(UnitTestDM, Test023)
 		・一覧表示したときに39文字表示されていること。
 	</check>
 </testitem>*/
-TEST(UnitTestDM, Test024)
+TEST_F(UnitTestDM006, Test024)
 {
+	int length;
+	DMAddNew(1, "木下拓真", "あああああああああああああああああああああああああ");
+	struct data result[DATA_MAX_COUNT] = { 0 };
+	DMListFetch(result);
 
+
+	length = strlen(result[0].yomi);
+
+
+	EXPECT_EQ(39, length);
 }
 
 
@@ -737,11 +750,32 @@ TEST(UnitTestDM, Test024)
 		・UI側に正しいデータが返されていること。
 	</check>
 </testitem>*/
-TEST(UnitTestDM, Test025)
+TEST_F(UnitTestDM012, Test025)
 {
-
+	struct data result[DATA_MAX_COUNT] = { 0 };
+	DMListFetch(result);
+	ASSERT_STREQ("木下拓真", result[0].name);
 }
 
+class UnitTestDM026 : public ::testing::Test
+{
+public:
+	void SetUp()
+	{
+		remove("data.txt");//ファイル消す
+		DMInitialization("data.txt");
+		DMAddNew(1, "木下拓真", "きのしたたくま");
+		DMAddNew(2, "加藤雅貴", "かとうまさき");
+		
+	}
+
+	void TearDown()
+	{
+		// 後処理
+		DMTerminate("data.txt");
+		remove("data.txt");//ファイル消す
+	}
+};
 
 /*
 --------------------------------------------------------------------------------
@@ -757,12 +791,15 @@ TEST(UnitTestDM, Test025)
 	</case>
 	<check>
 		1)
-		・39文字の中で検索されること
+		・戻り値が0であること。
+		・検索結果が見つからないこと
 	</check>
 </testitem>*/
-TEST(UnitTestDM, Test026)
+TEST_F(UnitTestDM026, Test026)
 {
-
+	struct data search_result[DATA_MAX_COUNT];
+	int ret = DMSearch("きのしたたくまきのしたたくまきのしたたくまかとうまさき", search_result);
+	EXPECT_EQ(0, ret);
 }
 
 
@@ -783,9 +820,11 @@ TEST(UnitTestDM, Test026)
 		・返す配列のデータに間違いがないこと。
 	</check>
 </testitem>*/
-TEST(UnitTestDM, Test027)
+TEST_F(UnitTestDM012, Test027)
 {
-
+	struct data search_result[DATA_MAX_COUNT];
+	DMSearch("きのしたたくま", search_result);
+	ASSERT_STREQ("きのしたたくま", search_result[0].yomi);
 }
 
 
@@ -807,8 +846,13 @@ TEST(UnitTestDM, Test027)
 		・内部データと同じデータが外部ファイルに保存されていること。
 	</check>
 </testitem>*/
-TEST(UnitTestDM, Test028)
+TEST_F(UnitTestDM012, Test028)
 {
+	DMTerminate("data.txt");
+	DMInitialization("data.txt");
+	struct data result[DATA_MAX_COUNT] = { 0 };
+	DMListFetch(result);
+	ASSERT_STREQ("木下拓真", result[0].name);
 
 }
 
