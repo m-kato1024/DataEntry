@@ -88,8 +88,16 @@ void UIDispCat() {
 	}
 }
 
+/**
+*@brief 読み仮名検索機能
+*@param resistrationsCount 登録されているデータの数
+*@param kana 検索する読み仮名
+*@param inputKey commonProg2から呼び出した内容
+*@param search_result 検索結果
+*@note 検索した場合読み仮名の一部でも入力すると
+*@	   それに該当する文字が表示される。
+*/
 void UISearch() {
-	//読み仮名検索機能
 	int resistrationsCount = DMGetUserCount();
 	char kana[DATA_MAX_LENGTH];
 	char inputKey = 'a';
@@ -114,6 +122,15 @@ void UISearch() {
 	}
 }
 
+
+
+/**
+*@brief 削除機能及びメインメニュー遷移
+*@param resistrationsNum	登録されたデータの番号
+*@param inputNum			入力された文字または数字を保持する
+*@note						一覧表示または検索機能を使用時に登録データ
+*							表示後の入力された内容毎の処理
+*/
 static char commonProg2(void)
 {
 	char resistrationsNum = '1';
