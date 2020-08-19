@@ -4,7 +4,7 @@
 #include "Message.h"
 #include "DataManager.h" 
 
-static char commonProg2(void);
+static char UIDelete(void);
 
 /**
 *@brief 新規登録処理
@@ -72,7 +72,7 @@ void UIDispCat() {
 				printf("%d %s %s\n", result[i].number, result[i].name, result[i].yomi);
 			}
 			printf("%s\n%s", MSG_DISPCAT_EXPL, ARROW_TEXT);
-			inputKey = commonProg2();
+			inputKey = UIDelete();
 		}
 		else {
 			printf("%s\n\n", MSG_DISPCAT_WORNIG);
@@ -102,7 +102,7 @@ void UISearch() {
 				printf("%d %s %s\n", search_result[i].number, search_result[i].name, search_result[i].yomi);
 			}
 			printf("%s\n%s", MSG_DISPCAT_EXPL, ARROW_TEXT);
-			inputKey = commonProg2();
+			inputKey = UIDelete();
 		}
 		else {
 			printf("%s\n\n", MSG_DISPCAT_WORNIG);
@@ -119,7 +119,7 @@ void UISearch() {
 *@note				一覧表示または検索機能を使用時に登録データ
 *					表示後の入力された内容毎の処理
 */
-static char commonProg2(void)
+static char UIDelete(void)
 {
 	char resistrationsNum = DMGetUserCount();
 	char inputAll = 'w';
@@ -136,10 +136,12 @@ static char commonProg2(void)
 		else if (inputAll == resistrationsNum) {
 			DMDelete(inputAll);
 		}*/
+
 		bool result = false;
 		result = DMDelete(inputAll);
 		if (result == false) {
 			printf("%s\n%s", MSG_DISPCAT_WORNIG2, ARROW_TEXT);
 		}
+		return inputAll;
 	}
 }
