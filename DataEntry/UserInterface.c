@@ -137,9 +137,16 @@ static char UIDelete(void)
 
 	bool result = false;
 	int input = atoi(inputAll);
-	result = DMDelete(input);
-	if (result == false) {
-		printf("%s\n%s", MSG_DISPCAT_WORNIG2, ARROW_TEXT);
+	if (input == resistrationsNum) {
+		printf("çÌèúÇµÇ‹Ç∑Ç©(Y/N)\n%s", ARROW_TEXT);
+		char inputChar = "";
+		scanf("%2s", &inputChar);
+		if (strcmp(inputChar, "Y") == 0 || strcmp(inputChar, "y") == 0) {
+			result = DMDelete(input);
+			if (result == false) {
+				printf("%s\n%s", MSG_DISPCAT_WORNIG2, ARROW_TEXT);
+			}
+		}
 	}
 	return inputAll[0];
 }
