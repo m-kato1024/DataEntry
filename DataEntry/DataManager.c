@@ -21,6 +21,10 @@ static int _userCount = 0;
 bool DMInitialization(char* path) {
 	int count = 0;
 	_userCount = 0;
+	char buf[READ_LINE_BUFFER_SIZE] = { 0 };
+	char kugiri[] = "\t";
+	char *tok;
+	
 
 	FILE *fp;
 	if (path == NULL) {
@@ -31,9 +35,19 @@ bool DMInitialization(char* path) {
 	memset(_entryList, 0, sizeof(_entryList));
 
 	while (fp != NULL) {
-		fscanf(fp, "%d", &_entryList[count].number);
-		fscanf(fp, "%s", _entryList[count].name);
-		fscanf(fp, "%s", _entryList[count].yomi);
+		fgets(buf, 100, fp);
+		tok = strtok(buf, kugiri);
+		_entryList[count].number = atoi(tok);
+		while (tok != NULL) {
+			tok = strtok(NULL, kugiri);
+			if (_entryList[count].name[0] == '\0') {
+				strcpy(_entryList[count].name, tok);
+			}else if (_entryList[count].yomi[0] == '\0') {
+				strcpy(_entryList[count].yomi, tok);
+			}
+		}
+		
+
 		
 		if (_entryList[count].number != 0) {
 			_userCount++;
@@ -92,8 +106,8 @@ bool DMDelete(int input_number) {
 	for (int i = 0; i < DATA_MAX_COUNT; i++) {
 		if (input_number == _entryList[i].number) {
 			_entryList[i].number = 0;
-			_entryList[i].name[0] =  '\0';
-			_entryList[i].yomi[0] =  '\0';
+			_entryList[i].name[0] = '\0';
+			_entryList[i].yomi[0] = '\0';
 
 			_userCount--;
 			return true;
