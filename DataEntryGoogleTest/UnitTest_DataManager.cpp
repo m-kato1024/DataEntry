@@ -912,3 +912,50 @@ TEST(UnitTestDM, Test029)
 	bool ret = DMTerminate("K:\\data.txt");
 	EXPECT_EQ(false, ret);
 }
+
+class UnitTestDM030 : public ::testing::Test
+{
+public:
+	void SetUp()
+	{
+		remove("data.txt");//ファイル消す
+		DMInitialization("data.txt");
+		DMAddNew(1, "木下拓真", "きのしたたくま");
+		DMAddNew(2, "加藤雅貴", "かとうまさき");
+		DMDelete(1);
+		DMTerminate("data.txt");
+
+
+	}
+
+	void TearDown()
+	{
+		// 後処理
+		DMTerminate("data.txt");
+		remove("data.txt");//ファイル消す
+	}
+};
+/*
+--------------------------------------------------------------------------------
+<testitem>
+	<testclass>UnitTestDM</testclass>
+	<testname>Test030</testname>
+	<category1>DMListFetch</category1>
+	<category2>正常系</category2>
+	<category3>データファイルあり</category3>
+	<case>
+		1）
+		データファイルの1件目が0の状態で実行する。
+	</case>
+	<check>
+		1)
+		・戻り値が登録件数を一致すること。
+	</check>
+</testitem>*/
+TEST_F(UnitTestDM030, Test030)
+{
+	DMInitialization("data.txt");
+	struct data result[DATA_MAX_COUNT] = { 0 };
+	int ret = DMListFetch(result);
+	EXPECT_EQ(1, ret);
+}
