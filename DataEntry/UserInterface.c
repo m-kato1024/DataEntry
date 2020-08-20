@@ -43,9 +43,10 @@ void UIAddnew() {
 
 		fflush(stdin);
 		scanf("%*c%c", &answer);
-		if (answer == 'Y' || answer == 'y') {
+		if (answer == 'Y' || answer == 'y' || answer == '‚™') {
 			bool ret;
 			ret = DMAddNew(num, kanji, kana);
+			printf("\n");
 			if (ret == false) {
 				printf("%s\n\n", MSG_ADDNEW_ERROR);
 			}
@@ -133,6 +134,7 @@ static char UIDelete(void)
 		printf("\n");
 		return inputAll[0];
 	}
+
 	bool result = false;
 	int input = atoi(inputAll);
 	result = DMDelete(input);
