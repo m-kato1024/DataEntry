@@ -1,10 +1,12 @@
-﻿#include "gtest/gtest.h"
-#include <sys/stat.h>
+﻿#define _CRT_SECURE_NO_WARNINGS
+
+#include "gtest/gtest.h"
+
 
 
 extern "C"
 {
-
+#include <sys/stat.h>
 #include <stdio.h>
 #include "./../DataEntry/DataManager.h"
 
@@ -677,30 +679,21 @@ TEST_F(UnitTestDM021, Test021)
 </testitem>*/
 TEST(UnitTestDM, Test022)
 {
-	int count = 0;
+	
 	DMInitialization("data\\test022.txt");
-	struct data _test[DATA_MAX_COUNT] = { 0 };
-	FILE *fp;
-	fp = fopen("data\\test022.txt", "r");
-	while (fp != NULL) {
-		fscanf(fp, "%d", &_test[count].number);
-		fscanf(fp, "%s", _test[count].name);
-		fscanf(fp, "%s", _test[count].yomi);
-
-		
-		count++;
-		if (feof(fp)) {
-			break;
-		}
-
-	}
+	
 	struct data result[DATA_MAX_COUNT] = { 0 };
 	DMListFetch(result);
-	
+
+	char name[100];
+	char yomi[100];
+
 	for (int i = 0; i < DATA_MAX_COUNT; i++) {
-		EXPECT_EQ(_test[i].number, result[i].number);
-		ASSERT_STREQ(_test[i].name, result[i].name);
-		ASSERT_STREQ(_test[i].yomi, result[i].yomi);
+		sprintf(name, "K%d", i + 1);
+		sprintf(yomi, "Y%d", i + 1);
+		EXPECT_EQ(i + 1, result[i].number);
+		ASSERT_STREQ(name, result[i].name);
+		ASSERT_STREQ(yomi, result[i].yomi);
 		
 	}
 
