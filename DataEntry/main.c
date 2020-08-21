@@ -1,6 +1,8 @@
 
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 #include "Message.h"
 #include "UserInterface.h"
 #include "DataManager.h"
@@ -8,6 +10,7 @@
 int main()
 {
 	char selectNumber[3];
+	int selectNumber2;
 
 	if (!DMInitialization("savedata.txt")) {
 		//Debug
@@ -23,7 +26,7 @@ int main()
 		printf("%s\n", MSG_MAIN_MENU_END);
 		printf("%s", ARROW_TEXT);
 		scanf("%s", selectNumber);
-		int selectNumber2 = atoi(selectNumber);
+		selectNumber2 = atoi(selectNumber);
 
 		switch (selectNumber2)
 		{
@@ -41,7 +44,7 @@ int main()
 		default:
 			break;
 		}
-	} while (selectNumber != 4);
+	} while (selectNumber2 != 4);
 
 
 	if (!DMTerminate("savedata.txt")) {
