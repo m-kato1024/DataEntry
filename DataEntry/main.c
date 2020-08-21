@@ -42,6 +42,7 @@ int main()
 		}
 	} while (selectNumber != 4);
 
+
 	if (!DMTerminate("savedata.txt")) {
 		//Debug
 		printf("DMTerminate Error\n");
