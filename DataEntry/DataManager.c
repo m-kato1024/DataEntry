@@ -92,8 +92,8 @@ bool DMDelete(int input_number) {
 	for (int i = 0; i < DATA_MAX_COUNT; i++) {
 		if (input_number == _entryList[i].number) {
 			_entryList[i].number = 0;
-			_entryList[i].name[0] =  '\0';
-			_entryList[i].yomi[0] =  '\0';
+			_entryList[i].name[0] =  0x03;
+			_entryList[i].yomi[0] =  0x03;
 
 			_userCount--;
 			return true;

@@ -6,7 +6,9 @@
 #include "Message.h"
 #include "DataManager.h" 
 
+
 static char UIDelete(void);
+static void UIFflush(void);
 
 /**
 *@brief 新規登録処理
@@ -126,9 +128,8 @@ static char UIDelete(void)
 {
 	char resistrationsNum = DMGetUserCount();
 	char inputAll[3] = "";
-	int c;
 	
-	while ((c = getc(stdin)) != EOF && c != '\n');
+	UIFflush();
 	scanf("%2s", inputAll);
 	if (strcmp(inputAll, "m") == 0 || strcmp(inputAll, "M") == 0) {
 		printf("\n");
@@ -148,4 +149,13 @@ static char UIDelete(void)
 		}
 	}
 	return inputAll[0];
+}
+/**
+*@brief stdinのキーバッファはクリアする
+*@note fflush()ではクリアできないため、独自で空になるまで読み飛ばすものとする
+*/
+static void UIFflush(void)
+{
+	int buffer;
+	while ((buffer = getc(stdin)) != EOF && buffer != '\n');
 }
