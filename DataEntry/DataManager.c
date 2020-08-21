@@ -92,8 +92,8 @@ bool DMDelete(int input_number) {
 	for (int i = 0; i < DATA_MAX_COUNT; i++) {
 		if (input_number == _entryList[i].number) {
 			_entryList[i].number = 0;
-			_entryList[i].name[0] =  0x03;
-			_entryList[i].yomi[0] =  0x03;
+			strcpy(_entryList[i].name, "　");
+			strcpy(_entryList[i].yomi, "　");
 
 			_userCount--;
 			return true;
@@ -129,7 +129,7 @@ int DMSearch(char* input_yomi, struct data search_result[]) {
 	int searchCount = 0;
 
 	for (int i = 0; i < DATA_MAX_COUNT; i++) {
-		if (strstr(_entryList[i].yomi, input_yomi) != NULL) {
+		if (strstr(_entryList[i].yomi, input_yomi) != NULL && _entryList[i].number != 0) {
 			
 			search_result[searchCount] = _entryList[i];
 			searchCount++;
