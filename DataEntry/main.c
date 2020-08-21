@@ -7,7 +7,7 @@
 
 int main()
 {
-	int selectNumber;
+	char selectNumber[3];
 
 	if (!DMInitialization("savedata.txt")) {
 		//Debug
@@ -22,9 +22,10 @@ int main()
 		printf("%s\n", MSG_MAIN_MENU_SEARCH);
 		printf("%s\n", MSG_MAIN_MENU_END);
 		printf("%s", ARROW_TEXT);
-		scanf("%d", &selectNumber);
+		scanf("%s", selectNumber);
+		int selectNumber2 = atoi(selectNumber);
 
-		switch (selectNumber)
+		switch (selectNumber2)
 		{
 		case 1:	
 			UIAddnew();

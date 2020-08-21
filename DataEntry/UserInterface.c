@@ -7,7 +7,7 @@
 #include "DataManager.h" 
 
 
-static char UIDelete(void);
+static char UIDelete(struct data* data);
 static void UIFflush(void);
 
 /**
@@ -26,7 +26,7 @@ void UIAddnew() {
 	if (resistrationsCount <= DATA_MAX_COUNT) {
 		do {
 			printf("%s\n%s", MSG_ADDNEW_RESISTER_NUMBER, ARROW_TEXT);
-			fflush(stdin);
+			UIFflush();
 			scanf("%d", &num);
 			if (num < 1 || num > DATA_MAX_COUNT) {
 				printf("%s\n", MSG_ADDNEW_WORNIG);
@@ -34,16 +34,16 @@ void UIAddnew() {
 		} while (num < 1 || num > DATA_MAX_COUNT);
 
 		printf("%s\n%s", MSG_ADDNEW_RESISTER_NAME1, ARROW_TEXT);
-		fflush(stdin);
+		UIFflush();
 		scanf("%s", &kanji);
 
 		printf("%s\n%s", MSG_ADDNEW_RESISTER_NAME2, ARROW_TEXT);
-		fflush(stdin);
+		UIFflush();
 		scanf("%s", &kana);
 
 		printf("%s%d %s(%s)\n%s\n%s", MSG_ADDNEW_CONFIRMATION1, num, kanji, kana, MSG_ADDNEW_CONFIRMATION2, ARROW_TEXT);
 
-		fflush(stdin);
+		UIFflush();
 		scanf("%*c%c", &answer);
 		if (answer == 'Y' || answer == 'y' || answer == 'ｙ') {
 			bool ret;
@@ -77,7 +77,7 @@ void UIDispCat() {
 				printf("%d %s %s\n", result[i].number, result[i].name, result[i].yomi);
 			}
 			printf("%s\n%s", MSG_DISPCAT_EXPL, ARROW_TEXT);
-			inputKey = UIDelete();
+			inputKey = UIDelete(result);
 		}
 		else {
 			printf("%s\n\n", MSG_DISPCAT_WORNIG);
@@ -107,7 +107,7 @@ void UISearch() {
 				printf("%d %s %s\n", search_result[i].number, search_result[i].name, search_result[i].yomi);
 			}
 			printf("%s\n%s", MSG_DISPCAT_EXPL, ARROW_TEXT);
-			inputKey = UIDelete();
+			inputKey = UIDelete(search_result);
 		}
 		else {
 			printf("%s\n\n", MSG_DISPCAT_WORNIG);
@@ -124,10 +124,11 @@ void UISearch() {
 *@note				一覧表示または検索機能を使用時に登録データ
 *					表示後の入力された内容毎の処理
 */
-static char UIDelete(void)
+static char UIDelete(struct data* data)
 {
 	char resistrationsNum = DMGetUserCount();
 	char inputAll[3] = "";
+	struct data _entryList[DATA_MAX_COUNT] = { 0 };
 	
 	UIFflush();
 	scanf("%2s", inputAll);
@@ -139,8 +140,9 @@ static char UIDelete(void)
 	bool result = false;
 	int input = atoi(inputAll);
 
-	printf("削除しますか(Y/N)\n%s", ARROW_TEXT);
-	char inputChar[10];
+	printf("「%d. %s」%s\n%s", input, data[input - 1].name, MSG_UIDELETE_CHECK1, ARROW_TEXT);
+	char inputChar[3];
+	UIFflush();
 	scanf("%2s", &inputChar);
 	if (strcmp(inputChar, "Y") == 0 || strcmp(inputChar, "y") == 0) {
 		result = DMDelete(input);

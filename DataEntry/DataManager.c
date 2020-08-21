@@ -168,5 +168,3 @@ bool DMTerminate(char* path) {
 int DMGetUserCount(){
 	return _userCount;
 }
-
-
