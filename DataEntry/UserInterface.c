@@ -5,10 +5,10 @@
 #include <stdlib.h>
 #include "Message.h"
 #include "DataManager.h" 
+#include "UserInterface.h"
 
 
 static char UIDelete(struct data* data);
-static void UIFflush(void);
 
 /**
 *@brief 新規登録処理
@@ -156,7 +156,7 @@ static char UIDelete(struct data* data)
 *@brief stdinのキーバッファはクリアする
 *@note fflush()ではクリアできないため、独自で空になるまで読み飛ばすものとする
 */
-static void UIFflush(void)
+void UIFflush(void)
 {
 	int buffer;
 	while ((buffer = getc(stdin)) != EOF && buffer != '\n');
