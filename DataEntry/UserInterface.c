@@ -21,14 +21,14 @@ void UIAddnew() {
 	int num = 0;
 	char kanji[DATA_MAX_LENGTH];
 	char kana[DATA_MAX_LENGTH];
-	char answer;
+	char answer[3] = { 0 };
 	
 	if (resistrationsCount <= DATA_MAX_COUNT) {
 		do {
 			printf("%s\n%s", MSG_ADDNEW_RESISTER_NUMBER, ARROW_TEXT);
 			UIFflush();
 			scanf("%d", &num);
-			if (num < 1 || num > DATA_MAX_COUNT) {
+			if (num < 1 || num > DATA_MAX_COUNT ) {
 				printf("%s\n", MSG_ADDNEW_WORNIG);
 			}
 		} while (num < 1 || num > DATA_MAX_COUNT);
@@ -44,8 +44,8 @@ void UIAddnew() {
 		printf("%s%d %s(%s)\n%s\n%s", MSG_ADDNEW_CONFIRMATION1, num, kanji, kana, MSG_ADDNEW_CONFIRMATION2, ARROW_TEXT);
 
 		UIFflush();
-		scanf("%*c%c", &answer);
-		if (answer == 'Y' || answer == 'y' || answer == '‚™') {
+		scanf("%2s", answer);
+		if (strcmp(answer, "Y") || strcmp(answer, "y") || strcmp(answer, "‚™") || strcmp(answer, "‚x")) {
 			bool ret;
 			ret = DMAddNew(num, kanji, kana);
 			printf("\n");
