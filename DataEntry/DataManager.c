@@ -31,6 +31,7 @@ bool DMInitialization(char* path) {
 	memset(_entryList, 0, sizeof(_entryList));
 
 	while (fp != NULL) {
+
 		fscanf(fp, "%d", &_entryList[count].number);
 		fscanf(fp, "%s", _entryList[count].name);
 		fscanf(fp, "%s", _entryList[count].yomi);
