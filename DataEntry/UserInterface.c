@@ -74,7 +74,7 @@ void UIDispCat() {
 		resistrationsCount = DMListFetch(result);
 		if (resistrationsCount > 0) {
 			for (int i = 0; i < resistrationsCount; i++) {
-				printf("%d %s %s\n", result[i].number, result[i].name, result[i].yomi);
+				printf("%d. %s %s\n", result[i].number, result[i].name, result[i].yomi);
 			}
 			printf("%s\n%s", MSG_DISPCAT_EXPL, ARROW_TEXT);
 			inputKey = UIDelete(result);
