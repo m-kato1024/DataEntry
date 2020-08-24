@@ -84,6 +84,7 @@ void UIDispCat() {
 			break;
 		}
 	}
+	printf("\n");
 }
 
 /**
@@ -114,6 +115,7 @@ void UISearch() {
 			break;
 		}
 	}
+	printf("\n");
 }
 
 
@@ -132,7 +134,7 @@ static char UIDelete(struct data* data)
 	
 	UIFflush();
 	scanf("%2s", inputAll);
-	if (strcmp(inputAll, "m") == 0 || strcmp(inputAll, "M") == 0) {
+	if (strcmp(inputAll, "m") == 0 || strcmp(inputAll, "M") == 0 || strcmp(inputAll, "M") == 0 || strcmp(inputAll, "Çç") == 0) {
 		printf("\n");
 		return inputAll[0];
 	}
@@ -144,10 +146,10 @@ static char UIDelete(struct data* data)
 	char inputChar[3];
 	UIFflush();
 	scanf("%2s", &inputChar);
-	if (strcmp(inputChar, "Y") == 0 || strcmp(inputChar, "y") == 0) {
+	if (strcmp(inputChar, "Y") == 0 || strcmp(inputChar, "y") == 0 || strcmp(inputChar, "Y") == 0 || strcmp(inputChar, "Çô") == 0) {
 		result = DMDelete(input);
 		if (result == false) {
-			printf("%s\n%s", MSG_DISPCAT_WORNIG2, ARROW_TEXT);
+			printf("%s\n", MSG_DISPCAT_WORNIG2);
 		}
 	}
 	return inputAll[0];
