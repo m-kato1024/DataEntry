@@ -127,10 +127,10 @@ void UISearch() {
 static char UIDelete(void)
 {
 	char resistrationsNum = DMGetUserCount();
-	char inputAll[3] = "";
+	char inputAll[4] = "";
 	
 	UIFflush();
-	scanf("%2s", inputAll);
+	scanf("%3s", inputAll);
 	if (strcmp(inputAll, "m") == 0 || strcmp(inputAll, "M") == 0) {
 		printf("\n");
 		return inputAll[0];
