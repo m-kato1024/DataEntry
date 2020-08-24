@@ -1058,3 +1058,28 @@ TEST(UnitTestDM, Test033)
 	EXPECT_EQ(true, ret);
 	EXPECT_EQ(10, DMGetUserCount());
 }
+
+
+/*
+--------------------------------------------------------------------------------
+<testitem>
+	<testclass>UnitTestDM</testclass>
+	<testname>Test034</testname>
+	<category1>DMAddNew</category1>
+	<category2>異常系</category2>
+	<category3>データファイルあり</category3>
+	<case>
+		1）
+		データファイルが100登録されている状態で実行する。
+	</case>
+	<check>
+		1)
+		・戻り値がfalseであること。
+	</check>
+</testitem>*/
+TEST_F(UnitTestDM031, Test034)
+{
+	DMInitialization("data.txt");
+	bool ret = DMAddNew(101, "TEST", "test");
+	EXPECT_EQ(false, ret);
+}
