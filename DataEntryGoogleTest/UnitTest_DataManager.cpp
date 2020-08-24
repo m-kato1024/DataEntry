@@ -980,7 +980,7 @@ public:
 	{
 		// 後処理
 		DMTerminate("data.txt");
-		//remove("data.txt");//ファイル消す
+		remove("data.txt");//ファイル消す
 	}
 };
 /*
@@ -1001,13 +1001,13 @@ public:
 		・件数が100件であること。
 	</check>
 </testitem>*/
-//TEST_F(UnitTestDM031, Test031)
-//{
-//	bool ret = DMInitialization("data.txt");
-//	EXPECT_EQ(true, ret);
-//	EXPECT_EQ(100, DMGetUserCount());
-//
-//}
+TEST_F(UnitTestDM031, Test031)
+{
+	bool ret = DMInitialization("data.txt");
+	EXPECT_EQ(true, ret);
+	EXPECT_EQ(100, DMGetUserCount());
+
+}
 
 /*
 --------------------------------------------------------------------------------
