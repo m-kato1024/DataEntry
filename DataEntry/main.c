@@ -1,16 +1,13 @@
 
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
 #include "Message.h"
 #include "UserInterface.h"
 #include "DataManager.h"
 
 int main()
 {
-	char selectNumber[3];
-	int selectNumber2;
+	int selectNumber;
 
 	if (!DMInitialization("savedata.txt")) {
 		//Debug
@@ -25,10 +22,10 @@ int main()
 		printf("%s\n", MSG_MAIN_MENU_SEARCH);
 		printf("%s\n", MSG_MAIN_MENU_END);
 		printf("%s", ARROW_TEXT);
-		scanf("%s", selectNumber);
-		selectNumber2 = atoi(selectNumber);
+		
+		scanf("%d", &selectNumber);	
 
-		switch (selectNumber2)
+		switch (selectNumber)
 		{
 		case 1:	
 			UIAddnew();
@@ -42,9 +39,10 @@ int main()
 		case 4:
 			break;
 		default:
+			UIFflush();
 			break;
 		}
-	} while (selectNumber2 != 4);
+	} while (selectNumber != 4);
 
 
 	if (!DMTerminate("savedata.txt")) {
