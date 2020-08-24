@@ -10,7 +10,7 @@
 #define MSG_ADDNEW_RESISTER_NUMBER     "“o˜^”Ô†‚ð“ü—Í‚µ‚Ä‚­‚¾‚³‚¢"
 #define MSG_ADDNEW_RESISTER_NAME1	   "–¼‘O(Š¿Žš)‚ð“ü—Í‚µ‚Ä‚­‚¾‚³‚¢"
 #define MSG_ADDNEW_RESISTER_NAME2	   "–¼‘O(‚Ð‚ç‚ª‚È)‚ð“ü—Í‚µ‚Ä‚­‚¾‚³‚¢"
-#define MSG_ADDNEW_WORNIG		"1`10‚Ì”Žš‚ð“ü—Í‚µ‚Ä‚­‚¾‚³‚¢"
+#define MSG_ADDNEW_WORNIG		"1`100‚Ì”Žš‚ð“ü—Í‚µ‚Ä‚­‚¾‚³‚¢"
 #define MSG_ADDNEW_ERROR		"ˆ—‚ÉŽ¸”s‚µ‚Ü‚µ‚½"	
 #define MSG_ADDNEW_CONFIRMATION1	"“o˜^ŽÒ:"
 #define MSG_ADDNEW_CONFIRMATION2	"“o˜^‚µ‚Ü‚·‚©?(Y/N)"

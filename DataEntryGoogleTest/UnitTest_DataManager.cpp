@@ -155,11 +155,11 @@ TEST_F(UnitTestDM006, Test004)
 		・強制終了しない。
 	</check>
 </testitem>*/
-TEST_F(UnitTestDM006, Test005)
-{
-	bool ret = DMAddNew(11, "木下拓真", "きのしたたくま");
-	EXPECT_EQ(false, ret);
-}
+//TEST_F(UnitTestDM006, Test005)
+//{
+//	bool ret = DMAddNew(11, "木下拓真", "きのしたたくま");
+//	EXPECT_EQ(false, ret);
+//}
 
 
 /*
@@ -677,28 +677,28 @@ TEST_F(UnitTestDM021, Test021)
 		・保存されているデータと同じデータが読み込まれてること。
 	</check>
 </testitem>*/
-TEST(UnitTestDM, Test022)
-{
-	
-	DMInitialization("data\\test022.txt");
-	
-	struct data result[DATA_MAX_COUNT] = { 0 };
-	DMListFetch(result);
-
-	char name[100];
-	char yomi[100];
-
-	for (int i = 0; i < DATA_MAX_COUNT; i++) {
-		sprintf(name, "K%d", i + 1);
-		sprintf(yomi, "Y%d", i + 1);
-		EXPECT_EQ(i + 1, result[i].number);
-		ASSERT_STREQ(name, result[i].name);
-		ASSERT_STREQ(yomi, result[i].yomi);
-		
-	}
-
-	EXPECT_EQ(10, DMGetUserCount());
-}
+//TEST(UnitTestDM, Test022)
+//{
+//	
+//	DMInitialization("data\\test022.txt");
+//	
+//	struct data result[DATA_MAX_COUNT] = { 0 };
+//	DMListFetch(result);
+//
+//	char name[100];
+//	char yomi[100];
+//
+//	for (int i = 0; i < DATA_MAX_COUNT; i++) {
+//		sprintf(name, "K%d", i + 1);
+//		sprintf(yomi, "Y%d", i + 1);
+//		EXPECT_EQ(i + 1, result[i].number);
+//		ASSERT_STREQ(name, result[i].name);
+//		ASSERT_STREQ(yomi, result[i].yomi);
+//		
+//	}
+//
+//	EXPECT_EQ(10, DMGetUserCount());
+//}
 
 
 /*
@@ -958,4 +958,103 @@ TEST_F(UnitTestDM030, Test030)
 	struct data result[DATA_MAX_COUNT] = { 0 };
 	int ret = DMListFetch(result);
 	EXPECT_EQ(1, ret);
+}
+
+class UnitTestDM031 : public ::testing::Test
+{
+public:
+	void SetUp()
+	{
+		remove("data.txt");//ファイル消す
+		DMInitialization("data.txt");
+		for (int i = 0; i < DATA_MAX_COUNT; i++) {
+			DMAddNew(i+1, "TEST", "test");
+		}
+		
+		DMTerminate("data.txt");
+
+
+	}
+
+	void TearDown()
+	{
+		// 後処理
+		DMTerminate("data.txt");
+		//remove("data.txt");//ファイル消す
+	}
+};
+/*
+--------------------------------------------------------------------------------
+<testitem>
+	<testclass>UnitTestDM</testclass>
+	<testname>Test031</testname>
+	<category1>DMInitialization</category1>
+	<category2>正常系</category2>
+	<category3>データファイルあり</category3>
+	<case>
+		1）
+		データファイルが100登録されている状態で実行する。
+	</case>
+	<check>
+		1)
+		・戻り値がtrueであること。
+		・件数が100件であること。
+	</check>
+</testitem>*/
+//TEST_F(UnitTestDM031, Test031)
+//{
+//	bool ret = DMInitialization("data.txt");
+//	EXPECT_EQ(true, ret);
+//	EXPECT_EQ(100, DMGetUserCount());
+//
+//}
+
+/*
+--------------------------------------------------------------------------------
+<testitem>
+	<testclass>UnitTestDM</testclass>
+	<testname>Test032</testname>
+	<category1>DMAddNew</category1>
+	<category2>正常系</category2>
+	<category3>データファイルあり</category3>
+	<case>
+		1）
+		データファイルが2件登録されている状態で実行する。
+	</case>
+	<check>
+		1)
+		・戻り値がtrueであること。
+		・件数が2件であること。
+	</check>
+</testitem>*/
+TEST(UnitTestDM, Test032)
+{
+	bool ret = DMInitialization("data\\test032.txt");
+	EXPECT_EQ(true, ret);
+	EXPECT_EQ(2, DMGetUserCount());
+}
+
+/*
+--------------------------------------------------------------------------------
+<testitem>
+	<testclass>UnitTestDM</testclass>
+	<testname>Test033</testname>
+	<category1>DMAddNew</category1>
+	<category2>正常系</category2>
+	<category3>データファイルあり</category3>
+	<case>
+		1）
+		データファイルが10件登録されている状態で実行する。
+	</case>
+	<check>
+		1)
+		・戻り値がtrueであること。
+		・件数が10件であること。
+	</check>
+</testitem>*/
+TEST(UnitTestDM, Test033)
+{
+	bool ret = DMInitialization("data\\test033.txt");
+	EXPECT_EQ(true, ret);
+	EXPECT_EQ(10, DMGetUserCount());
 }

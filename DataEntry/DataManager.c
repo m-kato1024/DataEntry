@@ -30,19 +30,23 @@ bool DMInitialization(char* path) {
 	
 	memset(_entryList, 0, sizeof(_entryList));
 
-	while (fp != NULL) {
-
+	while (fp != feof) {
+	
+		if (feof(fp)) {
+			break;
+		}
 		fscanf(fp, "%d", &_entryList[count].number);
 		fscanf(fp, "%s", _entryList[count].name);
 		fscanf(fp, "%s", _entryList[count].yomi);
 		
 		if (_entryList[count].number != 0) {
 			_userCount++;
+			count++;
 		}
-		count++;
-		if (feof(fp)) {
+		
+		/*if (feof(fp)) {
 			break;
-		}
+		}*/
 
 	}
 	if(fp != NULL){
