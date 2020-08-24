@@ -105,7 +105,7 @@ void UISearch() {
 
 			resistrationsCount = DMSearch(kana, search_result);
 			for (int i = 0; i < resistrationsCount; i++) {
-				printf("%d %s %s\n", search_result[i].number, search_result[i].name, search_result[i].yomi);
+				printf("%d. %s %s\n", search_result[i].number, search_result[i].name, search_result[i].yomi);
 			}
 			printf("%s\n%s", MSG_DISPCAT_EXPL, ARROW_TEXT);
 			inputKey = UIDelete(search_result);
