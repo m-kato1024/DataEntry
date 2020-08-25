@@ -17,6 +17,5 @@
 #define MSG_ADDNEW_CONFIRMATION2	"登録しますか?(Y/N)"
 #define MSG_DISPCAT_WORNIG		"データは登録されていません"
 #define MSG_DISPCAT_EXPL		"(番号:削除、M:メインメニュー)"
-#define MSG_DISPCAT_WORNING2		"登録されている番号を入力してください"
 #define MSG_UISEARCH_WORNING		"検索する読み仮名を入力してください。"
 #define MSG_UIDELETE_CHECK1		"を削除しますか?\n(Y/N)"

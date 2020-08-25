@@ -159,7 +159,8 @@ static char UIDelete(struct data* data)
 	if (strcmp(inputChar, "Y") == 0 || strcmp(inputChar, "y") == 0 || strcmp(inputChar, "Y") == 0 || strcmp(inputChar, "‚™") == 0) {
 		result = DMDelete(input);
 		if (result == false) {
-			printf("%s\n", MSG_DISPCAT_WORNING2);
+			printf("%s\n", MSG_ADDNEW_ERROR);
+			strcpy(inputAll, "m");
 		}
 	}
 	return inputAll[0];
