@@ -10,6 +10,7 @@
 static struct data _entryList[DATA_MAX_COUNT];
 
 static int _userCount = 0;
+static int line = 0;
 
 /**
  * @brief 初期化
@@ -177,4 +178,83 @@ int DMGetUserCount(){
 	return _userCount;
 }
 
+bool DMImport(char* path) {
+	int count = 0;
+	char buf[READ_LINE_BUFFER_SIZE] = { 0 };
+	char kugiri[] = ",";
+	char *tok;
 
+	FILE *fp;
+	fp = fopen(path, "r");
+	if (fp == NULL) {
+		return false;
+	}
+	memset(_entryList, 0, sizeof(_entryList));
+	while (fgets(buf, READ_LINE_BUFFER_SIZE, fp) != NULL) {
+	/*while (fp != NULL){*/
+	
+		/*fscanf(fp, "%d,%[^,],%[^,]", &_entryList[count].number,_entryList[count].name, _entryList[count].yomi);*/
+		/*sscanf(buf, "%d", &_entryList[count].number);
+		sscanf(buf, "%s", _entryList[count].name);
+		sscanf(buf, "%s", _entryList[count].yomi);*/
+		//tok = strtok(buf, kugiri);
+		//_entryList[count].number = atoi(tok);
+		//
+		//	/*tok = strtok(NULL, kugiri);*/
+		//while (tok != NULL) {
+		//	/*if (_entryList[count].name[0] != NULL) {*/
+		//	tok = strtok(NULL, kugiri);
+		//	if (tok != NULL) {
+		//		strcpy(_entryList[count].name, tok);
+		//	}
+		//	/*}*/
+		//	/*else if (_entryList[count].yomi[0] != NULL) {*/
+		//	if (tok != NULL) {
+		//		tok = strtok(NULL, kugiri);
+		//		strcpy(_entryList[count].yomi, tok);
+		//	}
+		// /*	}*/
+		//}
+
+		tok = strtok(buf, kugiri);
+		_entryList[count].number = atoi(tok);
+		while (tok != NULL) {
+			tok = strtok(NULL, kugiri);
+			if (_entryList[count].name[0] == '\0') {
+				strcpy(_entryList[count].name, tok);
+			}
+			else if (_entryList[count].yomi[0] == '\0') {
+				strcpy(_entryList[count].yomi, tok);
+			}
+		}
+		line++;
+		count++;
+		if (feof(fp)) {
+				break;
+		}
+	}
+
+	fclose(fp);
+	
+	return true;
+
+}
+
+bool DMExport(char* path) {
+	FILE *fp;
+	fp = fopen(path, "w");
+	if (fp == NULL) {
+		return false;
+	}
+
+	for (int i = 0; i < DATA_MAX_COUNT; i++) {
+		fprintf(fp, "%d,%s,%s\n", _entryList[i].number, _entryList[i].name, _entryList[i].yomi);
+	}
+
+	fclose(fp);
+	return true;
+}
+
+int DMLine() {
+	return line;
+}

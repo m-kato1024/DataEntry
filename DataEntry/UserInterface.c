@@ -160,3 +160,35 @@ static void UIFflush(void)
 	int buffer;
 	while ((buffer = getc(stdin)) != EOF && buffer != '\n');
 }
+
+void UIInport() {
+	char filename[50];
+	int retu;
+	printf("%s\n%s", MSG_UIINPORT_WORNIG, ARROW_TEXT);
+	scanf("%s", filename);
+
+	bool ret = DMImport(filename);
+	if (ret == true) {
+		retu = DMLine();
+		printf("%s\n", MSG_UIINPORT_COMPLETED);
+		printf("(%dåèì«Ç›çûÇ›)\n", retu);
+	}
+	else {
+		printf("%s", MSG_UIINPORT_ERROR);
+	}
+
+}
+
+void UIExport() {
+	char filename[50];
+	printf("%s\n%s", MSG_UIEXPORT_WORNIG, ARROW_TEXT);
+	scanf("%s", filename);
+
+	bool ret = DMExport(filename);
+	if (ret == true) {
+		printf("%s\n", MSG_UIEXPORT_COMPLETED);
+	}
+	else {
+		printf("%s", MSG_UIEXPORT_ERROR);
+	}
+}

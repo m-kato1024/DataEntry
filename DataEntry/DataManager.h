@@ -30,3 +30,5 @@ int DMListFetch(struct data result[]);
 int DMSearch(char* input_yomi, struct data search_result[]);
 bool DMTerminate(char* path);
 int DMGetUserCount();
+bool DMImport(char* path);
+bool DMExport(char* path);
