@@ -29,33 +29,17 @@ void UIAddnew() {
 			UIFflush();
 			scanf("%d", &num);
 			if (num < 1 || num > DATA_MAX_COUNT ) {
-				printf("%s\n", MSG_ADDNEW_WORNIG);
+				printf("%s\n", MSG_ADDNEW_WORNING);
 			}
 		} while (num < 1 || num > DATA_MAX_COUNT);
 
 		printf("%s\n%s", MSG_ADDNEW_RESISTER_NAME1, ARROW_TEXT);
 		UIFflush();
-		while (1) {
-			scanf("%s", kanji);
-			if (strlen(kanji) > 39) {
-				printf("%d%s\n%s", DATA_MAX_LENGTH, MSG_ADDNEW_WORNIG2, ARROW_TEXT);
-			}
-			else {
-				break;
-			}
-		}
+		scanf("%39s", kanji);
 
 		printf("%s\n%s", MSG_ADDNEW_RESISTER_NAME2, ARROW_TEXT);
 		UIFflush();
-		while (1) {
-			scanf("%s", kana);
-			if(strlen(kana) > 39){
-				printf("%d%s\n%s", DATA_MAX_LENGTH, MSG_ADDNEW_WORNIG2, ARROW_TEXT);
-			}
-			else {
-				break;
-			}
-		}
+		scanf("%39s", kana);
 
 		printf("%s%d %s(%s)\n%s\n%s", MSG_ADDNEW_CONFIRMATION1, num, kanji, kana, MSG_ADDNEW_CONFIRMATION2, ARROW_TEXT);
 
@@ -116,7 +100,7 @@ void UISearch() {
 
 	while (inputKey != 'm' && inputKey != 'M') {
 		if (resistrationsCount > 0) {
-			printf("%s\n", MSG_UISEARCH_WORNIG);
+			printf("%s\n", MSG_UISEARCH_WORNING);
 			scanf("%s", &kana);
 
 			resistrationsCount = DMSearch(kana, search_result);
@@ -155,8 +139,18 @@ static char UIDelete(struct data* data)
 		return inputAll[0];
 	}
 
-	bool result = false;
 	int input = atoi(inputAll);
+
+	//while (1) {
+	//	if (data[input - 1].number == ) {
+	//		printf("%s\n%s", MSG_DISPCAT_WORNING2, ARROW_TEXT);
+	//	}
+	//	else {
+	//		break;
+	//	}
+	//}
+
+	bool result = false;
 
 	printf("Åu%d. %sÅv%s\n%s", input, data[input - 1].name, MSG_UIDELETE_CHECK1, ARROW_TEXT);
 	char inputChar[3];
@@ -165,7 +159,7 @@ static char UIDelete(struct data* data)
 	if (strcmp(inputChar, "Y") == 0 || strcmp(inputChar, "y") == 0 || strcmp(inputChar, "Y") == 0 || strcmp(inputChar, "Çô") == 0) {
 		result = DMDelete(input);
 		if (result == false) {
-			printf("%s\n", MSG_DISPCAT_WORNIG2);
+			printf("%s\n", MSG_DISPCAT_WORNING2);
 		}
 	}
 	return inputAll[0];
