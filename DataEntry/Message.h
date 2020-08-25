@@ -11,6 +11,7 @@
 #define MSG_ADDNEW_RESISTER_NAME1	   "名前(漢字)を入力してください"
 #define MSG_ADDNEW_RESISTER_NAME2	   "名前(ひらがな)を入力してください"
 #define MSG_ADDNEW_WORNIG		"1～10の数字を入力してください"
+#define MSG_ADDNEW_WORNIG2		"バイトに収まるように入力してください"
 #define MSG_ADDNEW_ERROR		"処理に失敗しました"	
 #define MSG_ADDNEW_CONFIRMATION1	"登録者:"
 #define MSG_ADDNEW_CONFIRMATION2	"登録しますか?(Y/N)"

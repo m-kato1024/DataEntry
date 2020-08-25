@@ -35,11 +35,27 @@ void UIAddnew() {
 
 		printf("%s\n%s", MSG_ADDNEW_RESISTER_NAME1, ARROW_TEXT);
 		UIFflush();
-		scanf("%s", &kanji);
+		while (1) {
+			scanf("%s", kanji);
+			if (strlen(kanji) > 39) {
+				printf("%d%s\n%s", DATA_MAX_LENGTH, MSG_ADDNEW_WORNIG2, ARROW_TEXT);
+			}
+			else {
+				break;
+			}
+		}
 
 		printf("%s\n%s", MSG_ADDNEW_RESISTER_NAME2, ARROW_TEXT);
 		UIFflush();
-		scanf("%s", &kana);
+		while (1) {
+			scanf("%s", kana);
+			if(strlen(kana) > 39){
+				printf("%d%s\n%s", DATA_MAX_LENGTH, MSG_ADDNEW_WORNIG2, ARROW_TEXT);
+			}
+			else {
+				break;
+			}
+		}
 
 		printf("%s%d %s(%s)\n%s\n%s", MSG_ADDNEW_CONFIRMATION1, num, kanji, kana, MSG_ADDNEW_CONFIRMATION2, ARROW_TEXT);
 
