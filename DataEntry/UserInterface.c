@@ -45,7 +45,7 @@ void UIAddnew() {
 
 		UIFflush();
 		scanf("%2s", answer);
-		if (strcmp(answer, "Y") || strcmp(answer, "y") || strcmp(answer, "‚™") || strcmp(answer, "‚x")) {
+		if (strcmp(answer, "Y") == 0 || strcmp(answer, "y")  == 0 || strcmp(answer, "‚™") == 0 || strcmp(answer, "‚x") == 0) {
 			bool ret;
 			ret = DMAddNew(num, kanji, kana);
 			printf("\n");
