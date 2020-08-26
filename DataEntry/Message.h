@@ -23,6 +23,7 @@
 #define MSG_UIDELETE_CHECK1		"を削除しますか\n(Y/N)？"
 #define MSG_UIINPORT_WORNIG		"インポートするファイルパスを指定してください。"
 #define MSG_UIINPORT_COMPLETED	"インポート完了しました。"
+#define MSG_UIINPORT_COMPLETED2	"件読み込み"
 #define MSG_UIINPORT_ERROR		"ファイルが読み込めませんでした。"
 #define MSG_UIEXPORT_WORNIG		"エクスポートするファイルパスを指定してください。"
 #define MSG_UIEXPORT_COMPLETED	"エクスポートが完了しました。"

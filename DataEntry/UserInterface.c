@@ -179,7 +179,7 @@ void UIInport() {
 		if (ret == true) {
 			line = DMLine();
 			printf("%s\n", MSG_UIINPORT_COMPLETED);
-			printf("(%dåèì«Ç›çûÇ›)\n", line);
+			printf("(%d%s)\n", line, MSG_UIINPORT_COMPLETED2);
 			
 		}
 		else {
