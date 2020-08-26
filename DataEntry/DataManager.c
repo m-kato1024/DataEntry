@@ -200,12 +200,7 @@ bool DMImport(char* path) {
 	while (fgets(buf, READ_LINE_BUFFER_SIZE, fp) != NULL) {
 		
 		DMLinefeed_deleting(buf);
-		/*fscanf(fp, "%d,%[^,],%[^,]", &_entryList[count].number,_entryList[count].name, _entryList[count].yomi);*/
-		/*sscanf(buf, "%d", &_entryList[count].number);
-		sscanf(buf, "%s", _entryList[count].name);
-		sscanf(buf, "%s", _entryList[count].yomi);*/
 		
-
 		tok = strtok(buf, kugiri);
 		_entryList[count].number = atoi(tok);
 		while (tok != NULL) {

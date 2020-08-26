@@ -167,11 +167,11 @@ static void UIFflush(void)
 *	   　データを読み取り内部データに登録する。
 */
 void UIInport() {
-	/*char inputKey[4] = "";*/
+	
 	char filename[50];
 	int line;
 
-	/*while (strcmp(inputKey, "m") != 0 || strcmp(inputKey, "M") != 0) {*/
+	
 		printf("%s\n%s", MSG_UIINPORT_WORNIG, ARROW_TEXT);
 		scanf("%s", filename);
 
@@ -185,11 +185,9 @@ void UIInport() {
 		else {
 			printf("%s\n", MSG_UIINPORT_ERROR);
 		}
-		/*UIFflush();
-		printf("%s\n%s", MSG_UIINPORT_EXPL, ARROW_TEXT);
-		scanf("%s", inputKey);*/
 		
-	/*}*/
+		
+	
 }
 
 /**
