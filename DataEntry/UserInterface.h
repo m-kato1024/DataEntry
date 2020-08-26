@@ -1,6 +1,6 @@
 #pragma once
 
 void UIAddnew();
-void UIDispCat();
+void UIDisplayList(char*);
 void UISearch();
 void UIFflush();

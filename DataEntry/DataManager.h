@@ -23,10 +23,9 @@ struct data {
 //--------------------------------------------------------------------
 //ŠÖ”éŒ¾
 //--------------------------------------------------------------------
-bool DMInitialization(char* path);
-bool DMAddNew(int input_number, char* input_name, char* input_yomi);
-bool DMDelete(int input_number);
-int DMListFetch(struct data result[]);
-int DMSearch(char* input_yomi, struct data search_result[]);
-bool DMTerminate(char* path);
-int DMGetUserCount();
+bool DMLoad(const char*);
+bool DMAddNew(struct data*);
+void DMDelete(int);
+int DMSearch(char*, struct data*);
+bool DMSave(const char*);
+int DMGetUserCount(void);

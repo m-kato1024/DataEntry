@@ -8,8 +8,9 @@
 int main()
 {
 	int selectNumber;
+	const char* SAVE_FILE = "savedata.dat";
 
-	if (!DMInitialization("savedata.txt")) {
+	if (!DMLoad(SAVE_FILE)) {
 		//Debug
 		printf("DMInitialization Error\n");
 		return -1;
@@ -31,7 +32,7 @@ int main()
 			UIAddnew();
 			break;
 		case 2:
-			UIDispCat();
+			UIDisplayList(NULL);
 			break;
 		case 3:
 			UISearch();
@@ -45,7 +46,7 @@ int main()
 	} while (selectNumber != 4);
 
 
-	if (!DMTerminate("savedata.txt")) {
+	if (!DMSave(SAVE_FILE)) {
 		//Debug
 		printf("DMTerminate Error\n");
 		return -1;

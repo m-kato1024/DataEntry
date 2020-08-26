@@ -3,48 +3,34 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
-
 #include "DataManager.h"
 
+//番号が有効範囲であるかチェックするマクロ
+#define IS_VALID_NUMBER(a)	((a >= 1) && (a <= DATA_MAX_COUNT))
 
+//内部変数の定義
 static struct data _entryList[DATA_MAX_COUNT];
-
 static int _userCount = 0;
 
 /**
- * @brief 初期化
+ * @brief 読み込み
  * @param path ファイル名
  * @retval false 失敗
  * @retval true  成功
  * @note DataManagerを利用する場合は必ず初めにこの処理を実行すること
 */
-bool DMInitialization(char* path) {
-	int count = 0;
+bool DMLoad(const char* path) {
 	_userCount = 0;
-
-	FILE *fp;
-	if (path == NULL) {
-		return false;
-	}
-	fp = fopen(path, "r");
-	
 	memset(_entryList, 0, sizeof(_entryList));
 
-	while (fp != NULL) {
-		fscanf(fp, "%d", &_entryList[count].number);
-		fscanf(fp, "%s", _entryList[count].name);
-		fscanf(fp, "%s", _entryList[count].yomi);
-		
-		if (_entryList[count].number != 0) {
-			_userCount++;
+	FILE *fp = fopen(path, "rb");
+	if (fp != NULL) {
+		fread(_entryList, sizeof(struct data), DATA_MAX_COUNT, fp);
+		for (int index = 0; index < DATA_MAX_COUNT; index++) {
+			if (_entryList[index].number != 0) {
+				_userCount++;
+			}
 		}
-		count++;
-		if (feof(fp)) {
-			break;
-		}
-
-	}
-	if(fp != NULL){
 		fclose(fp);
 	}
 	
@@ -53,112 +39,95 @@ bool DMInitialization(char* path) {
 }
 /**
  * @brief 新規登録
- * @param input_number 入力された登録番号
- * @param input_name   入力された登録名前
- * @param input_yomi   入力された登録読み仮名
+ * @param newData 新規登録情報
  * @retval false 失敗
  * @retval true  成功
- * @note input_numberが範囲外の時はエラー
- 　　　　input_name,input_yomiがNULLの場合エラー
+ * @note numberが範囲外の時はfalseを返す
+ 　　　　newDataがNULLの場合はfalseを返す
 */
 
-bool DMAddNew(int input_number, char* input_name, char* input_yomi) {
+bool DMAddNew(struct data* newData) {
 
-	if (input_number < 1 || input_number > DATA_MAX_COUNT) {
+	if (newData == NULL) {
 		return false;
 	}
-	if (input_name == NULL || input_yomi == NULL) {
+	if (!IS_VALID_NUMBER(newData->number)) {
 		return false;
 	}
-	
-	memset(&_entryList[input_number - 1], 0, sizeof(struct data));
-
-	_entryList[input_number - 1].number = input_number;
-	strncpy(_entryList[input_number - 1].name, input_name, DATA_MAX_LENGTH - 1);
-	strncpy(_entryList[input_number - 1].yomi, input_yomi, DATA_MAX_LENGTH - 1);
-
+	_entryList[newData->number - 1] = *newData;
 	_userCount++;
-
 	return true;
-
 }
 /**
  * @brief 削除
- * @param input_number 入力された登録番号
- * @retval false 失敗
- * @retval true  成功
-*/
-bool DMDelete(int input_number) {
-	for (int i = 0; i < DATA_MAX_COUNT; i++) {
-		if (input_number == _entryList[i].number) {
-			_entryList[i].number = 0;
-			strcpy(_entryList[i].name, "　");
-			strcpy(_entryList[i].yomi, "　");
-
-			_userCount--;
-			return true;
-		}
-		
-
+ * @param deleteNumber 削除する番号
+ */
+void DMDelete(int deleteNumber) {
+	if (!IS_VALID_NUMBER(deleteNumber)) {
+		return;
 	}
-	return false;
+	memset(&_entryList[deleteNumber - 1], 0, sizeof(struct data));
+	_userCount--;
 }
-/**
- * @brief 一覧取得
- * @param  result[] 出力結果
- * @retval 0以上 件数
-*/
-int DMListFetch(struct data result[]) {
-	int count = 0;
 
-	for (int i = 0; i < DATA_MAX_COUNT; i++) {
-		if (_entryList[i].number != 0) {
-			result[count] = _entryList[i];
-			count++;
-		}
-	}
-	return count;
-}
 /**
  * @brief 検索
- * @param input_yomi      入力された読み仮名
+ * @param searchWord      検索文字列
  * @param search_result[] 検索結果
- * @retval 0以上 件数
+ * @retval 見つかったデータの件数
+ * @note searchWordをNULLで指定した場合は全件を返す
 */
-int DMSearch(char* input_yomi, struct data search_result[]) {
+int DMSearch(char* searchWord, struct data* result) {
 	int searchCount = 0;
+	bool isValid;
+
+	if (result == NULL) {
+		return searchCount;
+	}
 
 	for (int i = 0; i < DATA_MAX_COUNT; i++) {
-		if (strstr(_entryList[i].yomi, input_yomi) != NULL && _entryList[i].number != 0) {
-			
-			search_result[searchCount] = _entryList[i];
+		isValid = false;
+
+		if (_entryList[i].number != 0) {
+			if (searchWord == NULL) {
+				//全件指定の場合
+				isValid = true;
+			}
+			else {
+				//検索の場合
+				if (strstr(_entryList[i].yomi, searchWord) != NULL) {
+					isValid = true;
+				}
+			}
+		}
+
+		if (isValid) {
+			result[searchCount] = _entryList[i];
 			searchCount++;
 		}
-			
+
 	}
+
 	return searchCount;
 }
 
 /**
- * @brief 終了
+ * @brief 保存
  * @param path ファイル名
  * @retval false 失敗
  * @retval true  成功
- * @note 呼び出さないとセーブされない
+ * @note 本処理を呼び出さないと保存はされない。
 */
-bool DMTerminate(char* path) {
-	FILE *fp;
-	fp = fopen(path, "w");
-	if (fp == NULL) {
-		return false;
+bool DMSave(const char* path) {
+	
+	bool ret = false;
+	FILE *fp = fopen(path, "wb");
+	if (fp != NULL) {
+		fwrite(_entryList, sizeof(struct data), DATA_MAX_COUNT, fp);
+		fclose(fp);
+		ret = true;
 	}
-
-	for (int i = 0; i < DATA_MAX_COUNT; i++) {
-		fprintf(fp, "%d\t%s\t%s\n", _entryList[i].number, _entryList[i].name, _entryList[i].yomi);
-	}
-
-	fclose(fp);
-	return true;
+	return ret;
 }
 
 /**

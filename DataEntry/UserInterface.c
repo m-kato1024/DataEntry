@@ -7,8 +7,15 @@
 #include "DataManager.h" 
 #include "UserInterface.h"
 
+// 定数
+static const char* IS_Y_WORD_TABLE[] = { "y", "Y", "ｙ","Ｙ", NULL };
+static const char* IS_M_WORD_TABLE[] = { "m", "M", "ｍ","Ｍ", NULL };
 
-static char UIDelete(struct data* data);
+// 内部関数プロトタイプ宣言
+static bool _delete(struct data*, int);
+static bool _isYes(char* );
+static bool _isGotoMainMenu(char* );
+static bool _existNumber(int, struct data*, int);
 
 /**
 *@brief 新規登録処理
@@ -16,63 +23,90 @@ static char UIDelete(struct data* data);
 *answerが"Y"または"y"の時、登録処理を呼ぶ。
 */
 void UIAddnew() {
-	int resistrationsCount = DMGetUserCount();
-
-	int num = 0;
-	char kanji[DATA_MAX_LENGTH];
-	char kana[DATA_MAX_LENGTH];
+	struct data newData = { 0 };
 	char answer[3] = { 0 };
 	
-	if (resistrationsCount <= DATA_MAX_COUNT) {
-		do {
-			printf("%s\n%s", MSG_ADDNEW_RESISTER_NUMBER, ARROW_TEXT);
-			UIFflush();
-			scanf("%d", &num);
-			if (num < 1 || num > DATA_MAX_COUNT ) {
-				printf("%s\n", MSG_ADDNEW_WORNIG);
-			}
-		} while (num < 1 || num > DATA_MAX_COUNT);
-
-		printf("%s\n%s", MSG_ADDNEW_RESISTER_NAME1, ARROW_TEXT);
-		UIFflush();
-		while (1) {
-			scanf("%s", kanji);
-			if (strlen(kanji) > 39) {
-				printf("%d%s\n%s", DATA_MAX_LENGTH, MSG_ADDNEW_WORNIG2, ARROW_TEXT);
-			}
-			else {
-				break;
-			}
-		}
-
-		printf("%s\n%s", MSG_ADDNEW_RESISTER_NAME2, ARROW_TEXT);
-		UIFflush();
-		while (1) {
-			scanf("%s", kana);
-			if(strlen(kana) > 39){
-				printf("%d%s\n%s", DATA_MAX_LENGTH, MSG_ADDNEW_WORNIG2, ARROW_TEXT);
-			}
-			else {
-				break;
-			}
-		}
-
-		printf("%s%d %s(%s)\n%s\n%s", MSG_ADDNEW_CONFIRMATION1, num, kanji, kana, MSG_ADDNEW_CONFIRMATION2, ARROW_TEXT);
-
-		UIFflush();
-		scanf("%2s", answer);
-		if (strcmp(answer, "Y") == 0 || strcmp(answer, "y")  == 0 || strcmp(answer, "ｙ") == 0 || strcmp(answer, "Ｙ") == 0) {
-			bool ret;
-			ret = DMAddNew(num, kanji, kana);
-			printf("\n");
-			if (ret == false) {
-				printf("%s\n\n", MSG_ADDNEW_ERROR);
-			}
-		}
-	}
-	else {
+	//件数がMAXの場合は新規登録不可
+	if (DMGetUserCount() == DATA_MAX_COUNT) {
 		printf("%s\n\n", MSG_ADDNEW_OVER);
+		return;
 	}
+
+	//番号入力
+	printf("%s\n%s", MSG_ADDNEW_RESISTER_NUMBER, ARROW_TEXT);
+	do {		
+		UIFflush();
+		scanf("%d", &newData.number);
+		if (newData.number < 1 || newData.number > DATA_MAX_COUNT ) {
+			//範囲外の番号は入力させない
+			printf("%s\n", MSG_ADDNEW_WORNIG);
+			newData.number = 0;
+		}
+	} while (!newData.number);
+
+	//名前の入力
+	printf("%s\n%s", MSG_ADDNEW_RESISTER_NAME1, ARROW_TEXT);
+	UIFflush();
+	scanf("%39s", newData.name);
+
+	//ヨミガナの入力
+	printf("%s\n%s", MSG_ADDNEW_RESISTER_NAME2, ARROW_TEXT);
+	UIFflush();
+	scanf("%39s", newData.yomi);
+
+	//登録確認
+	printf("%s%d %s(%s)\n%s\n%s", MSG_ADDNEW_CONFIRMATION1, newData.number, newData.name, newData.yomi, MSG_ADDNEW_CONFIRMATION2, ARROW_TEXT);
+	UIFflush();
+	scanf("%2s", answer);
+
+	if (_isYes(answer)) {
+		if (DMAddNew(&newData) == false) {
+			printf("\n%s\n\n", MSG_ADDNEW_ERROR);
+		}
+	}
+	
+}
+
+/**
+*@brief 文字列チェック
+*@param targetWord チェック対象文字列
+*@param words 検査文字列テーブル
+*@retval true 文字一致
+*@retval false 文字一致していない
+*@note	Mキー及びYキーが押下されたか否かを判定する処理。
+*		第二引数に指定する文字列テーブルの文字と一致した場合はtrueを返す。
+*/
+static bool _wordCheck(char* targetWord, const char** checkTable) {
+	int index = 0;
+	while (checkTable[index] != NULL) {
+		if (strcmp(targetWord, checkTable[index]) == 0) {
+			return true;
+		}
+		index++;
+	}
+	return false;
+}
+
+/**
+*@brief Yキー押下判定
+*@param input 入力された文字列
+*@retval true Yが入力された
+*@retval false Y以外が入力された
+*@note
+*/
+static bool _isYes(char* input) {
+	return _wordCheck(input, IS_Y_WORD_TABLE);
+}
+
+/**
+*@brief Mキー押下判定
+*@param input 入力された文字列
+*@retval true Mが入力された
+*@retval false M以外が入力された
+*@note 
+*/
+static bool _isGotoMainMenu(char* input) {
+	return _wordCheck(input, IS_M_WORD_TABLE);
 }
 
 /**
@@ -81,19 +115,21 @@ void UIAddnew() {
 *	   登録されていなかったり、削除の際に無関係の
 *	   番号を入力するとエラーメッセージが表示される。
 */
-void UIDispCat() {
-	int resistrationsCount = DMGetUserCount();
-	char inputKey = 'a';
-	struct data result[DATA_MAX_COUNT] = { 0 };
+void UIDisplayList(char* searchWord) {
+	int count = 0;
+	struct data list[DATA_MAX_COUNT] = { 0 };
 
-	while(inputKey != 'm' && inputKey != 'M'){
-		resistrationsCount = DMListFetch(result);
-		if (resistrationsCount > 0) {
-			for (int i = 0; i < resistrationsCount; i++) {
-				printf("%d. %s %s\n", result[i].number, result[i].name, result[i].yomi);
+	while(1){
+		count = DMSearch(searchWord, list);
+
+		if (count > 0) {
+			for (int i = 0; i < count; i++) {
+				printf("%d. %s %s\n", list[i].number, list[i].name, list[i].yomi);
 			}
 			printf("%s\n%s", MSG_DISPCAT_EXPL, ARROW_TEXT);
-			inputKey = UIDelete(result);
+			if (!_delete(list, count)) {
+				break;
+			}
 		}
 		else {
 			printf("%s\n\n", MSG_DISPCAT_WORNIG);
@@ -109,66 +145,80 @@ void UIDispCat() {
 *	   それに該当する文字が表示される。
 */
 void UISearch() {
-	int resistrationsCount = DMGetUserCount();
-	char kana[DATA_MAX_LENGTH];
-	char inputKey = 'a';
-	struct data search_result[DATA_MAX_COUNT] = { 0 };
+	char word[DATA_MAX_LENGTH];
 
-	while (inputKey != 'm' && inputKey != 'M') {
-		if (resistrationsCount > 0) {
-			printf("%s\n", MSG_UISEARCH_WORNIG);
-			scanf("%s", &kana);
-
-			resistrationsCount = DMSearch(kana, search_result);
-			for (int i = 0; i < resistrationsCount; i++) {
-				printf("%d. %s %s\n", search_result[i].number, search_result[i].name, search_result[i].yomi);
-			}
-			printf("%s\n%s", MSG_DISPCAT_EXPL, ARROW_TEXT);
-			inputKey = UIDelete(search_result);
-		}
-		else {
-			printf("%s\n\n", MSG_DISPCAT_WORNIG);
-			break;
-		}
+	if (DMGetUserCount() == 0) {
+		printf("%s\n\n", MSG_DISPCAT_WORNIG);
+		return;
 	}
-	printf("\n");
+
+	printf("%s\n", MSG_UISEARCH_WORNIG);
+	UIFflush();
+	scanf("%39s", word);
+	UIDisplayList(word);	
 }
 
+/**
+*@brief 番号存在チェック
+*@param number 番号
+*@param list 一覧データ
+*@param listCount 一覧データの件数
+*@retval true  存在する
+*@retval false 存在しない
+*@note 第一引数で指定され番号が引数list内で有効な番号であるかチェックする
+*/
+static bool _existNumber(int number, struct data* list, int listCount) 
+{
+	if (list == NULL) {
+		return false;
+	}
+
+	for (int index = 0; index < listCount; index++) {
+		if (list[index].number == number) {
+			return true;
+		}
+	}
+	return false;
+}
 
 
 /**
 *@brief 削除機能及びメインメニュー遷移
-*@retval inputAll	resistrationsNumと一致しないとき 入力内容を返す
-*@note				一覧表示または検索機能を使用時に登録データ
-*					表示後の入力された内容毎の処理
+*@param data 一覧データ
+*@retval true  一覧表示継続
+*@retval false メインメニューに戻る
+*@note 
 */
-static char UIDelete(struct data* data)
+static bool _delete(struct data* list, int listCount)
 {
-	char resistrationsNum = DMGetUserCount();
-	char inputAll[3] = "";
-	struct data _entryList[DATA_MAX_COUNT] = { 0 };
+	char inputKey[3] = "";
+	int deleteNumber;
 	
-	UIFflush();
-	scanf("%2s", inputAll);
-	if (strcmp(inputAll, "m") == 0 || strcmp(inputAll, "M") == 0 || strcmp(inputAll, "M") == 0 || strcmp(inputAll, "ｍ") == 0) {
-		printf("\n");
-		return inputAll[0];
-	}
+	while (1) {
+		UIFflush();
+		scanf("%2s", inputKey);
+		if (_isGotoMainMenu(inputKey)) {
+			printf("\n");
+			return false;
+		}
 
-	bool result = false;
-	int input = atoi(inputAll);
-
-	printf("「%d. %s」%s\n%s", input, data[input - 1].name, MSG_UIDELETE_CHECK1, ARROW_TEXT);
-	char inputChar[3];
-	UIFflush();
-	scanf("%2s", &inputChar);
-	if (strcmp(inputChar, "Y") == 0 || strcmp(inputChar, "y") == 0 || strcmp(inputChar, "Y") == 0 || strcmp(inputChar, "ｙ") == 0) {
-		result = DMDelete(input);
-		if (result == false) {
-			printf("%s\n", MSG_DISPCAT_WORNIG2);
+		deleteNumber = atoi(inputKey);
+		if (!_existNumber(deleteNumber, list, listCount)) {
+			printf("%s\n", MSG_UIDELETE_NOT_FOUND);
+			return true;
+		}
+		else {
+			break;
 		}
 	}
-	return inputAll[0];
+
+	printf("「%d. %s」%s\n%s", deleteNumber, list[deleteNumber - 1].name, MSG_UIDELETE_CHECK1, ARROW_TEXT);
+	UIFflush();
+	scanf("%2s", inputKey);
+	if (_isYes(inputKey)) {
+		DMDelete(deleteNumber);
+	}
+	return true;
 }
 /**
 *@brief stdinのキーバッファはクリアする

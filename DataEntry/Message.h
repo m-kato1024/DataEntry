@@ -20,3 +20,4 @@
 #define MSG_DISPCAT_WORNIG2		"登録されている番号を入力してください"
 #define MSG_UISEARCH_WORNIG		"検索する読み仮名を入力してください。"
 #define MSG_UIDELETE_CHECK1		"を削除しますか?\n(Y/N)"
+#define MSG_UIDELETE_NOT_FOUND	"該当するデータが存在しません。"
