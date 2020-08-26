@@ -191,30 +191,13 @@ bool DMImport(char* path) {
 	}
 	memset(_entryList, 0, sizeof(_entryList));
 	while (fgets(buf, READ_LINE_BUFFER_SIZE, fp) != NULL) {
-	/*while (fp != NULL){*/
-	
+		
+		DMLinefeed_deleting(buf);
 		/*fscanf(fp, "%d,%[^,],%[^,]", &_entryList[count].number,_entryList[count].name, _entryList[count].yomi);*/
 		/*sscanf(buf, "%d", &_entryList[count].number);
 		sscanf(buf, "%s", _entryList[count].name);
 		sscanf(buf, "%s", _entryList[count].yomi);*/
-		//tok = strtok(buf, kugiri);
-		//_entryList[count].number = atoi(tok);
-		//
-		//	/*tok = strtok(NULL, kugiri);*/
-		//while (tok != NULL) {
-		//	/*if (_entryList[count].name[0] != NULL) {*/
-		//	tok = strtok(NULL, kugiri);
-		//	if (tok != NULL) {
-		//		strcpy(_entryList[count].name, tok);
-		//	}
-		//	/*}*/
-		//	/*else if (_entryList[count].yomi[0] != NULL) {*/
-		//	if (tok != NULL) {
-		//		tok = strtok(NULL, kugiri);
-		//		strcpy(_entryList[count].yomi, tok);
-		//	}
-		// /*	}*/
-		//}
+		
 
 		tok = strtok(buf, kugiri);
 		_entryList[count].number = atoi(tok);
@@ -227,34 +210,51 @@ bool DMImport(char* path) {
 				strcpy(_entryList[count].yomi, tok);
 			}
 		}
-		line++;
-		count++;
+		if (_entryList[count].number != 0) {
+			line++;
+			count++;
+		}
+		
 		if (feof(fp)) {
 				break;
 		}
 	}
-
 	fclose(fp);
 	
 	return true;
 
 }
 
-bool DMExport(char* path) {
+int DMExport(char* path) {
 	FILE *fp;
 	fp = fopen(path, "w");
 	if (fp == NULL) {
-		return false;
+		return 2;
 	}
 
 	for (int i = 0; i < DATA_MAX_COUNT; i++) {
 		fprintf(fp, "%d,%s,%s\n", _entryList[i].number, _entryList[i].name, _entryList[i].yomi);
+		if (_entryList[i].number != 0) {
+			line++;
+		}
+	}
+	
+	if (line == 0) {
+		return 1;
 	}
 
 	fclose(fp);
-	return true;
+	return 0;
 }
 
 int DMLine() {
 	return line;
+}
+
+void DMLinefeed_deleting(char *str) {
+	char *p;
+	p = strchr(str, '\n');
+	if (p != NULL) {
+		*p = '\0';
+	}
 }

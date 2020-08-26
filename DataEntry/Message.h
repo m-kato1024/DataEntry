@@ -26,4 +26,6 @@
 #define MSG_UIINPORT_ERROR		"ファイルが読み込めませんでした。"
 #define MSG_UIEXPORT_WORNIG		"エクスポートするファイルパスを指定してください。"
 #define MSG_UIEXPORT_COMPLETED	"エクスポートが完了しました。"
-#define MSG_UIEXPORT_ERROR		"エクスポートできませんでした。"
+#define MSG_UIEXPORT_ERROR		"エクスポートするデータはありません。"
+#define MSG_UIEXPORT_ERROR2		"エクスポートできませんでした。"
+#define MSG_UIINPORT_EXPL		"M:メインメニュー"

@@ -162,21 +162,29 @@ static void UIFflush(void)
 }
 
 void UIInport() {
+	char inputKey[4] = "";
 	char filename[50];
-	int retu;
-	printf("%s\n%s", MSG_UIINPORT_WORNIG, ARROW_TEXT);
-	scanf("%s", filename);
+	int line;
 
-	bool ret = DMImport(filename);
-	if (ret == true) {
-		retu = DMLine();
-		printf("%s\n", MSG_UIINPORT_COMPLETED);
-		printf("(%dåèì«Ç›çûÇ›)\n", retu);
-	}
-	else {
-		printf("%s", MSG_UIINPORT_ERROR);
-	}
+	/*while (strcmp(inputKey, "m") != 0 || strcmp(inputKey, "M") != 0) {*/
+		printf("%s\n%s", MSG_UIINPORT_WORNIG, ARROW_TEXT);
+		scanf("%s", filename);
 
+		bool ret = DMImport(filename);
+		if (ret == true) {
+			line = DMLine();
+			printf("%s\n", MSG_UIINPORT_COMPLETED);
+			printf("(%dåèì«Ç›çûÇ›)\n", line);
+			
+		}
+		else {
+			printf("%s\n", MSG_UIINPORT_ERROR);
+		}
+		/*UIFflush();
+		printf("%s\n%s", MSG_UIINPORT_EXPL, ARROW_TEXT);
+		scanf("%s", inputKey);*/
+		
+	/*}*/
 }
 
 void UIExport() {
@@ -184,11 +192,14 @@ void UIExport() {
 	printf("%s\n%s", MSG_UIEXPORT_WORNIG, ARROW_TEXT);
 	scanf("%s", filename);
 
-	bool ret = DMExport(filename);
-	if (ret == true) {
+	int ret = DMExport(filename);
+	if (ret == 0) {
 		printf("%s\n", MSG_UIEXPORT_COMPLETED);
 	}
+	else if(ret == 1) {
+		printf("%s\n", MSG_UIEXPORT_ERROR);
+	}
 	else {
-		printf("%s", MSG_UIEXPORT_ERROR);
+		printf("%s\n", MSG_UIEXPORT_ERROR2);
 	}
 }
