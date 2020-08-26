@@ -6,26 +6,25 @@
 //--------------------------------------------------------------------
 //データ登録の最大件数
 #define DATA_MAX_COUNT (10)
-//名前の最大バイト数
-#define DATA_MAX_LENGTH (40)
-//ファイル1行の最大サイズ　10件以上格納する場合は先頭の２の数字に注意する
-#define READ_LINE_BUFFER_SIZE (2+1+DATA_MAX_LENGTH+1+DATA_MAX_LENGTH+1)
-#define END_OF_TEST (0x03)
+//名前、読み仮名の最大バイト数
+#define DATA_FIELD_MAX_LENGTH (40)
+
 //--------------------------------------------------------------------
 //型定義
 //--------------------------------------------------------------------
-struct data {
+typedef struct _user{
 	int number;
-	char name[DATA_MAX_LENGTH];
-	char yomi[DATA_MAX_LENGTH];
-};
+	char name[DATA_FIELD_MAX_LENGTH];
+	char reading[DATA_FIELD_MAX_LENGTH];
+}User;
 
 //--------------------------------------------------------------------
-//関数宣言
+// 外部公開関数宣言
 //--------------------------------------------------------------------
 bool DMLoad(const char*);
-bool DMAddNew(struct data*);
+bool DMAddNew(User*);
 void DMDelete(int);
-int DMSearch(char*, struct data*);
+int DMSearch(char*, User*);
 bool DMSave(const char*);
 int DMGetUserCount(void);
+

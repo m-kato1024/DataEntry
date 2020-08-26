@@ -9,7 +9,7 @@
 #define IS_VALID_NUMBER(a)	((a >= 1) && (a <= DATA_MAX_COUNT))
 
 //内部変数の定義
-static struct data _entryList[DATA_MAX_COUNT];
+static User _entryList[DATA_MAX_COUNT];
 static int _userCount = 0;
 
 /**
@@ -19,15 +19,16 @@ static int _userCount = 0;
  * @retval true  成功
  * @note DataManagerを利用する場合は必ず初めにこの処理を実行すること
 */
-bool DMLoad(const char* path) {
+bool DMLoad(const char* path) 
+{
 	_userCount = 0;
 	memset(_entryList, 0, sizeof(_entryList));
 
 	FILE *fp = fopen(path, "rb");
 	if (fp != NULL) {
-		fread(_entryList, sizeof(struct data), DATA_MAX_COUNT, fp);
+		fread(_entryList, sizeof(User), DATA_MAX_COUNT, fp);
 		for (int index = 0; index < DATA_MAX_COUNT; index++) {
-			if (_entryList[index].number != 0) {
+			if (IS_VALID_NUMBER(_entryList[index].number)) {
 				_userCount++;
 			}
 		}
@@ -45,9 +46,8 @@ bool DMLoad(const char* path) {
  * @note numberが範囲外の時はfalseを返す
  　　　　newDataがNULLの場合はfalseを返す
 */
-
-bool DMAddNew(struct data* newData) {
-
+bool DMAddNew(User* newData) 
+{
 	if (newData == NULL) {
 		return false;
 	}
@@ -58,26 +58,29 @@ bool DMAddNew(struct data* newData) {
 	_userCount++;
 	return true;
 }
+
 /**
  * @brief 削除
  * @param deleteNumber 削除する番号
  */
-void DMDelete(int deleteNumber) {
+void DMDelete(int deleteNumber) 
+{
 	if (!IS_VALID_NUMBER(deleteNumber)) {
 		return;
 	}
-	memset(&_entryList[deleteNumber - 1], 0, sizeof(struct data));
+	memset(&_entryList[deleteNumber - 1], 0, sizeof(User));
 	_userCount--;
 }
 
 /**
- * @brief 検索
+ * @brief 検索及び一覧
  * @param searchWord      検索文字列
  * @param search_result[] 検索結果
  * @retval 見つかったデータの件数
  * @note searchWordをNULLで指定した場合は全件を返す
 */
-int DMSearch(char* searchWord, struct data* result) {
+int DMSearch(char* searchWord, User* result)
+{
 	int searchCount = 0;
 	bool isValid;
 
@@ -95,7 +98,7 @@ int DMSearch(char* searchWord, struct data* result) {
 			}
 			else {
 				//検索の場合
-				if (strstr(_entryList[i].yomi, searchWord) != NULL) {
+				if (strstr(_entryList[i].reading, searchWord) != NULL) {
 					isValid = true;
 				}
 			}
@@ -107,7 +110,6 @@ int DMSearch(char* searchWord, struct data* result) {
 		}
 
 	}
-
 	return searchCount;
 }
 
@@ -118,12 +120,12 @@ int DMSearch(char* searchWord, struct data* result) {
  * @retval true  成功
  * @note 本処理を呼び出さないと保存はされない。
 */
-bool DMSave(const char* path) {
-	
+bool DMSave(const char* path) 
+{
 	bool ret = false;
 	FILE *fp = fopen(path, "wb");
 	if (fp != NULL) {
-		fwrite(_entryList, sizeof(struct data), DATA_MAX_COUNT, fp);
+		fwrite(_entryList, sizeof(User), DATA_MAX_COUNT, fp);
 		fclose(fp);
 		ret = true;
 	}
@@ -134,6 +136,8 @@ bool DMSave(const char* path) {
  * @brief 件数を返す
  * @retval 0以上 登録件数
 */
-int DMGetUserCount(){
+int DMGetUserCount()
+{
 	return _userCount;
 }
+

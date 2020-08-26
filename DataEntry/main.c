@@ -28,8 +28,8 @@ int main()
 
 		switch (selectNumber)
 		{
-		case 1:	
-			UIAddnew();
+		case 1:				
+			UIAddnew();			
 			break;
 		case 2:
 			UIDisplayList(NULL);
@@ -40,18 +40,16 @@ int main()
 		case 4:
 			break;
 		default:
-			UIFflush();
+			UIKeyBufferClear();
 			break;
 		}
 	} while (selectNumber != 4);
-
 
 	if (!DMSave(SAVE_FILE)) {
 		//Debug
 		printf("DMTerminate Error\n");
 		return -1;
 	}
-
 	return 0;
 }
 
