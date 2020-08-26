@@ -172,21 +172,26 @@ void UIInport() {
 	int line;
 
 	
-		printf("%s\n%s", MSG_UIINPORT_WORNIG, ARROW_TEXT);
+		printf("%s\n", MSG_UIINPORT_WORNIG);
+		printf("%s\n%s", MSG_UIINPORT_EXPL, ARROW_TEXT);
 		scanf("%s", filename);
+		while (strcmp(filename, "m") != 0 && strcmp(filename, "M") != 0) {
+			bool ret = DMImport(filename);
+			if (ret == true) {
+				line = DMLine();
+				printf("%s\n", MSG_UIINPORT_COMPLETED);
+				printf("(%d%s)\n", line, MSG_UIINPORT_COMPLETED2);
+				printf("%s\n%s", MSG_UIINPORT_EXPL, ARROW_TEXT);
+				scanf("%s", filename);
+				
 
-		bool ret = DMImport(filename);
-		if (ret == true) {
-			line = DMLine();
-			printf("%s\n", MSG_UIINPORT_COMPLETED);
-			printf("(%d%s)\n", line, MSG_UIINPORT_COMPLETED2);
-			
+			}
+			else {
+				printf("%s\n", MSG_UIINPORT_ERROR);
+				break;
+			}
+
 		}
-		else {
-			printf("%s\n", MSG_UIINPORT_ERROR);
-		}
-		
-		
 	
 }
 
@@ -197,17 +202,25 @@ void UIInport() {
 */
 void UIExport() {
 	char filename[50];
-	printf("%s\n%s", MSG_UIEXPORT_WORNIG, ARROW_TEXT);
+	printf("%s\n", MSG_UIEXPORT_WORNIG);
+	printf("%s\n%s", MSG_UIINPORT_EXPL, ARROW_TEXT);
 	scanf("%s", filename);
+	while (strcmp(filename, "m") != 0 && strcmp(filename, "M") != 0) {
 
-	int ret = DMExport(filename);
-	if (ret == 0) {
-		printf("%s\n", MSG_UIEXPORT_COMPLETED);
-	}
-	else if(ret == 1) {
-		printf("%s\n", MSG_UIEXPORT_ERROR);
-	}
-	else {
-		printf("%s\n", MSG_UIEXPORT_ERROR2);
+		int ret = DMExport(filename);
+		if (ret == 0) {
+			printf("%s\n", MSG_UIEXPORT_COMPLETED);
+			printf("%s\n%s", MSG_UIINPORT_EXPL, ARROW_TEXT);
+			scanf("%s", filename);
+			
+		}
+		else if (ret == 1) {
+			printf("%s\n", MSG_UIEXPORT_ERROR);
+			break;
+		}
+		else {
+			printf("%s\n", MSG_UIEXPORT_ERROR2);
+			break;
+		}
 	}
 }
