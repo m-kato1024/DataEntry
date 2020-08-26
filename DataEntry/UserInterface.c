@@ -67,24 +67,25 @@ void UIAddnew() {
 */
 void UIDispCat() {
 	int resistrationsCount = DMGetUserCount();
-	char inputKey = 'a';
+	char inputKey[3] = "a";
 	struct data result[DATA_MAX_COUNT] = { 0 };
 
-	while(inputKey != 'm' && inputKey != 'M'){
+	while((strcmp(inputKey, "M") != 0) && (strcmp(inputKey, "m") != 0) && (strcmp(inputKey,"Ｍ") != 0) && (strcmp(inputKey, "ｍ")) != 0){
 		resistrationsCount = DMListFetch(result);
 		if (resistrationsCount > 0) {
 			for (int i = 0; i < resistrationsCount; i++) {
 				printf("%d. %s %s\n", result[i].number, result[i].name, result[i].yomi);
 			}
 			printf("%s\n%s", MSG_DISPCAT_EXPL, ARROW_TEXT);
-			inputKey = UIDelete(result);
+			if (UIDelete(result) == 0) {
+				break;
+			}
 		}
 		else {
 			printf("%s\n\n", MSG_DISPCAT_WORNIG);
 			break;
 		}
 	}
-	printf("\n");
 }
 
 /**
@@ -95,10 +96,10 @@ void UIDispCat() {
 void UISearch() {
 	int resistrationsCount = DMGetUserCount();
 	char kana[DATA_MAX_LENGTH];
-	char inputKey = 'a';
+	char inputKey[3] = "a";
 	struct data search_result[DATA_MAX_COUNT] = { 0 };
 
-	while (inputKey != 'm' && inputKey != 'M') {
+	while ((strcmp(inputKey, "M") != 0) && (strcmp(inputKey, "m") != 0) && (strcmp(inputKey, "Ｍ") != 0) && (strcmp(inputKey, "ｍ")) != 0) {
 		if (resistrationsCount > 0) {
 			printf("%s\n", MSG_UISEARCH_WORNING);
 			scanf("%s", &kana);
@@ -108,14 +109,15 @@ void UISearch() {
 				printf("%d. %s %s\n", search_result[i].number, search_result[i].name, search_result[i].yomi);
 			}
 			printf("%s\n%s", MSG_DISPCAT_EXPL, ARROW_TEXT);
-			inputKey = UIDelete(search_result);
+			if (UIDelete(search_result) == 0) {
+				break;
+			}
 		}
 		else {
 			printf("%s\n\n", MSG_DISPCAT_WORNIG);
 			break;
 		}
 	}
-	printf("\n");
 }
 
 
@@ -134,21 +136,11 @@ static char UIDelete(struct data* data)
 	
 	UIFflush();
 	scanf("%2s", inputAll);
-	if (strcmp(inputAll, "m") == 0 || strcmp(inputAll, "M") == 0 || strcmp(inputAll, "M") == 0 || strcmp(inputAll, "ｍ") == 0) {
+	if (strcmp(inputAll, "m") == 0 || strcmp(inputAll, "M") == 0 || strcmp(inputAll, "Ｍ") == 0 || strcmp(inputAll, "ｍ") == 0) {
 		printf("\n");
-		return inputAll[0];
+		return 0;
 	}
-
 	int input = atoi(inputAll);
-
-	//while (1) {
-	//	if (data[input - 1].number == ) {
-	//		printf("%s\n%s", MSG_DISPCAT_WORNING2, ARROW_TEXT);
-	//	}
-	//	else {
-	//		break;
-	//	}
-	//}
 
 	bool result = false;
 
@@ -156,14 +148,14 @@ static char UIDelete(struct data* data)
 	char inputChar[3];
 	UIFflush();
 	scanf("%2s", &inputChar);
-	if (strcmp(inputChar, "Y") == 0 || strcmp(inputChar, "y") == 0 || strcmp(inputChar, "Y") == 0 || strcmp(inputChar, "ｙ") == 0) {
+	if (strcmp(inputChar, "Y") == 0 || strcmp(inputChar, "y") == 0 || strcmp(inputChar, "Ｙ") == 0 || strcmp(inputChar, "ｙ") == 0) {
 		result = DMDelete(input);
 		if (result == false) {
 			printf("%s\n", MSG_ADDNEW_ERROR);
-			strcpy(inputAll, "m");
+			return 0;
 		}
 	}
-	return inputAll[0];
+	return 1;
 }
 /**
 *@brief stdinのキーバッファはクリアする
