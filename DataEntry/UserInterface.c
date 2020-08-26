@@ -162,7 +162,7 @@ static void UIFflush(void)
 }
 
 void UIInport() {
-	char inputKey[4] = "";
+	/*char inputKey[4] = "";*/
 	char filename[50];
 	int line;
 

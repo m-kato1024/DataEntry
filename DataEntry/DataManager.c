@@ -178,6 +178,13 @@ int DMGetUserCount(){
 	return _userCount;
 }
 
+
+/**
+ * @brief インポート
+ * @param path ファイル名
+ * @retval false 失敗
+ * @retval true  成功
+*/
 bool DMImport(char* path) {
 	int count = 0;
 	char buf[READ_LINE_BUFFER_SIZE] = { 0 };
@@ -225,6 +232,13 @@ bool DMImport(char* path) {
 
 }
 
+/**
+ * @brief エクスポート
+ * @param path ファイル名
+ * @retval 0     成功	
+ * @retval 1     データ0件
+ * @retval 2     失敗
+*/
 int DMExport(char* path) {
 	FILE *fp;
 	fp = fopen(path, "w");
@@ -247,10 +261,18 @@ int DMExport(char* path) {
 	return 0;
 }
 
+/**
+ * @brief インポートした件数を返す
+ * @retval 0以上 インポート件数
+*/
 int DMLine() {
 	return line;
 }
 
+/**
+ * @brief 改行を削除
+ * @retval str 読み込んだ1行
+*/
 void DMLinefeed_deleting(char *str) {
 	char *p;
 	p = strchr(str, '\n');
