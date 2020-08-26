@@ -161,6 +161,11 @@ static void UIFflush(void)
 	while ((buffer = getc(stdin)) != EOF && buffer != '\n');
 }
 
+/**
+*@brief インポート機能
+*@note 　ファイルパスを指定すると
+*	   　データを読み取り内部データに登録する。
+*/
 void UIInport() {
 	/*char inputKey[4] = "";*/
 	char filename[50];
@@ -187,6 +192,11 @@ void UIInport() {
 	/*}*/
 }
 
+/**
+*@brief エクスポート機能
+*@note 　ファイル指定すると登録されているデータを
+*	   　ファイルにcsv形式で出力する。
+*/
 void UIExport() {
 	char filename[50];
 	printf("%s\n%s", MSG_UIEXPORT_WORNIG, ARROW_TEXT);

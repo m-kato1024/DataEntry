@@ -221,6 +221,9 @@ bool DMImport(char* path) {
 			line++;
 			count++;
 		}
+		if (line == DATA_MAX_COUNT) {
+			break;
+		}
 		
 		if (feof(fp)) {
 				break;
