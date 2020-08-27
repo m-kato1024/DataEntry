@@ -82,7 +82,7 @@ void UIDispCat() {
 			}
 		}
 		else {
-			printf("%s\n\n", MSG_DISPCAT_WORNIG);
+			printf("%s\n\n", MSG_DISPCAT_WORNING);
 			break;
 		}
 	}
@@ -114,7 +114,7 @@ void UISearch() {
 			}
 		}
 		else {
-			printf("%s\n\n", MSG_DISPCAT_WORNIG);
+			printf("%s\n\n", MSG_DISPCAT_WORNING);
 			break;
 		}
 	}
@@ -123,14 +123,14 @@ void UISearch() {
 
 
 /**
-*@brief 削除機能及びメインメニュー遷移
-*@retval inputAll	resistrationsNumと一致しないとき 入力内容を返す
-*@note				一覧表示または検索機能を使用時に登録データ
-*					表示後の入力された内容毎の処理
+*@brief		削除機能及びメインメニュー遷移
+*@retval	0 メインメニューに戻る
+*@retval	1 処理を行う
+*@note		一覧表示または検索機能を使用時に登録データ
+*			表示後の入力された内容毎の処理
 */
 static char UIDelete(struct data* data)
 {
-	char resistrationsNum = DMGetUserCount();
 	char inputAll[3] = "";
 	struct data _entryList[DATA_MAX_COUNT] = { 0 };
 	
@@ -143,18 +143,39 @@ static char UIDelete(struct data* data)
 	int input = atoi(inputAll);
 
 	bool result = false;
-
-	printf("「%d. %s」%s\n%s", input, data[input - 1].name, MSG_UIDELETE_CHECK1, ARROW_TEXT);
-	char inputChar[3];
-	UIFflush();
-	scanf("%2s", &inputChar);
-	if (strcmp(inputChar, "Y") == 0 || strcmp(inputChar, "y") == 0 || strcmp(inputChar, "Ｙ") == 0 || strcmp(inputChar, "ｙ") == 0) {
-		result = DMDelete(input);
-		if (result == false) {
-			printf("%s\n", MSG_ADDNEW_ERROR);
-			return 0;
+	for (int i = 0; i < DATA_MAX_COUNT; i++) {
+		if (input == data[i].number) {
+			printf("「%d. %s」%s\n%s", data[i].number, data[i].name, MSG_UIDELETE_CHECK1, ARROW_TEXT);
+			char inputChar[3];
+			UIFflush();
+			scanf("%2s", &inputChar);
+			if (strcmp(inputChar, "Y") == 0 || strcmp(inputChar, "y") == 0 || strcmp(inputChar, "Ｙ") == 0 || strcmp(inputChar, "ｙ") == 0) {
+				result = DMDelete(data[i].number);
+				if (result == false) {
+					printf("%s\n", MSG_ADDNEW_ERROR);
+					return 0;
+				}
+				else {
+					return 1;
+				}
+			}
 		}
 	}
+	
+	//char inputChar[3];
+	//UIFflush();
+	//scanf("%2s", &inputChar);
+	//if (strcmp(inputChar, "Y") == 0 || strcmp(inputChar, "y") == 0 || strcmp(inputChar, "Ｙ") == 0 || strcmp(inputChar, "ｙ") == 0) {
+	//	result = DMDelete(data[input - 1].number);
+	//	if (result == false) {
+	//		printf("%s\n", MSG_ADDNEW_ERROR);
+	//		return 0;
+	//	}
+	//}
+	//else {
+	//	printf("%s\n", MSG_DISPCAT_WORNING2);
+	//}
+	printf("%s\n", MSG_DISPCAT_WORNING2);
 	return 1;
 }
 /**
