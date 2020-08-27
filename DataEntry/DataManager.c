@@ -188,7 +188,6 @@ int DMGetUserCount(){
 */
 int DMImport(char* path) {
 	int count = 0;
-	int line = 0;
 	_userCount = 0;
 	char buf[READ_LINE_BUFFER_SIZE] = { 0 };
 	char kugiri[] = ",";
@@ -223,12 +222,12 @@ int DMImport(char* path) {
 			}
 		}
 
-		if (line == DATA_MAX_COUNT) {
+		if (count == DATA_MAX_COUNT) {
 			break;
 		}
 
 		if (_entryList[count].number != 0) {
-			line++;
+			
 			count++;
 			_userCount++;
 		}
@@ -239,7 +238,7 @@ int DMImport(char* path) {
 	}
 	fclose(fp);
 	
-	return line;
+	return count;
 
 }
 
@@ -258,8 +257,9 @@ int DMExport(char* path) {
 	}
 
 	for (int i = 0; i < DATA_MAX_COUNT; i++) {
-		fprintf(fp, "%d,%s,%s\n", _entryList[i].number, _entryList[i].name, _entryList[i].yomi);
+		
 		if (_entryList[i].number != 0) {
+			fprintf(fp, "%d,%s,%s\n", _entryList[i].number, _entryList[i].name, _entryList[i].yomi);
 			line++;
 		}
 	}
