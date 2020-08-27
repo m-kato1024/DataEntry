@@ -193,6 +193,8 @@ int DMImport(char* path) {
 	char kugiri[] = ",";
 	char *tok;
 
+	struct data tempUser[DATA_MAX_COUNT] = { 0 };
+
 	FILE *fp;
 
 	if (path == NULL) {
@@ -211,16 +213,18 @@ int DMImport(char* path) {
 		DMLinefeed_deleting(buf);
 		
 		tok = strtok(buf, kugiri);
-		_entryList[count].number = atoi(tok);
+		tempUser[count].number = atoi(tok);
 		while (tok != NULL) {
 			tok = strtok(NULL, kugiri);
-			if (_entryList[count].name[0] == '\0') {
-				strcpy(_entryList[count].name, tok);
+			if (tempUser[count].name[0] == '\0') {
+				strcpy(tempUser[count].name, tok);
 			}
-			else if (_entryList[count].yomi[0] == '\0') {
-				strcpy(_entryList[count].yomi, tok);
+			else if (tempUser[count].yomi[0] == '\0') {
+				strcpy(tempUser[count].yomi, tok);
 			}
 		}
+
+		DMAddNew(tempUser[count].number, tempUser[count].name, tempUser[count].yomi);
 
 		if (count == DATA_MAX_COUNT) {
 			break;
@@ -229,7 +233,7 @@ int DMImport(char* path) {
 		if (_entryList[count].number != 0) {
 			
 			count++;
-			_userCount++;
+			
 		}
 		
 		if (feof(fp)) {
