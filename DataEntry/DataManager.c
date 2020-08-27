@@ -217,10 +217,10 @@ int DMImport(char* path) {
 		while (tok != NULL) {
 			tok = strtok(NULL, kugiri);
 			if (tempUser.name[0] == '\0') {
-				strcpy(tempUser.name, tok);
+				strncpy(tempUser.name, tok, DATA_MAX_LENGTH - 1);
 			}
 			else if (tempUser.yomi[0] == '\0') {
-				strcpy(tempUser.yomi, tok);
+				strncpy(tempUser.yomi, tok, DATA_MAX_LENGTH - 1);
 			}
 		}
 
