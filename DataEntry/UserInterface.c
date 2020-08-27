@@ -107,10 +107,12 @@ void UISearch() {
 			resistrationsCount = DMSearch(kana, search_result);
 			for (int i = 0; i < resistrationsCount; i++) {
 				printf("%d. %s %s\n", search_result[i].number, search_result[i].name, search_result[i].yomi);
-			}
-			printf("%s\n%s", MSG_DISPCAT_EXPL, ARROW_TEXT);
-			if (UIDelete(search_result) == 0) {
-				break;
+				}
+			if(resistrationsCount > 0){
+				printf("%s\n%s", MSG_DISPCAT_EXPL, ARROW_TEXT);
+				if (UIDelete(search_result) == 0) {
+					break;
+				}
 			}
 		}
 		else {
@@ -161,20 +163,6 @@ static char UIDelete(struct data* data)
 			}
 		}
 	}
-	
-	//char inputChar[3];
-	//UIFflush();
-	//scanf("%2s", &inputChar);
-	//if (strcmp(inputChar, "Y") == 0 || strcmp(inputChar, "y") == 0 || strcmp(inputChar, "‚x") == 0 || strcmp(inputChar, "‚™") == 0) {
-	//	result = DMDelete(data[input - 1].number);
-	//	if (result == false) {
-	//		printf("%s\n", MSG_ADDNEW_ERROR);
-	//		return 0;
-	//	}
-	//}
-	//else {
-	//	printf("%s\n", MSG_DISPCAT_WORNING2);
-	//}
 	printf("%s\n", MSG_DISPCAT_WORNING2);
 	return 1;
 }
