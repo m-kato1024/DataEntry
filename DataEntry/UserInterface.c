@@ -51,12 +51,15 @@ void UIAddnew() {
 			printf("\n");
 			if (ret == false) {
 				printf("%s\n\n", MSG_ADDNEW_ERROR);
+				system("cls");
 			}
 		}
 	}
 	else {
 		printf("%s\n\n", MSG_ADDNEW_OVER);
+		system("cls");
 	}
+	system("cls");
 }
 
 /**
@@ -78,11 +81,13 @@ void UIDispCat() {
 			}
 			printf("%s\n%s", MSG_DISPCAT_EXPL, ARROW_TEXT);
 			if (UIDelete(result) == 0) {
+				system("cls");
 				break;
 			}
 		}
 		else {
 			printf("%s\n\n", MSG_DISPCAT_WORNING);
+			system("cls");
 			break;
 		}
 	}
@@ -112,6 +117,7 @@ void UISearch() {
 				if (resistrationsCount > 0) {
 					printf("%s\n%s", MSG_DISPCAT_EXPL, ARROW_TEXT);
 					if (UIDelete(search_result) == 0) {
+						system("cls");
 						break;
 					}
 				}
@@ -119,6 +125,7 @@ void UISearch() {
 		}
 		else {
 			printf("%s\n\n", MSG_DISPCAT_WORNING);
+			system("cls");
 			break;
 		}
 	}
@@ -191,6 +198,7 @@ void UISave() {
 		printf("%s\n", MSG_SAVE_STOP);
 	}
 	printf("\n");
+	system("cls");
 }
 
 
