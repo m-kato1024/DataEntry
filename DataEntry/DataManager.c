@@ -189,6 +189,7 @@ int DMGetUserCount(){
 int DMImport(char* path) {
 	int count = 0;
 	int line = 0;
+	_userCount = 0;
 	char buf[READ_LINE_BUFFER_SIZE] = { 0 };
 	char kugiri[] = ",";
 	char *tok;
@@ -229,6 +230,7 @@ int DMImport(char* path) {
 		if (_entryList[count].number != 0) {
 			line++;
 			count++;
+			_userCount++;
 		}
 		
 		if (feof(fp)) {
