@@ -187,13 +187,12 @@ int DMGetUserCount(){
  * @retval 0以上 成功
 */
 int DMImport(char* path) {
-	int count = 0;
-	_userCount = 0;
+	
 	char buf[READ_LINE_BUFFER_SIZE] = { 0 };
 	char kugiri[] = ",";
 	char *tok;
 
-	struct data tempUser[DATA_MAX_COUNT] = { 0 };
+	struct data tempUser = { 0 };
 
 	FILE *fp;
 
@@ -206,34 +205,28 @@ int DMImport(char* path) {
 	if (fp == NULL) {
 		return -1;
 	}
-	
+	_userCount = 0;
 	memset(_entryList, 0, sizeof(_entryList));
 	while (fgets(buf, READ_LINE_BUFFER_SIZE, fp) != NULL) {
 		
 		DMLinefeed_deleting(buf);
 		
 		tok = strtok(buf, kugiri);
-		tempUser[count].number = atoi(tok);
+		tempUser.number = atoi(tok);
 		while (tok != NULL) {
 			tok = strtok(NULL, kugiri);
-			if (tempUser[count].name[0] == '\0') {
-				strcpy(tempUser[count].name, tok);
+			if (tempUser.name[0] == '\0') {
+				strcpy(tempUser.name, tok);
 			}
-			else if (tempUser[count].yomi[0] == '\0') {
-				strcpy(tempUser[count].yomi, tok);
+			else if (tempUser.yomi[0] == '\0') {
+				strcpy(tempUser.yomi, tok);
 			}
 		}
 
-		DMAddNew(tempUser[count].number, tempUser[count].name, tempUser[count].yomi);
+		DMAddNew(tempUser.number, tempUser.name, tempUser.yomi);
 
-		if (count == DATA_MAX_COUNT) {
+		if (_userCount == DATA_MAX_COUNT) {
 			break;
-		}
-
-		if (_entryList[count].number != 0) {
-			
-			count++;
-			
 		}
 		
 		if (feof(fp)) {
@@ -242,7 +235,7 @@ int DMImport(char* path) {
 	}
 	fclose(fp);
 	
-	return count;
+	return _userCount;
 
 }
 
