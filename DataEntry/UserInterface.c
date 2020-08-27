@@ -53,9 +53,10 @@ void UIAddnew() {
 				printf("%s\n\n", MSG_ADDNEW_ERROR);
 			}
 		}
+		printf("\n");
 	}
 	else {
-		printf("%s\n\n", MSG_ADDNEW_OVER);
+		printf("%s\n", MSG_ADDNEW_OVER);
 	}
 }
 
@@ -103,17 +104,19 @@ void UISearch() {
 		if (resistrationsCount > 0) {
 			printf("%s\n", MSG_UISEARCH_WORNING);
 			scanf("%s", &kana);
-
-			resistrationsCount = DMSearch(kana, search_result);
-			for (int i = 0; i < resistrationsCount; i++) {
-				printf("%d. %s %s\n", search_result[i].number, search_result[i].name, search_result[i].yomi);
+			//以下のwhile文を有効にすると一覧表示を繰り返し表示します。#512 TODO
+			//while (1) {
+				resistrationsCount = DMSearch(kana, search_result);
+				for (int i = 0; i < resistrationsCount; i++) {
+					printf("%d. %s %s\n", search_result[i].number, search_result[i].name, search_result[i].yomi);
 				}
-			if(resistrationsCount > 0){
-				printf("%s\n%s", MSG_DISPCAT_EXPL, ARROW_TEXT);
-				if (UIDelete(search_result) == 0) {
-					break;
+				if (resistrationsCount > 0) {
+					printf("%s\n%s", MSG_DISPCAT_EXPL, ARROW_TEXT);
+					if (UIDelete(search_result) == 0) {
+						break;
+					}
 				}
-			}
+			//}
 		}
 		else {
 			printf("%s\n\n", MSG_DISPCAT_WORNING);
@@ -161,6 +164,10 @@ static char UIDelete(struct data* data)
 					return 1;
 				}
 			}
+			//以下を有効にすると一覧表示を繰り返し表示します。#512 TODO
+			//else {
+				//return 2;
+			//}
 		}
 	}
 	printf("%s\n", MSG_DISPCAT_WORNING2);
