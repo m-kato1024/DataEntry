@@ -3,4 +3,5 @@
 void UIAddnew();
 void UIDispCat();
 void UISearch();
+void UISave();
 void UIFflush();

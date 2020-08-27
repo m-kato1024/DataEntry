@@ -53,10 +53,9 @@ void UIAddnew() {
 				printf("%s\n\n", MSG_ADDNEW_ERROR);
 			}
 		}
-		printf("\n");
 	}
 	else {
-		printf("%s\n", MSG_ADDNEW_OVER);
+		printf("%s\n\n", MSG_ADDNEW_OVER);
 	}
 }
 
@@ -130,7 +129,8 @@ void UISearch() {
 /**
 *@brief		削除機能及びメインメニュー遷移
 *@retval	0 メインメニューに戻る
-*@retval	1 処理を行う
+*@retval	1 Y/y選択　処理を行う
+*@retval	2 N/n選択　一覧表示に戻る
 *@note		一覧表示または検索機能を使用時に登録データ
 *			表示後の入力された内容毎の処理
 */
@@ -173,6 +173,27 @@ static char UIDelete(struct data* data)
 	printf("%s\n", MSG_DISPCAT_WORNING2);
 	return 1;
 }
+
+/**
+*@brief		保存機能
+*@note		終了せずとも保存が可能
+**/
+void UISave() {
+	char saveCheck[3] = "";
+
+	printf("%s\n%s", MSG_SAVE_CHECK, ARROW_TEXT);
+	scanf("%s", saveCheck);
+	if (strcmp(saveCheck, "y") == 0 || strcmp(saveCheck, "Y") == 0 || strcmp(saveCheck, "ｙ") == 0|| strcmp(saveCheck, "Ｙ") == 0) {
+		DMTerminate("savedata.txt");
+		printf("%s\n", MSG_SAVE_SUCCESS);
+	}
+	else {
+		printf("%s\n", MSG_SAVE_STOP);
+	}
+	printf("\n");
+}
+
+
 /**
 *@brief stdinのキーバッファはクリアする
 *@note fflush()ではクリアできないため、独自で空になるまで読み飛ばすものとする

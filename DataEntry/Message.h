@@ -1,6 +1,7 @@
 #pragma once
 
 #define MSG_MAIN_MENU_TITLE		"[メインメニュー]"
+#define MSG_MAIN_MENU_SAVE		"0.保存"
 #define MSG_MAIN_MENU_ADDNEW	"1.新規登録"
 #define MSG_MAIN_MENU_LIST		"2.一覧表示"
 #define MSG_MAIN_MENU_SEARCH	"3.読み仮名検索"
@@ -20,3 +21,6 @@
 #define MSG_DISPCAT_EXPL		"(番号:削除、M:メインメニュー)"
 #define MSG_UISEARCH_WORNING		"検索する読み仮名を入力してください"
 #define MSG_UIDELETE_CHECK1		"を削除しますか?\n(Y/N)"
+#define MSG_SAVE_SUCCESS		"データを保存しました"
+#define MSG_SAVE_CHECK			"データを保存しますか?(Y/N)"
+#define MSG_SAVE_STOP			"保存を中止しました"

@@ -21,12 +21,16 @@ int main()
 		printf("%s\n", MSG_MAIN_MENU_LIST);
 		printf("%s\n", MSG_MAIN_MENU_SEARCH);
 		printf("%s\n", MSG_MAIN_MENU_END);
+		printf("%s\n", MSG_MAIN_MENU_SAVE);
 		printf("%s", ARROW_TEXT);
 		
 		scanf("%d", &selectNumber);	
 
 		switch (selectNumber)
 		{
+		case 0:
+			UISave();
+			break;
 		case 1:	
 			UIAddnew();
 			break;
@@ -35,8 +39,6 @@ int main()
 			break;
 		case 3:
 			UISearch();
-			break;
-		case 4:
 			break;
 		default:
 			UIFflush();
