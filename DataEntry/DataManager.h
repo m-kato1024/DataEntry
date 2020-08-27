@@ -32,4 +32,3 @@ bool DMTerminate(char* path);
 int DMGetUserCount();
 bool DMImport(char* path);
 int DMExport(char* path);
-void DMLinefeed_deleting(char *str);

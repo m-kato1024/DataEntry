@@ -6,11 +6,12 @@
 
 #include "DataManager.h"
 
-
+static void DMLinefeed_deleting(char *str);
 static struct data _entryList[DATA_MAX_COUNT];
 
 static int _userCount = 0;
 static int line = 0;
+
 
 /**
  * @brief 初期化
@@ -280,7 +281,7 @@ int DMLine() {
  * @brief 改行を削除
  * @retval str 読み込んだ1行
 */
-void DMLinefeed_deleting(char *str) {
+static void DMLinefeed_deleting(char *str) {
 	char *p;
 	p = strchr(str, '\n');
 	if (p != NULL) {
