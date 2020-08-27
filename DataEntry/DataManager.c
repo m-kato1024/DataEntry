@@ -10,7 +10,7 @@ static void DMLinefeed_deleting(char *str);
 static struct data _entryList[DATA_MAX_COUNT];
 
 static int _userCount = 0;
-static int line = 0;
+
 
 
 /**
@@ -183,11 +183,12 @@ int DMGetUserCount(){
 /**
  * @brief インポート
  * @param path ファイル名
- * @retval false 失敗
- * @retval true  成功
+ * @retval 0以下 失敗
+ * @retval 0以上 成功
 */
-bool DMImport(char* path) {
+int DMImport(char* path) {
 	int count = 0;
+	int line = 0;
 	char buf[READ_LINE_BUFFER_SIZE] = { 0 };
 	char kugiri[] = ",";
 	char *tok;
@@ -195,13 +196,13 @@ bool DMImport(char* path) {
 	FILE *fp;
 
 	if (path == NULL) {
-		return false;
+		return -1;
 	}
 	
 	fp = fopen(path, "r");
 
 	if (fp == NULL) {
-		return false;
+		return -1;
 	}
 	
 	memset(_entryList, 0, sizeof(_entryList));
@@ -236,22 +237,22 @@ bool DMImport(char* path) {
 	}
 	fclose(fp);
 	
-	return true;
+	return line;
 
 }
 
 /**
  * @brief エクスポート
  * @param path ファイル名
- * @retval 0     成功	
- * @retval 1     データ0件
- * @retval 2     失敗
+ * @retval 0以上 成功	
+ * @retval 0以下 失敗
 */
 int DMExport(char* path) {
+	int line = 0;
 	FILE *fp;
 	fp = fopen(path, "w");
 	if (fp == NULL) {
-		return 2;
+		return -1;
 	}
 
 	for (int i = 0; i < DATA_MAX_COUNT; i++) {
@@ -261,21 +262,11 @@ int DMExport(char* path) {
 		}
 	}
 	
-	if (line == 0) {
-		return 1;
-	}
 
 	fclose(fp);
-	return 0;
-}
-
-/**
- * @brief インポートした件数を返す
- * @retval 0以上 インポート件数
-*/
-int DMLine() {
 	return line;
 }
+
 
 /**
  * @brief 改行を削除

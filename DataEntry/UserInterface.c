@@ -169,18 +169,16 @@ static void UIFflush(void)
 void UIInport() {
 	
 	char filename[50];
-	int line;
-
+	
 	
 		printf("%s\n", MSG_UIINPORT_WORNIG);
 		printf("%s\n%s", MSG_UIINPORT_EXPL, ARROW_TEXT);
 		scanf("%s", filename);
 		while (strcmp(filename, "m") != 0 && strcmp(filename, "M") != 0) {
-			bool ret = DMImport(filename);
-			if (ret == true) {
-				line = DMLine();
+			int ret = DMImport(filename);
+			if (ret >= 0) {
 				printf("%s\n", MSG_UIINPORT_COMPLETED);
-				printf("(%d%s)\n", line, MSG_UIINPORT_COMPLETED2);
+				printf("(%d%s)\n", ret, MSG_UIINPORT_COMPLETED2);
 				printf("%s\n%s", MSG_UIINPORT_EXPL, ARROW_TEXT);
 				scanf("%s", filename);
 				
@@ -208,13 +206,13 @@ void UIExport() {
 	while (strcmp(filename, "m") != 0 && strcmp(filename, "M") != 0) {
 
 		int ret = DMExport(filename);
-		if (ret == 0) {
+		if (ret > 0) {
 			printf("%s\n", MSG_UIEXPORT_COMPLETED);
 			printf("%s\n%s", MSG_UIINPORT_EXPL, ARROW_TEXT);
 			scanf("%s", filename);
 			
 		}
-		else if (ret == 1) {
+		else if (ret == 0) {
 			printf("%s\n", MSG_UIEXPORT_ERROR);
 			break;
 		}
