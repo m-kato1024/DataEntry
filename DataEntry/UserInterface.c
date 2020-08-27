@@ -51,16 +51,15 @@ void UIAddnew() {
 			printf("\n");
 			if (ret == false) {
 				printf("%s\n\n", MSG_ADDNEW_ERROR);
-				system("pause");
-				system("cls");
+
 			}
 		}
 	}
 	else {
 		printf("%s\n\n", MSG_ADDNEW_OVER);
-		system("pause");
-		system("cls");
 	}
+	system("pause");
+	system("cls");
 }
 
 /**
