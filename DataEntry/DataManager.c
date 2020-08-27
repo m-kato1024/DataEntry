@@ -212,6 +212,7 @@ int DMImport(char* path) {
 		DMLinefeed_deleting(buf);
 		
 		tok = strtok(buf, kugiri);
+		memset(&tempUser, 0, sizeof(tempUser));
 		tempUser.number = atoi(tok);
 		while (tok != NULL) {
 			tok = strtok(NULL, kugiri);
