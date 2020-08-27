@@ -192,13 +192,17 @@ bool DMImport(char* path) {
 	char *tok;
 
 	FILE *fp;
-	fp = fopen(path, "r");
+
 	if (path == NULL) {
 		return false;
 	}
+	
+	fp = fopen(path, "r");
+
 	if (fp == NULL) {
 		return false;
 	}
+	
 	memset(_entryList, 0, sizeof(_entryList));
 	while (fgets(buf, READ_LINE_BUFFER_SIZE, fp) != NULL) {
 		
