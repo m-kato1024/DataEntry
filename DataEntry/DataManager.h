@@ -8,7 +8,7 @@
 #define DATA_MAX_COUNT (100)
 //名前の最大バイト数
 #define DATA_MAX_LENGTH (40)
-//ファイル1行の最大サイズ　10件以上格納する場合は先頭の２の数字に注意する
+//ファイル1行の最大サイズ　100件以上格納する場合は先頭の２の数字に注意する
 #define READ_LINE_BUFFER_SIZE (3+1+DATA_MAX_LENGTH+1+DATA_MAX_LENGTH+1)
 #define END_OF_TEST (0x03)
 //--------------------------------------------------------------------

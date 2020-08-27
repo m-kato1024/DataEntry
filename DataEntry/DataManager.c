@@ -193,6 +193,9 @@ bool DMImport(char* path) {
 
 	FILE *fp;
 	fp = fopen(path, "r");
+	if (path == NULL) {
+		return false;
+	}
 	if (fp == NULL) {
 		return false;
 	}
@@ -212,16 +215,18 @@ bool DMImport(char* path) {
 				strcpy(_entryList[count].yomi, tok);
 			}
 		}
+
+		if (line == DATA_MAX_COUNT) {
+			break;
+		}
+
 		if (_entryList[count].number != 0) {
 			line++;
 			count++;
 		}
-		if (line == DATA_MAX_COUNT) {
-			break;
-		}
 		
 		if (feof(fp)) {
-				break;
+			break;
 		}
 	}
 	fclose(fp);
