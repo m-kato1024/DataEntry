@@ -81,13 +81,17 @@ bool DMAddNew(int input_number, char* input_name, char* input_yomi) {
 		return false;
 	}
 	
+	if (_entryList[input_number - 1].number == 0) {
+		_userCount++;
+	}
 	memset(&_entryList[input_number - 1], 0, sizeof(struct data));
 
+	
 	_entryList[input_number - 1].number = input_number;
 	strncpy(_entryList[input_number - 1].name, input_name, DATA_MAX_LENGTH - 1);
 	strncpy(_entryList[input_number - 1].yomi, input_yomi, DATA_MAX_LENGTH - 1);
 
-	_userCount++;
+	
 
 	return true;
 
@@ -249,6 +253,9 @@ int DMImport(char* path) {
 int DMExport(char* path) {
 	int line = 0;
 	FILE *fp;
+	if (path == NULL) {
+		return -1;
+	}
 	fp = fopen(path, "w");
 	if (fp == NULL) {
 		return -1;
