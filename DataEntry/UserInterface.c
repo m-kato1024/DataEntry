@@ -68,10 +68,10 @@ void UIAddnew() {
 */
 void UIDispCat() {
 	int resistrationsCount = DMGetUserCount();
-	char inputKey[3] = "a";
+	char inputKey[3] = "";
 	struct data result[DATA_MAX_COUNT] = { 0 };
 
-	while((strcmp(inputKey, "M") != 0) && (strcmp(inputKey, "m") != 0) && (strcmp(inputKey,"Ｍ") != 0) && (strcmp(inputKey, "ｍ")) != 0){
+	while(1){
 		resistrationsCount = DMListFetch(result);
 		if (resistrationsCount > 0) {
 			for (int i = 0; i < resistrationsCount; i++) {
@@ -100,30 +100,31 @@ void UISearch() {
 	char inputKey[3] = "a";
 	struct data search_result[DATA_MAX_COUNT] = { 0 };
 
-	while ((strcmp(inputKey, "M") != 0) && (strcmp(inputKey, "m") != 0) && (strcmp(inputKey, "Ｍ") != 0) && (strcmp(inputKey, "ｍ")) != 0) {
-		if (resistrationsCount > 0) {
-			printf("%s\n", MSG_UISEARCH_WORNING);
-			scanf("%s", &kana);
-			//以下のwhile文を有効にすると一覧表示を繰り返し表示します。#512 TODO
-			//while (1) {
-				resistrationsCount = DMSearch(kana, search_result);
-				for (int i = 0; i < resistrationsCount; i++) {
-					printf("%d. %s %s\n", search_result[i].number, search_result[i].name, search_result[i].yomi);
+	if (resistrationsCount > 0) {
+		printf("%s\n", MSG_UISEARCH_WORNING);
+		scanf("%s", &kana);
+		while (1) {
+			resistrationsCount = DMSearch(kana, search_result);
+			for (int i = 0; i < resistrationsCount; i++) {
+				printf("%d. %s %s\n", search_result[i].number, search_result[i].name, search_result[i].yomi);
+			}
+			if (resistrationsCount > 0) {
+				printf("%s\n%s", MSG_DISPCAT_EXPL, ARROW_TEXT);
+				if (UIDelete(search_result) == 0) {
+					break;
 				}
-				if (resistrationsCount > 0) {
-					printf("%s\n%s", MSG_DISPCAT_EXPL, ARROW_TEXT);
-					if (UIDelete(search_result) == 0) {
-						break;
-					}
-				}
-			//}
-		}
-		else {
-			printf("%s\n\n", MSG_DISPCAT_WORNING);
-			break;
+			}
+			else {
+				printf("%s\n\n", MSG_DISPCAT_WORNING);
+				break;
+			}
 		}
 	}
+	else {
+		printf("%s\n\n", MSG_DISPCAT_WORNING);
+	}
 }
+
 
 
 
@@ -149,7 +150,7 @@ static char UIDelete(struct data* data)
 
 	bool result = false;
 	for (int i = 0; i < DATA_MAX_COUNT; i++) {
-		if (input == data[i].number) {
+		if (input == data[i].number && input != 0) {
 			printf("「%d. %s」%s\n%s", data[i].number, data[i].name, MSG_UIDELETE_CHECK1, ARROW_TEXT);
 			char inputChar[3];
 			UIFflush();
@@ -164,10 +165,9 @@ static char UIDelete(struct data* data)
 					return 1;
 				}
 			}
-			//以下を有効にすると一覧表示を繰り返し表示します。#512 TODO
-			//else {
-				//return 2;
-			//}
+			else {
+				return 2;
+			}
 		}
 	}
 	printf("%s\n", MSG_DISPCAT_WORNING2);
