@@ -5,10 +5,10 @@
 #include <stdlib.h>
 #include "Message.h"
 #include "DataManager.h" 
+#include "UserInterface.h"
 
 
-static char UIDelete(void);
-static void UIFflush(void);
+static char UIDelete(struct data* data);
 
 /**
 *@brief 新規登録処理
@@ -26,26 +26,26 @@ void UIAddnew() {
 	if (resistrationsCount <= DATA_MAX_COUNT) {
 		do {
 			printf("%s\n%s", MSG_ADDNEW_RESISTER_NUMBER, ARROW_TEXT);
-			fflush(stdin);
+			UIFflush();
 			scanf("%d", &num);
 			if (num < 1 || num > DATA_MAX_COUNT ) {
-				printf("%s\n", MSG_ADDNEW_WORNIG);
+				printf("%s\n", MSG_ADDNEW_WORNING);
 			}
 		} while (num < 1 || num > DATA_MAX_COUNT);
 
 		printf("%s\n%s", MSG_ADDNEW_RESISTER_NAME1, ARROW_TEXT);
-		fflush(stdin);
-		scanf("%s", &kanji);
+		UIFflush();
+		scanf("%39s", kanji);
 
 		printf("%s\n%s", MSG_ADDNEW_RESISTER_NAME2, ARROW_TEXT);
-		fflush(stdin);
-		scanf("%s", &kana);
+		UIFflush();
+		scanf("%39s", kana);
 
 		printf("%s%d %s(%s)\n%s\n%s", MSG_ADDNEW_CONFIRMATION1, num, kanji, kana, MSG_ADDNEW_CONFIRMATION2, ARROW_TEXT);
 
-		fflush(stdin);
+		UIFflush();
 		scanf("%2s", answer);
-		if (strcmp(answer, "Y") || strcmp(answer, "y") || strcmp(answer, "ｙ") || strcmp(answer, "Ｙ")) {
+		if (strcmp(answer, "Y") == 0 || strcmp(answer, "y")  == 0 || strcmp(answer, "ｙ") == 0 || strcmp(answer, "Ｙ") == 0) {
 			bool ret;
 			ret = DMAddNew(num, kanji, kana);
 			printf("\n");
@@ -53,9 +53,10 @@ void UIAddnew() {
 				printf("%s\n\n", MSG_ADDNEW_ERROR);
 			}
 		}
+		printf("\n");
 	}
 	else {
-		printf("%s\n\n", MSG_ADDNEW_OVER);
+		printf("%s\n", MSG_ADDNEW_OVER);
 	}
 }
 
@@ -67,20 +68,22 @@ void UIAddnew() {
 */
 void UIDispCat() {
 	int resistrationsCount = DMGetUserCount();
-	char inputKey = 'a';
+	char inputKey[3] = "";
 	struct data result[DATA_MAX_COUNT] = { 0 };
 
-	while(inputKey != 'm' && inputKey != 'M'){
+	while(1){
 		resistrationsCount = DMListFetch(result);
 		if (resistrationsCount > 0) {
 			for (int i = 0; i < resistrationsCount; i++) {
-				printf("%d %s %s\n", result[i].number, result[i].name, result[i].yomi);
+				printf("%d. %s %s\n", result[i].number, result[i].name, result[i].yomi);
 			}
 			printf("%s\n%s", MSG_DISPCAT_EXPL, ARROW_TEXT);
-			inputKey = UIDelete();
+			if (UIDelete(result) == 0) {
+				break;
+			}
 		}
 		else {
-			printf("%s\n\n", MSG_DISPCAT_WORNIG);
+			printf("%s\n\n", MSG_DISPCAT_WORNING);
 			break;
 		}
 	}
@@ -94,68 +97,87 @@ void UIDispCat() {
 void UISearch() {
 	int resistrationsCount = DMGetUserCount();
 	char kana[DATA_MAX_LENGTH];
-	char inputKey = 'a';
+	char inputKey[3] = "a";
 	struct data search_result[DATA_MAX_COUNT] = { 0 };
 
-	while (inputKey != 'm' && inputKey != 'M') {
-		if (resistrationsCount > 0) {
-			printf("%s\n", MSG_UISEARCH_WORNIG);
-			scanf("%s", &kana);
-
+	if (resistrationsCount > 0) {
+		printf("%s\n", MSG_UISEARCH_WORNING);
+		scanf("%s", &kana);
+		while (1) {
 			resistrationsCount = DMSearch(kana, search_result);
 			for (int i = 0; i < resistrationsCount; i++) {
-				printf("%d %s %s\n", search_result[i].number, search_result[i].name, search_result[i].yomi);
+				printf("%d. %s %s\n", search_result[i].number, search_result[i].name, search_result[i].yomi);
 			}
-			printf("%s\n%s", MSG_DISPCAT_EXPL, ARROW_TEXT);
-			inputKey = UIDelete();
+			if (resistrationsCount > 0) {
+				printf("%s\n%s", MSG_DISPCAT_EXPL, ARROW_TEXT);
+				if (UIDelete(search_result) == 0) {
+					break;
+				}
+			}
+			else {
+				printf("%s\n\n", MSG_DISPCAT_WORNING);
+				break;
+			}
 		}
-		else {
-			printf("%s\n\n", MSG_DISPCAT_WORNIG);
-			break;
-		}
+	}
+	else {
+		printf("%s\n\n", MSG_DISPCAT_WORNING);
 	}
 }
 
 
 
+
 /**
-*@brief 削除機能及びメインメニュー遷移
-*@retval inputAll	resistrationsNumと一致しないとき 入力内容を返す
-*@note				一覧表示または検索機能を使用時に登録データ
-*					表示後の入力された内容毎の処理
+*@brief		削除機能及びメインメニュー遷移
+*@retval	0 メインメニューに戻る
+*@retval	1 処理を行う
+*@note		一覧表示または検索機能を使用時に登録データ
+*			表示後の入力された内容毎の処理
 */
-static char UIDelete(void)
+static char UIDelete(struct data* data)
 {
-	char resistrationsNum = DMGetUserCount();
 	char inputAll[3] = "";
+	struct data _entryList[DATA_MAX_COUNT] = { 0 };
 	
 	UIFflush();
 	scanf("%2s", inputAll);
-	if (strcmp(inputAll, "m") == 0 || strcmp(inputAll, "M") == 0) {
+	if (strcmp(inputAll, "m") == 0 || strcmp(inputAll, "M") == 0 || strcmp(inputAll, "Ｍ") == 0 || strcmp(inputAll, "ｍ") == 0) {
 		printf("\n");
-		return inputAll[0];
+		return 0;
 	}
+	int input = atoi(inputAll);
 
 	bool result = false;
-	int input = atoi(inputAll);
-	printf("%s%s", MSG_UIDELETE_CHECK1, ARROW_TEXT);
-	char inputChar[3];
-
-	UIFflush();
-	scanf("%2s", inputChar);
-	if (strcmp(inputChar, "Y") == 0 || strcmp(inputChar, "y") == 0) {
-		result = DMDelete(input);
-		if (result == false) {
-			printf("%s\n%s", MSG_DISPCAT_WORNIG2, ARROW_TEXT);
+	for (int i = 0; i < DATA_MAX_COUNT; i++) {
+		if (input == data[i].number && input != 0) {
+			printf("「%d. %s」%s\n%s", data[i].number, data[i].name, MSG_UIDELETE_CHECK1, ARROW_TEXT);
+			char inputChar[3];
+			UIFflush();
+			scanf("%2s", &inputChar);
+			if (strcmp(inputChar, "Y") == 0 || strcmp(inputChar, "y") == 0 || strcmp(inputChar, "Ｙ") == 0 || strcmp(inputChar, "ｙ") == 0) {
+				result = DMDelete(data[i].number);
+				if (result == false) {
+					printf("%s\n", MSG_ADDNEW_ERROR);
+					return 0;
+				}
+				else {
+					return 1;
+				}
+			}
+			else {
+				return 2;
+			}
 		}
 	}
-	return inputAll[0];
+	printf("%s\n", MSG_DISPCAT_WORNING2);
+	return 1;
 }
 /**
 *@brief stdinのキーバッファはクリアする
 *@note fflush()ではクリアできないため、独自で空になるまで読み飛ばすものとする
 */
-static void UIFflush(void)
+void UIFflush(void)
 {
 	int buffer;
 	while ((buffer = getc(stdin)) != EOF && buffer != '\n');

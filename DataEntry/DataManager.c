@@ -97,7 +97,7 @@ bool DMDelete(int input_number) {
 			strcpy(_entryList[i].yomi, "　");
 
 			_userCount--;
-			return true;
+			return false;
 		}
 		
 
@@ -169,5 +169,3 @@ bool DMTerminate(char* path) {
 int DMGetUserCount(){
 	return _userCount;
 }
-
-

@@ -22,7 +22,8 @@ int main()
 		printf("%s\n", MSG_MAIN_MENU_SEARCH);
 		printf("%s\n", MSG_MAIN_MENU_END);
 		printf("%s", ARROW_TEXT);
-		scanf("%d", &selectNumber);
+		
+		scanf("%d", &selectNumber);	
 
 		switch (selectNumber)
 		{
@@ -38,6 +39,7 @@ int main()
 		case 4:
 			break;
 		default:
+			UIFflush();
 			break;
 		}
 	} while (selectNumber != 4);
