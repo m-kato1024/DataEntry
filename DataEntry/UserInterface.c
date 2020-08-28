@@ -10,6 +10,7 @@
 
 static char UIDelete(struct data* data);
 char UIYesNo(char answer[3]);
+char UIMainMenu(char input[3]);
 
 /**
 *@brief V‹K“o˜^ˆ—
@@ -46,7 +47,7 @@ void UIAddnew() {
 
 		UIFflush();
 		scanf("%2s", answer);
-		if (strcmp(answer, "Y") == 0 || strcmp(answer, "y")  == 0 || strcmp(answer, "‚™") == 0 || strcmp(answer, "‚x") == 0) {
+		if (UIYesNo(answer) == true) {
 			bool ret;
 			ret = DMAddNew(num, kanji, kana);
 			printf("\n");
@@ -151,8 +152,7 @@ static char UIDelete(struct data* data)
 	
 	UIFflush();
 	scanf("%2s", inputAll);
-	if (strcmp(inputAll, "m") == 0 || strcmp(inputAll, "M") == 0 || strcmp(inputAll, "‚l") == 0 || strcmp(inputAll, "‚") == 0) {
-		printf("\n");
+	if (UIMainMenu(inputAll) == true) {
 		return 0;
 	}
 	int input = atoi(inputAll);
@@ -164,7 +164,7 @@ static char UIDelete(struct data* data)
 			char inputChar[3];
 			UIFflush();
 			scanf("%2s", &inputChar);
-			if (strcmp(inputChar, "Y") == 0 || strcmp(inputChar, "y") == 0 || strcmp(inputChar, "‚x") == 0 || strcmp(inputChar, "‚™") == 0) {
+			if (UIYesNo(inputChar) == true) {
 				result = DMDelete(data[i].number);
 				if (result == false) {
 					printf("%s\n", MSG_ADDNEW_ERROR);
@@ -193,7 +193,7 @@ void UISave()
 
 	printf("%s\n%s", MSG_SAVE_CHECK, ARROW_TEXT);
 	scanf("%s", saveCheck);
-	if (strcmp(saveCheck, "y") == 0 || strcmp(saveCheck, "Y") == 0 || strcmp(saveCheck, "‚™") == 0|| strcmp(saveCheck, "‚x") == 0) {
+	if (UIYesNo(saveCheck) == true) {
 		DMTerminate("savedata.txt");
 		printf("%s\n", MSG_SAVE_SUCCESS);
 	}
@@ -210,10 +210,24 @@ void UISave()
 */
 char UIYesNo(char answer[3]) 
 {
-	scanf("%s", answer);
 	if (strcmp(answer, "y") == 0 || strcmp(answer, "Y") == 0 || strcmp(answer, "‚™") == 0 || strcmp(answer, "‚x") == 0) {
-
+		printf("\n");
+		return true;
 	}
+	return false;
+}
+
+/**
+*@brief	ƒƒCƒ“ƒƒjƒ…[‘JˆÚ‹@”\
+*@onte	‘SŠp”¼Šp‘å•¶š¬•¶š‚ª”»’f‚Å‚«‚é
+*/
+char UIMainMenu(char input[3])
+{
+	if (strcmp(input, "m") == 0 || strcmp(input, "M") == 0 || strcmp(input, "‚l") == 0 || strcmp(input, "‚") == 0) {
+		printf("\n");
+		return true;
+	}
+	return false;
 }
 
 /**
