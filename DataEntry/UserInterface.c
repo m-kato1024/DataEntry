@@ -9,8 +9,7 @@
 
 
 static char UIDelete(struct data* data);
-char UIYesNo(char answer[3]);
-char UIMainMenu(char input[3]);
+char UICharCheck(char mode, char answer[3]);
 
 /**
 *@brief êVãKìoò^èàóù
@@ -46,8 +45,8 @@ void UIAddnew() {
 		printf("%s%d %s(%s)\n%s\n%s", MSG_ADDNEW_CONFIRMATION1, num, kanji, kana, MSG_ADDNEW_CONFIRMATION2, ARROW_TEXT);
 
 		UIFflush();
-		scanf("%2s", answer);
-		if (UIYesNo(answer) == true) {
+		scanf("%3s", answer);
+		if (UICharCheck('Y', answer) == true) {
 			bool ret;
 			ret = DMAddNew(num, kanji, kana);
 			printf("\n");
@@ -152,7 +151,7 @@ static char UIDelete(struct data* data)
 	
 	UIFflush();
 	scanf("%2s", inputAll);
-	if (UIMainMenu(inputAll) == true) {
+	if (UICharCheck('M', inputAll) == true) {
 		return 0;
 	}
 	int input = atoi(inputAll);
@@ -164,7 +163,7 @@ static char UIDelete(struct data* data)
 			char inputChar[3];
 			UIFflush();
 			scanf("%2s", &inputChar);
-			if (UIYesNo(inputChar) == true) {
+			if (UICharCheck('Y', inputChar) == true) {
 				result = DMDelete(data[i].number);
 				if (result == false) {
 					printf("%s\n", MSG_ADDNEW_ERROR);
@@ -193,7 +192,7 @@ void UISave()
 
 	printf("%s\n%s", MSG_SAVE_CHECK, ARROW_TEXT);
 	scanf("%s", saveCheck);
-	if (UIYesNo(saveCheck) == true) {
+	if (UICharCheck('Y', saveCheck) == true) {
 		DMTerminate("savedata.txt");
 		printf("%s\n", MSG_SAVE_SUCCESS);
 	}
@@ -205,30 +204,31 @@ void UISave()
 }
 
 /**
-*@brief	Y/NämîFã@î\
+*@brief	UICharCheck
 *@note	ëSäpîºäpëÂï∂éöè¨ï∂éöÇ™îªífÇ≈Ç´ÇÈ
 */
-char UIYesNo(char answer[3]) 
+char UICharCheck(char mode, char answer[3])
 {
-	if (strcmp(answer, "y") == 0 || strcmp(answer, "Y") == 0 || strcmp(answer, "Çô") == 0 || strcmp(answer, "Çx") == 0) {
-		printf("\n");
-		return true;
+	char* yTable[4] = { "y" , "Y", "Çô", "Çx" };
+	char* mTable[4] = { "m" , "M", "Çç", "Çl" };
+	char** tblPtr;
+
+	if (mode == 'Y') {
+		tblPtr = yTable;
+	}
+	else {
+		tblPtr = mTable;
+	}
+
+	for (int i = 0; i < 4; i++) {
+		if (strcmp(answer, tblPtr[i]) == 0) {
+			printf("\n");
+			return true;
+		}
 	}
 	return false;
 }
 
-/**
-*@brief	ÉÅÉCÉìÉÅÉjÉÖÅ[ëJà⁄ã@î\
-*@onte	ëSäpîºäpëÂï∂éöè¨ï∂éöÇ™îªífÇ≈Ç´ÇÈ
-*/
-char UIMainMenu(char input[3])
-{
-	if (strcmp(input, "m") == 0 || strcmp(input, "M") == 0 || strcmp(input, "Çl") == 0 || strcmp(input, "Çç") == 0) {
-		printf("\n");
-		return true;
-	}
-	return false;
-}
 
 /**
 *@brief stdinÇÃÉLÅ[ÉoÉbÉtÉ@ÇÕÉNÉäÉAÇ∑ÇÈ
