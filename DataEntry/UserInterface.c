@@ -120,6 +120,11 @@ void UISearch() {
 						break;
 					}
 				}
+				else {
+					printf("%s\n\n", MSG_DISPCAT_WORNING);
+					UIClear();
+					break;
+				}
 			}
 		}
 		else {
