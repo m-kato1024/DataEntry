@@ -1279,8 +1279,18 @@ TEST(UnitTestDM, Test041)
 </testitem>*/
 TEST(UnitTestDM, Test042)
 {
+	int count = 0;
 	DMImport("data\\test42.csv");
 	DMAddNew(5, "木下拓真", "きのしたたくま");
+	struct data result[DATA_MAX_COUNT] = { 0 };
+	DMListFetch(result);
+	for (int i = 0; i < DATA_MAX_COUNT; i++) {
+		if (result[i].number == 5) {
+			count++;
+		}
+	}
+	
+	EXPECT_EQ(1, count);
 	EXPECT_EQ(3, DMGetUserCount());
 
 }
