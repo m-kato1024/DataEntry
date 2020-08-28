@@ -138,6 +138,7 @@ void UISearch() {
 
 
 
+
 /**
 *@brief		削除機能及びメインメニュー遷移
 *@retval	0 メインメニューに戻る
@@ -161,7 +162,7 @@ static char UIDelete(struct data* data)
 
 	bool result = false;
 	for (int i = 0; i < DATA_MAX_COUNT; i++) {
-		if (input == data[i].number) {
+		if (input == data[i].number && input != 0) {
 			printf("「%d. %s」%s\n%s", data[i].number, data[i].name, MSG_UIDELETE_CHECK1, ARROW_TEXT);
 			char inputChar[3];
 			UIFflush();
