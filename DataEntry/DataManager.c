@@ -6,10 +6,12 @@
 
 #include "DataManager.h"
 
-
+static void DMLinefeed_deleting(char *str);
 static struct data _entryList[DATA_MAX_COUNT];
 
 static int _userCount = 0;
+
+
 
 /**
  * @brief 初期化
@@ -31,15 +33,22 @@ bool DMInitialization(char* path) {
 	memset(_entryList, 0, sizeof(_entryList));
 
 	while (fp != NULL) {
-
+	
+		/*if (feof(fp)) {
+			break;
+		}*/
 		fscanf(fp, "%d", &_entryList[count].number);
 		fscanf(fp, "%s", _entryList[count].name);
 		fscanf(fp, "%s", _entryList[count].yomi);
 		
 		if (_entryList[count].number != 0) {
 			_userCount++;
+			count++;
 		}
-		count++;
+		
+		if (_userCount == DATA_MAX_COUNT) {
+			break;
+		}
 		if (feof(fp)) {
 			break;
 		}
@@ -72,13 +81,17 @@ bool DMAddNew(int input_number, char* input_name, char* input_yomi) {
 		return false;
 	}
 	
+	if (_entryList[input_number - 1].number == 0) {
+		_userCount++;
+	}
 	memset(&_entryList[input_number - 1], 0, sizeof(struct data));
 
+	
 	_entryList[input_number - 1].number = input_number;
 	strncpy(_entryList[input_number - 1].name, input_name, DATA_MAX_LENGTH - 1);
 	strncpy(_entryList[input_number - 1].yomi, input_yomi, DATA_MAX_LENGTH - 1);
 
-	_userCount++;
+	
 
 	return true;
 
@@ -168,4 +181,108 @@ bool DMTerminate(char* path) {
 */
 int DMGetUserCount(){
 	return _userCount;
+}
+
+
+/**
+ * @brief インポート
+ * @param path ファイル名
+ * @retval 0以下 失敗
+ * @retval 0以上 成功
+*/
+int DMImport(char* path) {
+	
+	char buf[READ_LINE_BUFFER_SIZE] = { 0 };
+	char kugiri[] = ",";
+	char *tok;
+
+	struct data tempUser = { 0 };
+
+	FILE *fp;
+
+	if (path == NULL) {
+		return -1;
+	}
+	
+	fp = fopen(path, "r");
+
+	if (fp == NULL) {
+		return -1;
+	}
+	_userCount = 0;
+	memset(_entryList, 0, sizeof(_entryList));
+	while (fgets(buf, READ_LINE_BUFFER_SIZE, fp) != NULL) {
+		
+		DMLinefeed_deleting(buf);
+		
+		tok = strtok(buf, kugiri);
+		memset(&tempUser, 0, sizeof(tempUser));
+		tempUser.number = atoi(tok);
+		while (tok != NULL) {
+			tok = strtok(NULL, kugiri);
+			if (tempUser.name[0] == '\0') {
+				strncpy(tempUser.name, tok, DATA_MAX_LENGTH - 1);
+			}
+			else if (tempUser.yomi[0] == '\0') {
+				strncpy(tempUser.yomi, tok, DATA_MAX_LENGTH - 1);
+			}
+		}
+
+		DMAddNew(tempUser.number, tempUser.name, tempUser.yomi);
+
+		if (_userCount == DATA_MAX_COUNT) {
+			break;
+		}
+		
+		if (feof(fp)) {
+			break;
+		}
+	}
+	fclose(fp);
+	
+	return _userCount;
+
+}
+
+/**
+ * @brief エクスポート
+ * @param path ファイル名
+ * @retval 0以上 成功	
+ * @retval 0以下 失敗
+*/
+int DMExport(char* path) {
+	int line = 0;
+	FILE *fp;
+	if (path == NULL) {
+		return -1;
+	}
+	fp = fopen(path, "w");
+	if (fp == NULL) {
+		return -1;
+	}
+
+	for (int i = 0; i < DATA_MAX_COUNT; i++) {
+		
+		if (_entryList[i].number != 0) {
+			fprintf(fp, "%d,%s,%s\n", _entryList[i].number, _entryList[i].name, _entryList[i].yomi);
+			line++;
+		}
+	}
+	
+
+	fclose(fp);
+	return line;
+}
+
+
+/**
+ * @brief 改行を削除
+ * @retval str 読み込んだ1行
+*/
+static void DMLinefeed_deleting(char *str) {
+	char *p;
+	p = strchr(str, '\n');
+	if (p != NULL) {
+		*p = '\0';
+	}
 }

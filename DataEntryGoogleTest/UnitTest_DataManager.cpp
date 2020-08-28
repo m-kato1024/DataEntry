@@ -155,11 +155,11 @@ TEST_F(UnitTestDM006, Test004)
 		・強制終了しない。
 	</check>
 </testitem>*/
-TEST_F(UnitTestDM006, Test005)
-{
-	bool ret = DMAddNew(11, "木下拓真", "きのしたたくま");
-	EXPECT_EQ(false, ret);
-}
+//TEST_F(UnitTestDM006, Test005)
+//{
+//	bool ret = DMAddNew(11, "木下拓真", "きのしたたくま");
+//	EXPECT_EQ(false, ret);
+//}
 
 
 /*
@@ -677,28 +677,28 @@ TEST_F(UnitTestDM021, Test021)
 		・保存されているデータと同じデータが読み込まれてること。
 	</check>
 </testitem>*/
-TEST(UnitTestDM, Test022)
-{
-	
-	DMInitialization("data\\test022.txt");
-	
-	struct data result[DATA_MAX_COUNT] = { 0 };
-	DMListFetch(result);
-
-	char name[100];
-	char yomi[100];
-
-	for (int i = 0; i < DATA_MAX_COUNT; i++) {
-		sprintf(name, "K%d", i + 1);
-		sprintf(yomi, "Y%d", i + 1);
-		EXPECT_EQ(i + 1, result[i].number);
-		ASSERT_STREQ(name, result[i].name);
-		ASSERT_STREQ(yomi, result[i].yomi);
-		
-	}
-
-	EXPECT_EQ(10, DMGetUserCount());
-}
+//TEST(UnitTestDM, Test022)
+//{
+//	
+//	DMInitialization("data\\test022.txt");
+//	
+//	struct data result[DATA_MAX_COUNT] = { 0 };
+//	DMListFetch(result);
+//
+//	char name[100];
+//	char yomi[100];
+//
+//	for (int i = 0; i < DATA_MAX_COUNT; i++) {
+//		sprintf(name, "K%d", i + 1);
+//		sprintf(yomi, "Y%d", i + 1);
+//		EXPECT_EQ(i + 1, result[i].number);
+//		ASSERT_STREQ(name, result[i].name);
+//		ASSERT_STREQ(yomi, result[i].yomi);
+//		
+//	}
+//
+//	EXPECT_EQ(10, DMGetUserCount());
+//}
 
 
 /*
@@ -959,3 +959,486 @@ TEST_F(UnitTestDM030, Test030)
 	int ret = DMListFetch(result);
 	EXPECT_EQ(1, ret);
 }
+
+class UnitTestDM031 : public ::testing::Test
+{
+public:
+	void SetUp()
+	{
+		remove("data.txt");//ファイル消す
+		DMInitialization("data.txt");
+		for (int i = 0; i < DATA_MAX_COUNT; i++) {
+			DMAddNew(i+1, "TEST", "test");
+		}
+		
+		DMTerminate("data.txt");
+
+
+	}
+
+	void TearDown()
+	{
+		// 後処理
+		DMTerminate("data.txt");
+		remove("data.txt");//ファイル消す
+	}
+};
+/*
+--------------------------------------------------------------------------------
+<testitem>
+	<testclass>UnitTestDM</testclass>
+	<testname>Test031</testname>
+	<category1>DMInitialization</category1>
+	<category2>正常系</category2>
+	<category3>データファイルあり</category3>
+	<case>
+		1）
+		データファイルが100登録されている状態で実行する。
+	</case>
+	<check>
+		1)
+		・戻り値がtrueであること。
+		・件数が100件であること。
+	</check>
+</testitem>*/
+TEST_F(UnitTestDM031, Test031)
+{
+	bool ret = DMInitialization("data.txt");
+	EXPECT_EQ(true, ret);
+	EXPECT_EQ(100, DMGetUserCount());
+
+}
+
+/*
+--------------------------------------------------------------------------------
+<testitem>
+	<testclass>UnitTestDM</testclass>
+	<testname>Test032</testname>
+	<category1>DMAddNew</category1>
+	<category2>正常系</category2>
+	<category3>データファイルあり</category3>
+	<case>
+		1）
+		データファイルが2件登録されている状態で実行する。
+	</case>
+	<check>
+		1)
+		・戻り値がtrueであること。
+		・件数が2件であること。
+	</check>
+</testitem>*/
+TEST(UnitTestDM, Test032)
+{
+	bool ret = DMInitialization("data\\test032.txt");
+	EXPECT_EQ(true, ret);
+	EXPECT_EQ(2, DMGetUserCount());
+}
+
+/*
+--------------------------------------------------------------------------------
+<testitem>
+	<testclass>UnitTestDM</testclass>
+	<testname>Test033</testname>
+	<category1>DMAddNew</category1>
+	<category2>正常系</category2>
+	<category3>データファイルあり</category3>
+	<case>
+		1）
+		データファイルが10件登録されている状態で実行する。
+	</case>
+	<check>
+		1)
+		・戻り値がtrueであること。
+		・件数が10件であること。
+	</check>
+</testitem>*/
+TEST(UnitTestDM, Test033)
+{
+	bool ret = DMInitialization("data\\test033.txt");
+	EXPECT_EQ(true, ret);
+	EXPECT_EQ(10, DMGetUserCount());
+}
+
+
+/*
+--------------------------------------------------------------------------------
+<testitem>
+	<testclass>UnitTestDM</testclass>
+	<testname>Test034</testname>
+	<category1>DMAddNew</category1>
+	<category2>異常系</category2>
+	<category3>データファイルあり</category3>
+	<case>
+		1）
+		データファイルが100登録されている状態で実行する。
+	</case>
+	<check>
+		1)
+		・戻り値がfalseであること。
+	</check>
+</testitem>*/
+TEST_F(UnitTestDM031, Test034)
+{
+	DMInitialization("data.txt");
+	bool ret = DMAddNew(101, "TEST", "test");
+	EXPECT_EQ(false, ret);
+}
+
+/*
+--------------------------------------------------------------------------------
+<testitem>
+	<testclass>UnitTestDM</testclass>
+	<testname>Test035</testname>
+	<category1>DMImport</category1>
+	<category2>異常系</category2>
+	<category3>第一引数チェック</category3>
+	<case>
+		第一引数をNULLで実行する。
+	</case>
+	<check>
+		1)
+		・戻り値が-1であること。
+	</check>
+</testitem>*/
+TEST(UnitTestDM, Test035)
+{
+	int ret = DMImport(NULL);
+	EXPECT_EQ(-1, ret);
+}
+
+/*
+--------------------------------------------------------------------------------
+<testitem>
+	<testclass>UnitTestDM</testclass>
+	<testname>Test036</testname>
+	<category1>DMImport</category1>
+	<category2>異常系</category2>
+	<category3>ファイル指定チェック</category3>
+	<case>
+		1)
+		存在しないファイルパスを指定した場合。
+	</case>
+	<check>
+		1)
+		・戻り値が-1であること。
+	</check>
+</testitem>*/
+TEST(UnitTestDM, Test036)
+{
+	int ret = DMImport("K:\\data.csv");
+	EXPECT_EQ(-1, ret);
+}
+
+/*
+--------------------------------------------------------------------------------
+<testitem>
+	<testclass>UnitTestDM</testclass>
+	<testname>Test037</testname>
+	<category1>DMImport</category1>
+	<category2>正常系</category2>
+	<category3>外部ファイルデータなし</category3>
+	<case>
+		1)
+		外部ファイルがデータ0件で実行する。
+	</case>
+	<check>
+		1)
+		・戻り値が0であること。
+	</check>
+</testitem>*/
+TEST(UnitTestDM, Test037)
+{
+	int ret = DMImport("data\\test37.csv");
+	EXPECT_EQ(0, ret);
+}
+
+/*
+--------------------------------------------------------------------------------
+<testitem>
+	<testclass>UnitTestDM</testclass>
+	<testname>Test038</testname>
+	<category1>DMImport</category1>
+	<category2>正常系</category2>
+	<category3>外部ファイルデータあり</category3>
+	<case>
+		1）
+		外部ファイルにデータが存在する状態で実行する。
+	</case>
+	<check>
+		1）
+		・戻り値が0以上であること。
+	</check>
+</testitem>*/
+TEST(UnitTestDM, Test038)
+{
+	int ret = DMImport("data\\test38.csv");
+	EXPECT_EQ(5, ret);
+}
+
+/*
+--------------------------------------------------------------------------------
+<testitem>
+	<testclass>UnitTestDM</testclass>
+	<testname>Test039</testname>
+	<category1>DMImport</category1>
+	<category2>正常系</category2>
+	<category3>外部ファイルデータあり</category3>
+	<case>
+		1）
+		外部ファイルにデータが100件以上存在する状態で実行。
+	</case>
+	<check>
+		1）
+		・戻り値が100であること。
+	</check>
+</testitem>*/
+TEST(UnitTestDM, Test039)
+{
+	int ret = DMImport("data\\test39.csv");
+	EXPECT_EQ(100, ret);
+}
+
+/*
+--------------------------------------------------------------------------------
+<testitem>
+	<testclass>UnitTestDM</testclass>
+	<testname>Test040</testname>
+	<category1>DMImport</category1>
+	<category2>正常系</category2>
+	<category3>外部ファイルデータあり</category3>
+	<case>
+		1)
+		外部ファイルのデータの名前が40バイト以上登録されてる状態で実行する。
+	</case>
+	<check>
+		1)
+		・一覧表示したときに39文字表示されていること。
+	</check>
+</testitem>*/
+TEST(UnitTestDM, Test040)
+{
+	DMImport("data\\test40.csv");
+	struct data result[DATA_MAX_COUNT] = { 0 };
+	DMListFetch(result);
+
+
+	int length = strlen(result[0].name);
+
+
+	EXPECT_EQ(39, length);
+}
+
+/*
+--------------------------------------------------------------------------------
+<testitem>
+	<testclass>UnitTestDM</testclass>
+	<testname>Test041</testname>
+	<category1>DMImport</category1>
+	<category2>正常系</category2>
+	<category3>外部ファイルデータあり</category3>
+	<case>
+		1)
+		外部ファイルのデータの読み仮名が40バイト以上登録されてる状態で実行する。
+	</case>
+	<check>
+		1)
+		・一覧表示したときに39文字表示されていること。
+	</check>
+</testitem>*/
+TEST(UnitTestDM, Test041)
+{
+	DMImport("data\\test41.csv");
+	struct data result[DATA_MAX_COUNT] = { 0 };
+	DMListFetch(result);
+
+
+	int length = strlen(result[0].yomi);
+
+
+	EXPECT_EQ(39, length);
+}
+
+/*
+--------------------------------------------------------------------------------
+<testitem>
+	<testclass>UnitTestDM</testclass>
+	<testname>Test042</testname>
+	<category1>DMImport</category1>
+	<category2>正常系</category2>
+	<category3>外部ファイルデータあり
+読み込みチェック</category3>
+	<case>
+		1)
+		外部ファイルに5，6，7番が入っている状態で実行し、新規登録で5番を追加する。
+	</case>
+	<check>
+		1)
+		・同じ番号が2件ないこと。
+		・データが上書きされていること。
+	</check>
+</testitem>*/
+TEST(UnitTestDM, Test042)
+{
+	int count = 0;
+	DMImport("data\\test42.csv");
+	DMAddNew(5, "木下拓真", "きのしたたくま");
+	struct data result[DATA_MAX_COUNT] = { 0 };
+	DMListFetch(result);
+	for (int i = 0; i < DATA_MAX_COUNT; i++) {
+		if (result[i].number == 5) {
+			count++;
+		}
+	}
+	
+	EXPECT_EQ(1, count);
+	EXPECT_EQ(3, DMGetUserCount());
+
+}
+
+/*
+--------------------------------------------------------------------------------
+<testitem>
+	<testclass>UnitTestDM</testclass>
+	<testname>Test043</testname>
+	<category1>DMExport</category1>
+	<category2>異常系</category2>
+	<category3>データファイルなし</category3>
+	<case>
+		1）
+		データファイルが存在しない状態で実行する。
+	</case>
+	<check>
+		1）
+		・戻り値が0であること。
+	</check>
+</testitem>*/
+TEST_F(UnitTestDM006, Test043)
+{
+	int ret = DMExport("data\\test.csv");
+	EXPECT_EQ(0, ret);
+}
+
+/*
+--------------------------------------------------------------------------------
+<testitem>
+	<testclass>UnitTestDM</testclass>
+	<testname>Test044</testname>
+	<category1>DMExport</category1>
+	<category2>正常系</category2>
+	<category3>データファイルあり</category3>
+	<case>
+		1）
+		データファイルが存在する状態で実行する。
+	</case>
+	<check>
+		1）
+		・戻り値が0以上であること。
+	</check>
+</testitem>*/
+TEST_F(UnitTestDM012, Test044)
+{
+	int ret = DMExport("data\\test.csv");
+	EXPECT_EQ(1, ret);
+}
+
+/*
+--------------------------------------------------------------------------------
+<testitem>
+	<testclass>UnitTestDM</testclass>
+	<testname>Test045</testname>
+	<category1>DMExport</category1>
+	<category2>正常系</category2>
+	<category3>データファイルあり
+書き込みチェック</category3>
+	<case>
+		1）
+		データファイルが存在する状態で実行する。
+	</case>
+	<check>
+		1)
+		・内部データと同じデータが外部ファイルに保存されていること。
+	</check>
+</testitem>*/
+TEST_F(UnitTestDM012, Test045)
+{
+	DMExport("data\\test.csv");
+	DMImport("data\\test.csv");
+	struct data result[DATA_MAX_COUNT] = { 0 };
+	DMListFetch(result);
+	ASSERT_STREQ("木下拓真", result[0].name);
+
+}
+
+/*
+--------------------------------------------------------------------------------
+<testitem>
+	<testclass>UnitTestDM</testclass>
+	<testname>Test046</testname>
+	<category1>DMExport</category1>
+	<category2>異常系</category2>
+	<category3>第一引数チェック</category3>
+	<case>
+		1)
+		第一引数をNULLで実行する。
+	</case>
+	<check>
+		1)
+		・戻り値が-1であること。
+	</check>
+</testitem>*/
+TEST(UnitTestDM, Test046)
+{
+	int ret = DMExport(NULL);
+	EXPECT_EQ(-1, ret);
+}
+
+class UnitTestDM047 : public ::testing::Test
+{
+public:
+	void SetUp()
+	{
+		remove("data.txt");//ファイル消す
+		DMInitialization("data.txt");
+		DMAddNew(1, "TEST1", "test1");
+		DMAddNew(2, "TEST2", "test2");
+		DMAddNew(3, "TEST3", "test3");
+		DMAddNew(4, "TEST4", "tsst4");
+		DMAddNew(5, "TEST5", "test5");
+		DMDelete(5);
+		
+
+	}
+
+	void TearDown()
+	{
+		// 後処理
+		DMTerminate("data.txt");
+		remove("data.txt");//ファイル消す
+	}
+};
+
+/*
+--------------------------------------------------------------------------------
+<testitem>
+	<testclass>UnitTestDM</testclass>
+	<testname>Test047</testname>
+	<category1>DMExport</category1>
+	<category2>正常系</category2>
+	<category3>データファイルあり
+書き込みチェック</category3>
+	<case>
+		1)
+		5件登録されているデータの1件を削除した状態で実行する。
+	</case>
+	<check>
+		1)
+		・削除したデータが出力されないこと。
+	</check>
+</testitem>*/
+TEST_F(UnitTestDM047, Test047)
+{
+	int ret = DMExport("data\\test.csv");
+	EXPECT_EQ(4, ret);
+}
+
+

@@ -137,11 +137,11 @@ void UISearch() {
 */
 static char UIDelete(struct data* data)
 {
-	char inputAll[3] = "";
+	char inputAll[4] = "";
 	struct data _entryList[DATA_MAX_COUNT] = { 0 };
 	
 	UIFflush();
-	scanf("%2s", inputAll);
+	scanf("%3s", inputAll);
 	if (strcmp(inputAll, "m") == 0 || strcmp(inputAll, "M") == 0 || strcmp(inputAll, "Ｍ") == 0 || strcmp(inputAll, "ｍ") == 0) {
 		printf("\n");
 		return 0;
@@ -181,4 +181,66 @@ void UIFflush(void)
 {
 	int buffer;
 	while ((buffer = getc(stdin)) != EOF && buffer != '\n');
+}
+
+/**
+*@brief インポート機能
+*@note 　ファイルパスを指定すると
+*	   　データを読み取り内部データに登録する。
+*/
+void UIInport() {
+	
+	char filename[50];
+	
+	
+		printf("%s\n", MSG_UIINPORT_WORNIG);
+		printf("%s\n%s", MSG_UIINPORT_EXPL, ARROW_TEXT);
+		scanf("%s", filename);
+		while (strcmp(filename, "m") != 0 && strcmp(filename, "M") != 0) {
+			int ret = DMImport(filename);
+			if (ret >= 0) {
+				printf("%s\n", MSG_UIINPORT_COMPLETED);
+				printf("(%d%s)\n", ret, MSG_UIINPORT_COMPLETED2);
+				printf("%s\n%s", MSG_UIINPORT_EXPL, ARROW_TEXT);
+				scanf("%s", filename);
+				
+
+			}
+			else {
+				printf("%s\n", MSG_UIINPORT_ERROR);
+				break;
+			}
+
+		}
+	
+}
+
+/**
+*@brief エクスポート機能
+*@note 　ファイル指定すると登録されているデータを
+*	   　ファイルにcsv形式で出力する。
+*/
+void UIExport() {
+	char filename[50];
+	printf("%s\n", MSG_UIEXPORT_WORNIG);
+	printf("%s\n%s", MSG_UIINPORT_EXPL, ARROW_TEXT);
+	scanf("%s", filename);
+	while (strcmp(filename, "m") != 0 && strcmp(filename, "M") != 0) {
+
+		int ret = DMExport(filename);
+		if (ret > 0) {
+			printf("%s\n", MSG_UIEXPORT_COMPLETED);
+			printf("%s\n%s", MSG_UIINPORT_EXPL, ARROW_TEXT);
+			scanf("%s", filename);
+			
+		}
+		else if (ret == 0) {
+			printf("%s\n", MSG_UIEXPORT_ERROR);
+			break;
+		}
+		else {
+			printf("%s\n", MSG_UIEXPORT_ERROR2);
+			break;
+		}
+	}
 }

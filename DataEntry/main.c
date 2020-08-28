@@ -20,6 +20,8 @@ int main()
 		printf("%s\n", MSG_MAIN_MENU_ADDNEW);
 		printf("%s\n", MSG_MAIN_MENU_LIST);
 		printf("%s\n", MSG_MAIN_MENU_SEARCH);
+		printf("%s\n", MSG_MAIN_MENU_INPORT);
+		printf("%s\n", MSG_MAIN_MENU_EXPORT);
 		printf("%s\n", MSG_MAIN_MENU_END);
 		printf("%s", ARROW_TEXT);
 		
@@ -37,12 +39,18 @@ int main()
 			UISearch();
 			break;
 		case 4:
+			UIInport();
+			break;
+		case 5:
+			UIExport();
+			break;
+		case 6:
 			break;
 		default:
 			UIFflush();
 			break;
 		}
-	} while (selectNumber != 4);
+	} while (selectNumber != 6);
 
 
 	if (!DMTerminate("savedata.txt")) {
