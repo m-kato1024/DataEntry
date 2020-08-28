@@ -73,7 +73,7 @@ void UIDispCat() {
 	char inputKey[3] = "a";
 	struct data result[DATA_MAX_COUNT] = { 0 };
 
-	while((strcmp(inputKey, "M") != 0) && (strcmp(inputKey, "m") != 0) && (strcmp(inputKey,"‚l") != 0) && (strcmp(inputKey, "‚")) != 0){
+	while(1){
 		resistrationsCount = DMListFetch(result);
 		if (resistrationsCount > 0) {
 			for (int i = 0; i < resistrationsCount; i++) {
@@ -104,37 +104,34 @@ void UISearch() {
 	char inputKey[3] = "a";
 	struct data search_result[DATA_MAX_COUNT] = { 0 };
 
-	while ((strcmp(inputKey, "M") != 0) && (strcmp(inputKey, "m") != 0) && (strcmp(inputKey, "‚l") != 0) && (strcmp(inputKey, "‚")) != 0) {
-		if (resistrationsCount > 0) {
-			printf("%s\n", MSG_UISEARCH_WORNING);
-			scanf("%s", &kana);
-			while (1) {
-				resistrationsCount = DMSearch(kana, search_result);
-				for (int i = 0; i < resistrationsCount; i++) {
-					printf("%d. %s %s\n", search_result[i].number, search_result[i].name, search_result[i].yomi);
-				}
-				if (resistrationsCount > 0) {
-					printf("%s\n%s", MSG_DISPCAT_EXPL, ARROW_TEXT);
-					if (UIDelete(search_result) == 0) {
-						UIClear();
-						break;
-					}
-				}
-				else {
-					printf("%s\n\n", MSG_DISPCAT_WORNING);
+	if (resistrationsCount > 0) {
+		printf("%s\n", MSG_UISEARCH_WORNING);
+		scanf("%s", &kana);
+		while (1) {
+			resistrationsCount = DMSearch(kana, search_result);
+			for (int i = 0; i < resistrationsCount; i++) {
+				printf("%d. %s %s\n", search_result[i].number, search_result[i].name, search_result[i].yomi);
+			}
+			if (resistrationsCount > 0) {
+				printf("%s\n%s", MSG_DISPCAT_EXPL, ARROW_TEXT);
+				if (UIDelete(search_result) == 0) {
 					UIClear();
 					break;
 				}
 			}
+			else {
+				printf("%s\n\n", MSG_DISPCAT_WORNING);
+				UIClear();
+				break;
+			}
 		}
-		else {
-			printf("%s\n\n", MSG_DISPCAT_WORNING);
-			UIClear();
-			break;
-		}
-		break;
+	}
+	else {
+		printf("%s\n\n", MSG_DISPCAT_WORNING);
+		UIClear();
 	}
 }
+
 
 
 
