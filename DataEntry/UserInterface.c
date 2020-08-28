@@ -9,6 +9,7 @@
 
 
 static char UIDelete(struct data* data);
+char UIYesNo(char answer[3]);
 
 /**
 *@brief 新規登録処理
@@ -58,8 +59,7 @@ void UIAddnew() {
 	else {
 		printf("%s\n\n", MSG_ADDNEW_OVER);
 	}
-	system("pause");
-	system("cls");
+	UIClear();
 }
 
 /**
@@ -81,15 +81,13 @@ void UIDispCat() {
 			}
 			printf("%s\n%s", MSG_DISPCAT_EXPL, ARROW_TEXT);
 			if (UIDelete(result) == 0) {
-				system("pause");
-				system("cls");
+				UIClear();
 				break;
 			}
 		}
 		else {
 			printf("%s\n\n", MSG_DISPCAT_WORNING);
-			system("pause");
-			system("cls");
+			UIClear();
 			break;
 		}
 	}
@@ -110,8 +108,7 @@ void UISearch() {
 		if (resistrationsCount > 0) {
 			printf("%s\n", MSG_UISEARCH_WORNING);
 			scanf("%s", &kana);
-			//以下のwhile文を有効にすると一覧表示を繰り返し表示します。#512 TODO
-			//while (1) {
+			while (1) {
 				resistrationsCount = DMSearch(kana, search_result);
 				for (int i = 0; i < resistrationsCount; i++) {
 					printf("%d. %s %s\n", search_result[i].number, search_result[i].name, search_result[i].yomi);
@@ -119,19 +116,18 @@ void UISearch() {
 				if (resistrationsCount > 0) {
 					printf("%s\n%s", MSG_DISPCAT_EXPL, ARROW_TEXT);
 					if (UIDelete(search_result) == 0) {
-						system("pause");
-						system("cls");
+						UIClear();
 						break;
 					}
 				}
-			//}
+			}
 		}
 		else {
 			printf("%s\n\n", MSG_DISPCAT_WORNING);
-			system("pause");
-			system("cls");
+			UIClear();
 			break;
 		}
+		break;
 	}
 }
 
@@ -175,10 +171,9 @@ static char UIDelete(struct data* data)
 					return 1;
 				}
 			}
-			//以下を有効にすると一覧表示を繰り返し表示します。#512 TODO
-			//else {
-				//return 2;
-			//}
+			else {
+				return 2;
+			}
 		}
 	}
 	printf("%s\n", MSG_DISPCAT_WORNING2);
@@ -189,7 +184,8 @@ static char UIDelete(struct data* data)
 *@brief		保存機能
 *@note		終了せずとも保存が可能
 **/
-void UISave() {
+void UISave() 
+{
 	char saveCheck[3] = "";
 
 	printf("%s\n%s", MSG_SAVE_CHECK, ARROW_TEXT);
@@ -202,10 +198,20 @@ void UISave() {
 		printf("%s\n", MSG_SAVE_STOP);
 	}
 	printf("\n");
-	system("pause");
-	system("cls");
+	UIClear();
 }
 
+/**
+*@brief	Y/N確認機能
+*@note	全角半角大文字小文字が判断できる
+*/
+char UIYesNo(char answer[3]) 
+{
+	scanf("%s", answer);
+	if (strcmp(answer, "y") == 0 || strcmp(answer, "Y") == 0 || strcmp(answer, "ｙ") == 0 || strcmp(answer, "Ｙ") == 0) {
+
+	}
+}
 
 /**
 *@brief stdinのキーバッファはクリアする
@@ -215,4 +221,14 @@ void UIFflush(void)
 {
 	int buffer;
 	while ((buffer = getc(stdin)) != EOF && buffer != '\n');
+}
+
+/**
+*@brief	履歴クリア機能
+*@note	クリア前に一時停止される
+*/
+void UIClear(void)
+{
+	system("pause");
+	system("cls");
 }
