@@ -720,13 +720,13 @@ TEST_F(UnitTestDM021, Test021)
 </testitem>*/
 TEST_F(UnitTestDM006, Test023)
 {
-	int length;
+	
 	DMAddNew(1, "あああああああああああああああああああああああああ","きのしたたくま");
 	struct data result[DATA_MAX_COUNT] = { 0 };
 	DMListFetch(result);
 	
 		
-	length = strlen(result[0].name);
+	size_t length = strlen(result[0].name);
 		
 	
 	EXPECT_EQ(39, length);
@@ -752,13 +752,13 @@ TEST_F(UnitTestDM006, Test023)
 </testitem>*/
 TEST_F(UnitTestDM006, Test024)
 {
-	int length;
+	
 	DMAddNew(1, "木下拓真", "あああああああああああああああああああああああああ");
 	struct data result[DATA_MAX_COUNT] = { 0 };
 	DMListFetch(result);
 
 
-	length = strlen(result[0].yomi);
+	size_t length = strlen(result[0].yomi);
 
 
 	EXPECT_EQ(39, length);
@@ -1222,7 +1222,7 @@ TEST(UnitTestDM, Test040)
 	DMListFetch(result);
 
 
-	int length = strlen(result[0].name);
+	size_t length = strlen(result[0].name);
 
 
 	EXPECT_EQ(39, length);
@@ -1252,7 +1252,7 @@ TEST(UnitTestDM, Test041)
 	DMListFetch(result);
 
 
-	int length = strlen(result[0].yomi);
+	size_t length = strlen(result[0].yomi);
 
 
 	EXPECT_EQ(39, length);
