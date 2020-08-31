@@ -23,12 +23,14 @@ static int _userCount = 0;
 bool DMInitialization(char* path) {
 	int count = 0;
 	_userCount = 0;
+	
 
 	FILE *fp;
 	if (path == NULL) {
 		return false;
 	}
 	fp = fopen(path, "r");
+	
 	
 	memset(_entryList, 0, sizeof(_entryList));
 
@@ -40,11 +42,13 @@ bool DMInitialization(char* path) {
 		fscanf(fp, "%d", &_entryList[count].number);
 		fscanf(fp, "%s", _entryList[count].name);
 		fscanf(fp, "%s", _entryList[count].yomi);
+	 
 		
 		if (_entryList[count].number != 0) {
 			_userCount++;
-			count++;
+			
 		}
+		count++;
 		
 		if (_userCount == DATA_MAX_COUNT) {
 			break;
@@ -168,7 +172,19 @@ bool DMTerminate(char* path) {
 	}
 
 	for (int i = 0; i < DATA_MAX_COUNT; i++) {
-		fprintf(fp, "%d\t%s\t%s\n", _entryList[i].number, _entryList[i].name, _entryList[i].yomi);
+		if (_entryList[i].number == 0 && strcmp(_entryList[i].name, "　") != 0 && strcmp(_entryList[i].yomi, "　") != 0) {
+			fprintf(fp, "%d\t%s　\t%s　\n", _entryList[i].number, _entryList[i].name, _entryList[i].yomi);
+		}
+		else {
+			fprintf(fp, "%d\t%s\t%s\n", _entryList[i].number, _entryList[i].name, _entryList[i].yomi);
+		}
+		
+			
+		
+		
+			
+	
+		
 	}
 
 	fclose(fp);
