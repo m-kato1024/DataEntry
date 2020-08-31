@@ -114,7 +114,7 @@ bool DMDelete(int input_number) {
 			strcpy(_entryList[i].yomi, "　");
 
 			_userCount--;
-			return false;
+			return true;
 		}
 		
 

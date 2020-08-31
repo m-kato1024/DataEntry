@@ -23,12 +23,16 @@ int main()
 		printf("%s\n", MSG_MAIN_MENU_INPORT);
 		printf("%s\n", MSG_MAIN_MENU_EXPORT);
 		printf("%s\n", MSG_MAIN_MENU_END);
+		printf("%s\n", MSG_MAIN_MENU_SAVE);
 		printf("%s", ARROW_TEXT);
 		
 		scanf("%d", &selectNumber);	
 
 		switch (selectNumber)
 		{
+		case 0:
+			UISave();
+			break;
 		case 1:	
 			UIAddnew();
 			break;

@@ -9,6 +9,7 @@
 
 
 static char UIDelete(struct data* data);
+char UICharCheck(char mode, char answer[3]);
 
 /**
 *@brief 新規登録処理
@@ -44,20 +45,21 @@ void UIAddnew() {
 		printf("%s%d %s(%s)\n%s\n%s", MSG_ADDNEW_CONFIRMATION1, num, kanji, kana, MSG_ADDNEW_CONFIRMATION2, ARROW_TEXT);
 
 		UIFflush();
-		scanf("%2s", answer);
-		if (strcmp(answer, "Y") == 0 || strcmp(answer, "y")  == 0 || strcmp(answer, "ｙ") == 0 || strcmp(answer, "Ｙ") == 0) {
+		scanf("%3s", answer);
+		if (UICharCheck('Y', answer) == true) {
 			bool ret;
 			ret = DMAddNew(num, kanji, kana);
 			printf("\n");
 			if (ret == false) {
 				printf("%s\n\n", MSG_ADDNEW_ERROR);
+
 			}
 		}
-		printf("\n");
 	}
 	else {
-		printf("%s\n", MSG_ADDNEW_OVER);
+		printf("%s\n\n", MSG_ADDNEW_OVER);
 	}
+	UIClear();
 }
 
 /**
@@ -79,11 +81,13 @@ void UIDispCat() {
 			}
 			printf("%s\n%s", MSG_DISPCAT_EXPL, ARROW_TEXT);
 			if (UIDelete(result) == 0) {
+				UIClear();
 				break;
 			}
 		}
 		else {
 			printf("%s\n\n", MSG_DISPCAT_WORNING);
+			UIClear();
 			break;
 		}
 	}
@@ -111,27 +115,30 @@ void UISearch() {
 			if (resistrationsCount > 0) {
 				printf("%s\n%s", MSG_DISPCAT_EXPL, ARROW_TEXT);
 				if (UIDelete(search_result) == 0) {
+					UIClear();
 					break;
 				}
 			}
 			else {
 				printf("%s\n\n", MSG_DISPCAT_WORNING);
+				UIClear();
 				break;
 			}
 		}
 	}
 	else {
 		printf("%s\n\n", MSG_DISPCAT_WORNING);
+		UIClear();
 	}
 }
-
 
 
 
 /**
 *@brief		削除機能及びメインメニュー遷移
 *@retval	0 メインメニューに戻る
-*@retval	1 処理を行う
+*@retval	1 Y/y選択　処理を行う
+*@retval	2 N/n選択　一覧表示に戻る
 *@note		一覧表示または検索機能を使用時に登録データ
 *			表示後の入力された内容毎の処理
 */
@@ -141,9 +148,8 @@ static char UIDelete(struct data* data)
 	struct data _entryList[DATA_MAX_COUNT] = { 0 };
 	
 	UIFflush();
-	scanf("%3s", inputAll);
-	if (strcmp(inputAll, "m") == 0 || strcmp(inputAll, "M") == 0 || strcmp(inputAll, "Ｍ") == 0 || strcmp(inputAll, "ｍ") == 0) {
-		printf("\n");
+	scanf("%2s", inputAll);
+	if (UICharCheck('M', inputAll) == true) {
 		return 0;
 	}
 	int input = atoi(inputAll);
@@ -155,7 +161,7 @@ static char UIDelete(struct data* data)
 			char inputChar[3];
 			UIFflush();
 			scanf("%2s", &inputChar);
-			if (strcmp(inputChar, "Y") == 0 || strcmp(inputChar, "y") == 0 || strcmp(inputChar, "Ｙ") == 0 || strcmp(inputChar, "ｙ") == 0) {
+			if (UICharCheck('Y', inputChar) == true) {
 				result = DMDelete(data[i].number);
 				if (result == false) {
 					printf("%s\n", MSG_ADDNEW_ERROR);
@@ -173,6 +179,55 @@ static char UIDelete(struct data* data)
 	printf("%s\n", MSG_DISPCAT_WORNING2);
 	return 1;
 }
+
+/**
+*@brief		保存機能
+*@note		終了せずとも保存が可能
+**/
+void UISave() 
+{
+	char saveCheck[3] = "";
+
+	printf("%s\n%s", MSG_SAVE_CHECK, ARROW_TEXT);
+	scanf("%s", saveCheck);
+	if (UICharCheck('Y', saveCheck) == true) {
+		DMTerminate("savedata.txt");
+		printf("%s\n", MSG_SAVE_SUCCESS);
+	}
+	else {
+		printf("%s\n", MSG_SAVE_STOP);
+	}
+	printf("\n");
+	UIClear();
+}
+
+/**
+*@brief	UICharCheck
+*@note	全角半角大文字小文字が判断できる
+*/
+char UICharCheck(char mode, char answer[3])
+{
+	char* yTable[4] = { "y" , "Y", "ｙ", "Ｙ" };
+	char* mTable[4] = { "m" , "M", "ｍ", "Ｍ" };
+	char** tblPtr;
+
+	if (mode == 'Y') {
+		tblPtr = yTable;
+	}
+	else {
+		tblPtr = mTable;
+	}
+
+	for (int i = 0; i < 4; i++) {
+		if (strcmp(answer, tblPtr[i]) == 0) {
+			printf("\n");
+			return true;
+		}
+	}
+	return false;
+}
+
+
 /**
 *@brief stdinのキーバッファはクリアする
 *@note fflush()ではクリアできないため、独自で空になるまで読み飛ばすものとする
@@ -243,4 +298,14 @@ void UIExport() {
 			break;
 		}
 	}
+}
+
+/**
+*@brief 履歴クリア機能
+*@note クリア前に一時停止される
+*/
+void UIClear(void)
+{
+	system("pause");
+	system("cls");
 }
